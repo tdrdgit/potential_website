@@ -878,7 +878,7 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   var stage=document.getElementById('heroLoop');
   if(!stage||!FRAMES.length) return;
   var A=document.getElementById('hlA'), B=document.getElementById('hlB'), layers=[A,B];
-  var front=0, idx=0, FRAME_MS=5000, TRANS_MS=900, EASE='cubic-bezier(.7,0,.2,1)';
+  var front=0, idx=0, FRAME_MS=2000, TRANS_MS=900, EASE='cubic-bezier(.7,0,.2,1)';
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function img(u){return '<img alt="" src="'+u+'">';}
   // resting states live in inline styles = FINAL position, so if an animation is
