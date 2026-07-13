@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Potential — Client Portfolio</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff">
 <style>
   @font-face {
     font-family: 'Plain';
@@ -211,7 +215,7 @@
 <div id="ring"></div>
 
 <nav>
-  <a class="back-btn" data-i18n="back-home" href="https://www.carlocasagrande.com/potential/pt_landing/index.html">← Back to Home</a>
+  <a class="back-btn" data-i18n="back-home" href="index.html">← Back to Home</a>
   <div id="lang-switcher" class="lang-switcher"></div>
 </nav>
 
@@ -450,7 +454,7 @@ function applyLang(lang){
   document.querySelectorAll('.arabic-only').forEach(el=>el.style.display=lang==='ar'?'':'none');
   document.querySelectorAll('.latin-only').forEach(el=>el.style.display=lang==='ar'?'none':'');
   const back=document.querySelector('.back-btn');
-  if(back) back.href='https://www.carlocasagrande.com/potential/pt_landing/index.html';
+  if(back) back.href='index.html';
 }
 document.addEventListener('DOMContentLoaded',()=>{
   const sw=document.getElementById('lang-switcher');
