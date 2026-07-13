@@ -18,10 +18,10 @@ Per GitHub Pages la home è già `index.html`.
 
 - `assets/logos/` — loghi ufficiali Potential (SVG, non modificare).
 - `assets/header/` — i 16 frame dell'header `CAMP_00..15.svg` (850×551). Sequenza: **logo · claim · claim** che si ripete; i frame 00/03/06/09/12/15 sono il logo.
+- `assets/fonts/` — font **Plain (Optimo)**, pesi Thin/Light/Medium. È incorporato nell'HTML per il rendering; i `.otf` sono inclusi qui come sorgente.
 
-> **Nota font:** il font **Plain (Optimo)** è commerciale/su licenza. È incorporato nell'HTML per il rendering,
-> ma i file `.otf` **non** sono inclusi nel repo per non ridistribuirli pubblicamente. Restano nella cartella
-> di lavoro locale (Dropbox `Assets/Font/`).
+> **Nota licenza font:** Plain (Optimo) è un font commerciale su licenza. I `.otf` sono inclusi nel repo
+> su scelta esplicita del titolare del progetto, che si assume la responsabilità della distribuzione.
 
 ## Rigenerare i frame dell'header
 
