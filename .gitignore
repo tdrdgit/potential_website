@@ -1,3 +1,8 @@
 .DS_Store
 *.bak-*
 Thumbs.db
+
+# Materiale di lavoro interno: questo repository e' PUBBLICO e il backup
+# automatico fa "git add -A", quindi tutto cio' che sta qui dentro e non e'
+# ignorato finisce online al primo push.
+revisore_traduzioni/
