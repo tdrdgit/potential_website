@@ -354,7 +354,23 @@ function matchesQuery(n) {
   const l = (n.label[LANG] || "") + " " + (n.blurb[LANG] || "");
   return l.toLowerCase().includes(query);
 }
-function isLive(n) { return matchesSectors(n) && matchesQuery(n); }
+/* Il ramo scelto nell'elenco di sinistra e' un filtro a tutti gli effetti, non
+   una semplice inquadratura: quello che sta fuori si spegne come con i settori.
+   Con la sola inquadratura i rami vicini restavano in campo e l'elenco sembrava
+   muovere la telecamera invece di selezionare. */
+let branch = null;
+function matchesBranch(n) {
+  if (!branch) return true;
+  if (n.hub) return true;
+  const b = byId.get(branch);
+  if (!b) return true;
+  // Un capitolo tiene se stesso e i suoi paragrafi; una voce tiene se stessa e
+  // il capitolo da cui esce, o si vedrebbe un nodo appeso al nulla.
+  return b.depth === 1
+    ? (n.id === b.id || n.parent === b.id)
+    : (n.id === b.id || n.id === b.parent);
+}
+function isLive(n) { return matchesSectors(n) && matchesQuery(n) && matchesBranch(n); }
 
 /* Il rosso indica UNA cosa sola: il nodo che hai scelto. Se lo usassimo anche
    per le corrispondenze di un filtro, un clic su un settore accenderebbe meta'
@@ -733,14 +749,18 @@ window.addEventListener("mouseup", e => {
     const n = pick(e.clientX, e.clientY);
     if (!n) {
       // clic nel vuoto: si esce e si torna a vedere tutto
-      selected = null; focused = null;
+      selected = null; focused = null; branch = null;
       openMacros.clear();
       fitAll();
     } else if (selected === n.id) {
-      selected = null;
+      selected = null; branch = null;
       if (n.depth === 1) focused = null;
       fitAll();
     } else {
+      // Il grafo e' esplorazione, non filtro: si esce dal ramo filtrato solo
+      // quando si va a toccare qualcosa che ne sta fuori. Cliccare dentro il
+      // ramo che si e' appena scelto nell'elenco non deve riaprire tutto.
+      if (branch && !matchesBranch(n)) branch = null;
       selected = n.id;
       const kids = nodes.filter(m => m.parent === n.id);
       if (n.depth === 1) {
@@ -783,11 +803,12 @@ canvas.addEventListener("touchend", e => {
   if (touch && Math.hypot(t.clientX - touch.x, t.clientY - touch.y) < 6) {
     const n = pick(t.clientX, t.clientY);
     if (n) {
+      if (branch && !matchesBranch(n)) branch = null;
       hovered = n.id; selected = n.id;
       const kids = nodes.filter(m => m.parent === n.id);
       if (n.depth === 1) { focused = n.id; fitTo([n, ...kids], 150); }
       else { focused = n.parent; fitTo([n, byId.get(n.parent)], 210); }
-    } else { selected = null; focused = null; fitAll(); }
+    } else { selected = null; focused = null; branch = null; fitAll(); }
   }
   touch = null;
 }, { passive: true });
@@ -828,13 +849,15 @@ function renderTree() {
     b.onclick = () => {
       const id = b.dataset.id;
       if (openMacros.has(id)) {
+        // secondo clic sullo stesso capitolo: si richiude e il filtro cade
         openMacros.delete(id);
-        if (focused === id) { focused = null; selected = null; fitAll(); }
+        branch = null; focused = null; selected = null;
+        fitAll();
       } else {
         // un capitolo alla volta: dieci aperti sono di nuovo novantuno righe
         openMacros.clear();
         openMacros.add(id);
-        focused = id; selected = id;
+        branch = id; focused = id; selected = id;
         fitTo([byId.get(id), ...nodes.filter(n => n.parent === id)], 150);
       }
       renderTree();
@@ -843,8 +866,14 @@ function renderTree() {
   root.querySelectorAll(".tw-leaf").forEach(b => {
     b.onclick = () => {
       const n = byId.get(b.dataset.id);
-      selected = n.id; focused = n.parent;
-      fitTo([n, byId.get(n.parent)], 210);
+      // secondo clic sulla stessa voce: si risale al capitolo, non si esce
+      if (branch === n.id) {
+        branch = n.parent; selected = n.parent; focused = n.parent;
+        fitTo([byId.get(n.parent), ...nodes.filter(m => m.parent === n.parent)], 150);
+      } else {
+        branch = n.id; selected = n.id; focused = n.parent;
+        fitTo([n, byId.get(n.parent)], 210);
+      }
       renderTree();
     };
   });
@@ -921,7 +950,7 @@ function mountChrome() {
     document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
   };
   document.getElementById("b-reset").onclick = () => {
-    activeSectors.clear(); query = ""; focused = null; selected = null;
+    activeSectors.clear(); query = ""; focused = null; selected = null; branch = null;
     openMacros.clear(); renderTree();
     document.getElementById("q").value = "";
     document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
