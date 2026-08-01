@@ -22,6 +22,10 @@
   --ink-faint:rgba(217,217,217,.28);
   --font:"Plain","Helvetica Neue",system-ui,-apple-system,Arial,sans-serif;
   --tracking:.18em;
+  /* Un corpo solo per tutto il testo di contenuto della colonna: filtri,
+     ricerca, capitoli e voci dell'albero. Restano piu' piccole solo le
+     micro-etichette maiuscole, che sono insegne e non testo da leggere. */
+  --txt:.68rem;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:var(--pt-near-black)}
@@ -100,7 +104,7 @@ header{
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{
   background:none;border:1px solid var(--pt-hairline);color:var(--ink-dim);
-  font-family:var(--font);font-size:.66rem;font-weight:300;letter-spacing:.02em;
+  font-family:var(--font);font-size:var(--txt);font-weight:300;letter-spacing:.02em;
   padding:5px 9px;cursor:pointer;transition:.22s;border-radius:1px;text-align:left;
 }
 .chip:hover{border-color:var(--ink-faint);color:var(--ink)}
@@ -110,7 +114,7 @@ header{
 }
 #q{
   width:100%;background:none;border:0;border-bottom:1px solid var(--pt-hairline);
-  color:var(--ink);font-family:var(--font);font-size:.74rem;font-weight:300;
+  color:var(--ink);font-family:var(--font);font-size:var(--txt);font-weight:300;
   padding:7px 1px;outline:0;
 }
 #q:focus{border-color:var(--pt-red)}
@@ -140,7 +144,7 @@ header{
   padding:4px 0;line-height:1.3;
 }
 .tw-macro{
-  font-size:.72rem;font-weight:500;color:var(--ink);
+  font-size:var(--txt);font-weight:500;color:var(--ink);
   display:flex;gap:6px;align-items:baseline;
 }
 .tw-macro:hover{color:var(--pt-white)}
@@ -151,7 +155,7 @@ header{
 }
 .tw-macro[aria-expanded="true"] .tw-mark{transform:rotate(90deg)}
 .tw-kids{margin:1px 0 6px 13px;border-left:1px solid var(--pt-hairline);padding-left:9px}
-.tw-leaf{font-size:.68rem;font-weight:300;color:var(--ink-dim);padding:3px 0}
+.tw-leaf{font-size:var(--txt);font-weight:300;color:var(--ink-dim);padding:3px 0}
 .tw-leaf:hover{color:var(--ink)}
 .tw-leaf[aria-current="true"],.tw-macro[aria-current="true"]{color:var(--pt-red)}
 
@@ -271,6 +275,13 @@ MONOGRAM.src = "data:image/svg+xml;utf8," + encodeURIComponent(
    qualunque linea che passi li' sotto si vede lo stesso. CLEAR sta piu' dentro
    del disco di proposito, cosi' le punte dei raggi finiscono coperte e non
    lasciano un bordo circolare visibile. */
+/* Una sola dimensione per tutto quello che si scrive sul grafo: nome del
+   macro-ambito, nome del sotto-ambito, elenco delle competenze, referenze,
+   nota. Le gerarchie le portano il peso e il colore — bianco pieno per il
+   nodo, grigio per quello che gli sta dentro — non il corpo. Con tre corpi
+   diversi in campo la mappa sembrava tre documenti sovrapposti. */
+const TXT = 9.8;
+
 const HUB_H = 34;
 const HUB_MASK = HUB_H * 1.25;
 const HUB_CLEAR = HUB_MASK - 5;
@@ -545,7 +556,7 @@ function draw() {
     if (!showLabel || n.alpha < 0.18) continue;
     if (focused && !inFocus(n)) continue;
 
-    const size = 19.6 / view.k;
+    const size = TXT / view.k;
     ctx.font = `${n.depth === 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
@@ -564,8 +575,11 @@ function draw() {
         ? `rgba(217,217,217,${0.62 * n.alpha})`
         : `rgba(255,255,255,${0.92 * n.alpha})`;
     ctx.fillText(text, n.x, y);
-    n.hit = { x0: n.x - wpx / 2 - 4 / view.k, x1: n.x + wpx / 2 + 4 / view.k,
-              y0: y - 2 / view.k, y1: y + size * 1.3 };
+    // Il bersaglio del clic parte dal pallino e arriva sotto la scritta, con
+    // un margine in unita' di schermo: dimezzando il corpo si dimezzerebbe
+    // anche l'area cliccabile, e la scritta e' il punto in cui si mira.
+    n.hit = { x0: n.x - wpx / 2 - 6 / view.k, x1: n.x + wpx / 2 + 6 / view.k,
+              y0: n.y - r - 4 / view.k, y1: y + size * 1.3 + 4 / view.k };
 
     // Il dettaglio del nodo scelto si apre QUI, sotto il suo nome, nella
     // stessa tipografia e in grigio. Niente pannello, niente popup: il
@@ -579,7 +593,7 @@ function draw() {
     const refs = n.refs || [];
     if (!detail.length && !refs.length) continue;
 
-    const ds = 8.2 / view.k, lh = ds * 1.62;
+    const ds = TXT / view.k, lh = ds * 1.62;
     const top = y + size * 1.55;
     let dy = y + size * 1.9;
     ctx.font = `300 ${ds}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
@@ -613,7 +627,6 @@ function draw() {
       ctx.fillText(refs.join("  ·  "), n.x, dy);
       dy += lh;
       const note = (DATA.ui.ref_note && DATA.ui.ref_note[LANG]) || "";
-      ctx.font = `300 ${ds * 0.82}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
       ctx.fillStyle = `rgba(217,217,217,${0.3 * n.alpha})`;
       ctx.fillText(note, n.x, dy);
     }
