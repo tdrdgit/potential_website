@@ -1,0 +1,2962 @@
+{
+ "version": 1,
+ "languages": [
+  "it",
+  "en",
+  "is",
+  "ar"
+ ],
+ "rtl": [
+  "ar"
+ ],
+ "ui": {
+  "title": {
+   "it": "Il network Potential",
+   "en": "The Potential network",
+   "is": "Potential-netið",
+   "ar": "شبكة بوتنشال"
+  },
+  "subtitle": {
+   "it": "Ambiti di competenza della rete di fornitura",
+   "en": "Capability map of the supply network",
+   "is": "Færnikort birgðanetsins",
+   "ar": "خريطة قدرات شبكة التوريد"
+  },
+  "password": {
+   "it": "Password",
+   "en": "Password",
+   "is": "Lykilorð",
+   "ar": "كلمة المرور"
+  },
+  "enter": {
+   "it": "Entra",
+   "en": "Enter",
+   "is": "Áfram",
+   "ar": "دخول"
+  },
+  "wrong": {
+   "it": "Password non valida",
+   "en": "Wrong password",
+   "is": "Rangt lykilorð",
+   "ar": "كلمة مرور خاطئة"
+  },
+  "gate_intro": {
+   "it": "Area riservata",
+   "en": "Restricted area",
+   "is": "Lokað svæði",
+   "ar": "منطقة محظورة"
+  },
+  "sectors": {
+   "it": "Settori",
+   "en": "Sectors",
+   "is": "Geirar",
+   "ar": "القطاعات"
+  },
+  "all_sectors": {
+   "it": "Tutti i settori",
+   "en": "All sectors",
+   "is": "Allir geirar",
+   "ar": "كل القطاعات"
+  },
+  "search": {
+   "it": "Cerca un ambito",
+   "en": "Search a capability",
+   "is": "Leita að færni",
+   "ar": "ابحث عن مجال"
+  },
+  "reset": {
+   "it": "Reimposta",
+   "en": "Reset",
+   "is": "Endurstilla",
+   "ar": "إعادة"
+  },
+  "expand": {
+   "it": "Espandi tutto",
+   "en": "Expand all",
+   "is": "Opna allt",
+   "ar": "توسيع الكل"
+  },
+  "collapse": {
+   "it": "Comprimi",
+   "en": "Collapse",
+   "is": "Loka",
+   "ar": "طي"
+  },
+  "serves": {
+   "it": "Serve i settori",
+   "en": "Serves",
+   "is": "Þjónar",
+   "ar": "يخدم"
+  },
+  "scope": {
+   "it": "Cosa passa da qui",
+   "en": "What runs through here",
+   "is": "Hvað fer hér um",
+   "ar": "ما يمر من هنا"
+  },
+  "references": {
+   "it": "Referenze della rete",
+   "en": "Network references",
+   "is": "Tilvísanir netsins",
+   "ar": "مراجع الشبكة"
+  },
+  "ref_note": {
+   "it": "Progetti realizzati dai partner della rete Potential",
+   "en": "Projects delivered by partners of the Potential network",
+   "is": "Verkefni unnin af samstarfsaðilum Potential",
+   "ar": "مشاريع نفذها شركاء شبكة بوتنشال"
+  },
+  "no_result": {
+   "it": "Nessun ambito corrisponde",
+   "en": "No capability matches",
+   "is": "Ekkert passar",
+   "ar": "لا نتائج"
+  },
+  "hint": {
+   "it": "Trascina per esplorare · clicca un nodo per aprirlo",
+   "en": "Drag to explore · click a node to open it",
+   "is": "Dragðu til að skoða · smelltu á hnút",
+   "ar": "اسحب للاستكشاف · انقر على عقدة"
+  },
+  "footer": {
+   "it": "Potential — fornitura FF&E e supply chain italiana",
+   "en": "Potential — Italian FF&E supply and supply chain",
+   "is": "Potential — ítalskt FF&E og aðfangakeðja",
+   "ar": "بوتنشال — التوريد الإيطالي وسلسلة الإمداد"
+  }
+ },
+ "sectors": [
+  {
+   "id": "hospitality",
+   "label": {
+    "it": "Hospitality & Spa",
+    "en": "Hospitality & Spa",
+    "is": "Hótel & heilsulindir",
+    "ar": "الضيافة والمنتجعات"
+   }
+  },
+  {
+   "id": "residential",
+   "label": {
+    "it": "Residenziale & Privato",
+    "en": "Residential & Private",
+    "is": "Íbúðir & einkaeign",
+    "ar": "السكني والخاص"
+   }
+  },
+  {
+   "id": "government",
+   "label": {
+    "it": "Edifici Pubblici",
+    "en": "Government Buildings",
+    "is": "Opinberar byggingar",
+    "ar": "المباني الحكومية"
+   }
+  },
+  {
+   "id": "retail",
+   "label": {
+    "it": "Retail",
+    "en": "Retail",
+    "is": "Verslun",
+    "ar": "التجزئة"
+   }
+  },
+  {
+   "id": "prime-property",
+   "label": {
+    "it": "Prime Property",
+    "en": "Prime Property",
+    "is": "Úrvalseignir",
+    "ar": "العقارات الفاخرة"
+   }
+  },
+  {
+   "id": "yachting",
+   "label": {
+    "it": "Yachting & Marine",
+    "en": "Yachting & Marine",
+    "is": "Snekkjur & sjávariðnaður",
+    "ar": "اليخوت والبحرية"
+   }
+  },
+  {
+   "id": "digital",
+   "label": {
+    "it": "Digital Layer",
+    "en": "Digital Layer",
+    "is": "Stafrænt lag",
+    "ar": "الطبقة الرقمية"
+   }
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ffe",
+   "parent": null,
+   "label": {
+    "it": "FF&E",
+    "en": "FF&E",
+    "is": "FF&E",
+    "ar": "الأثاث والتجهيزات"
+   },
+   "blurb": {
+    "it": "Tutto ciò che entra in un edificio finito e si può spostare: arredi, complementi, tessili, apparecchi.",
+    "en": "Everything that enters a finished building and can be moved: furniture, fittings, textiles, equipment.",
+    "is": "Allt sem fer inn í fullbúna byggingu og má færa: húsgögn, búnaður, textíll, tæki.",
+    "ar": "كل ما يدخل مبنى مكتملاً ويمكن نقله: الأثاث والتجهيزات والمنسوجات والمعدات."
+   },
+   "scope": {
+    "it": "Arredo fisso e mobile; Tessili e complementi; Apparecchi e attrezzature; Campionature e presentazione",
+    "en": "Fixed and loose furniture; Textiles and accessories; Equipment and appliances; Sampling and presentation",
+    "is": "Fast og laus húsgögn; Textíll og fylgihlutir; Tæki og búnaður; Sýnishorn og kynning",
+    "ar": "أثاث ثابت ومتحرك; منسوجات وملحقات; أجهزة ومعدات; عينات وعرض"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "ffe-hospitality",
+   "parent": "ffe",
+   "label": {
+    "it": "Arredo hospitality e residenziale",
+    "en": "Hospitality & residential furniture",
+    "is": "Hótel- og heimilishúsgögn",
+    "ar": "أثاث الضيافة والسكن"
+   },
+   "blurb": {
+    "it": "Marchi d'autore e produttori per camere, suite, aree comuni e ville.",
+    "en": "Design brands and makers for rooms, suites, public areas and villas.",
+    "is": "Hönnunarmerki og framleiðendur fyrir herbergi, svítur og almenn rými.",
+    "ar": "علامات تصميم ومصنّعون للغرف والأجنحة والمناطق العامة والفلل."
+   },
+   "scope": {
+    "it": "Camere e suite chiavi in mano; Aree comuni e lobby; Sedute e letti d'autore; Pezzi speciali su disegno",
+    "en": "Turnkey rooms and suites; Lobbies and public areas; Designer seating and beds; Special pieces to drawing",
+    "is": "Fullbúin herbergi og svítur; Anddyri og almenn rými; Hönnunarsæti og rúm; Sérsmíðaðir hlutir",
+    "ar": "غرف وأجنحة جاهزة; ردهات ومناطق عامة; مقاعد وأسرّة مصممة; قطع خاصة حسب الرسم"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "prime-property"
+   ],
+   "w": 5,
+   "refs": [
+    "Bvlgari Hotels & Resorts",
+    "Hôtel Lutetia, Paris",
+    "Conrad Maldives",
+    "Seagram Building, New York"
+   ]
+  },
+  {
+   "id": "ffe-office",
+   "parent": "ffe",
+   "label": {
+    "it": "Workplace e uffici",
+    "en": "Workplace & office",
+    "is": "Vinnurými og skrifstofur",
+    "ar": "بيئة العمل والمكاتب"
+   },
+   "blurb": {
+    "it": "Postazioni, sedute operative, acustica per uffici e cabine insonorizzate.",
+    "en": "Workstations, task seating, office acoustics and soundproof booths.",
+    "is": "Vinnustöðvar, stólar, hljóðvist og hljóðeinangraðir klefar.",
+    "ar": "محطات العمل والمقاعد والعزل الصوتي والكبائن."
+   },
+   "scope": {
+    "it": "Postazioni e operative; Pareti attrezzate e divisorie; Cabine acustiche e phone booth; Layout e riconfigurazioni",
+    "en": "Workstations and task seating; Storage and partition walls; Acoustic pods and phone booths; Layout and reconfiguration",
+    "is": "Vinnustöðvar og stólar; Geymslu- og skilveggir; Hljóðklefar; Skipulag og breytingar",
+    "ar": "محطات ومقاعد عمل; جدران تخزين وفواصل; كبائن صوتية; تخطيط وإعادة ترتيب"
+   },
+   "sectors": [
+    "government",
+    "retail",
+    "hospitality"
+   ],
+   "w": 5,
+   "refs": [
+    "Apple Park, Cupertino",
+    "Museum of the Future, Dubai"
+   ]
+  },
+  {
+   "id": "ffe-outdoor",
+   "parent": "ffe",
+   "label": {
+    "it": "Outdoor e living esterno",
+    "en": "Outdoor living",
+    "is": "Útisvæði",
+    "ar": "الأثاث الخارجي"
+   },
+   "blurb": {
+    "it": "Arredi per terrazze, pool deck, giardini e aree esterne di hotel e ville.",
+    "en": "Furniture for terraces, pool decks, gardens and hotel outdoor areas.",
+    "is": "Húsgögn fyrir verandir, laugarsvæði og garða.",
+    "ar": "أثاث للتراسات ومسابح وحدائق ومناطق الفنادق الخارجية."
+   },
+   "scope": {
+    "it": "Pool deck e solarium; Terrazze e dehors; Sedute in fibra e tecniche; Ombreggiature e schermature",
+    "en": "Pool decks and sun terraces; Terraces and outdoor dining; Fibre and technical seating; Shading and screening",
+    "is": "Laugarsvæði og sólverandir; Verandir og útisvæði; Trefja- og tæknisæti; Skyggni og skjól",
+    "ar": "مسابح وشرفات شمسية; تراسات ومناطق طعام; مقاعد ليفية وتقنية; مظلات وحواجز"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "ffe-upholstery",
+   "parent": "ffe",
+   "label": {
+    "it": "Imbottiti e sedute su misura",
+    "en": "Bespoke upholstery & seating",
+    "is": "Sérsmíðuð bólstrun og sæti",
+    "ar": "التنجيد والمقاعد المفصّلة"
+   },
+   "blurb": {
+    "it": "Fustisti, imbottitori e laboratori che producono la seduta disegnata dal progettista.",
+    "en": "Frame makers and upholsterers who build the seat the designer drew.",
+    "is": "Grindasmiðir og bólstrarar sem smíða eftir teikningu.",
+    "ar": "ورش الهياكل والتنجيد التي تنفّذ تصميم المصمم."
+   },
+   "scope": {
+    "it": "Sedute su disegno del progettista; Fusti e imbottiture su misura; Testate letto e boiserie imbottite; Rivestimenti e rifoderature",
+    "en": "Seating to the designer's drawing; Bespoke frames and padding; Upholstered headboards and panels; Covers and re-upholstery",
+    "is": "Sæti eftir teikningu; Sérsmíðaðar grindur og bólstrun; Bólstraðir gaflar og plötur; Áklæði og endurbólstrun",
+    "ar": "مقاعد حسب تصميم المصمم; هياكل وحشوات مفصّلة; مساند وألواح منجّدة; أغطية وإعادة تنجيد"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "ffe-soft",
+   "parent": "ffe",
+   "label": {
+    "it": "Soft furnishing e tessili",
+    "en": "Soft furnishing & textiles",
+    "is": "Textíll og mýkri innréttingar",
+    "ar": "المفروشات والمنسوجات"
+   },
+   "blurb": {
+    "it": "Tendaggi tecnici e decorativi, tappeti su misura, elementi tessili d'ambiente.",
+    "en": "Technical and decorative curtains, bespoke rugs, textile room elements.",
+    "is": "Tæknileg og skreytileg gluggatjöld, sérsniðin teppi.",
+    "ar": "ستائر تقنية وزخرفية وسجاد مفصّل وعناصر نسيجية."
+   },
+   "scope": {
+    "it": "Tendaggi tecnici e motorizzati; Tende decorative su misura; Tappeti e moquette su disegno; Coordinati tessili di camera",
+    "en": "Technical and motorised blinds; Bespoke decorative curtains; Rugs and carpet to design; Coordinated room textiles",
+    "is": "Tæknileg og mótordrifin tjöld; Sérsniðin skreytitjöld; Teppi eftir hönnun; Samstæður textíll",
+    "ar": "ستائر تقنية ومحرّكة; ستائر زخرفية مفصّلة; سجاد وموكيت حسب التصميم; منسوجات غرف منسّقة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "government"
+   ],
+   "w": 4,
+   "refs": [
+    "Hermès",
+    "Chanel"
+   ]
+  },
+  {
+   "id": "ffe-dealers",
+   "parent": "ffe",
+   "label": {
+    "it": "Fornitura multimarca",
+    "en": "Multi-brand supply",
+    "is": "Fjölmerkjaafhending",
+    "ar": "التوريد متعدد العلامات"
+   },
+   "blurb": {
+    "it": "Canali multimarca per coprire una fornitura completa senza aprire dieci fronti.",
+    "en": "Multi-brand channels that cover a full package without ten separate fronts.",
+    "is": "Fjölmerkjaleiðir sem ná yfir heila afhendingu.",
+    "ar": "قنوات متعددة العلامات لتغطية توريد كامل."
+   },
+   "scope": {
+    "it": "Fornitura multimarca coordinata; Pezzi vintage e da collezione; Pronta consegna su scorta; Gestione di un pacchetto unico",
+    "en": "Coordinated multi-brand supply; Vintage and collectible pieces; Stock delivery; Single-package management",
+    "is": "Samræmd fjölmerkjaafhending; Vintage og safngripir; Lagerafgreiðsla; Ein heildarpöntun",
+    "ar": "توريد منسّق متعدد العلامات; قطع كلاسيكية ومقتناة; تسليم من المخزون; إدارة حزمة واحدة"
+   },
+   "sectors": [
+    "residential",
+    "hospitality",
+    "prime-property"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "ffe-samples",
+   "parent": "ffe",
+   "label": {
+    "it": "Campionature e mockup di presentazione",
+    "en": "Sampling & presentation mockups",
+    "is": "Sýnishorn og kynningarmódel",
+    "ar": "العينات ونماذج العرض"
+   },
+   "blurb": {
+    "it": "Cartelle colori, carrelli campioni, valigette: come il materiale arriva al cliente.",
+    "en": "Colour folders, sample trolleys, cases: how material reaches the client.",
+    "is": "Litamöppur, sýnishornavagnar og töskur.",
+    "ar": "ملفات الألوان وعربات العينات وحقائب العرض."
+   },
+   "scope": {
+    "it": "Cartelle materiali e finiture; Carrelli e valigette campioni; Kit di presentazione per il cliente; Custodie e porta abiti",
+    "en": "Material and finish folders; Sample trolleys and cases; Client presentation kits; Covers and garment cases",
+    "is": "Efnis- og áferðarmöppur; Sýnishornavagnar og töskur; Kynningarsett; Hlífar og fatatöskur",
+    "ar": "ملفات مواد وتشطيبات; عربات وحقائب عينات; أطقم عرض للعميل; أغطية وحافظات"
+   },
+   "sectors": [
+    "retail",
+    "hospitality"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "contract",
+   "parent": null,
+   "label": {
+    "it": "Contract Furniture",
+    "en": "Contract Furniture",
+    "is": "Sérsmíði fyrir verkefni",
+    "ar": "أثاث المشاريع"
+   },
+   "blurb": {
+    "it": "Produzione su misura e messa in opera: chi costruisce il pezzo disegnato e chi lo installa in cantiere.",
+    "en": "Bespoke manufacturing and installation: who builds the drawn piece and who fits it on site.",
+    "is": "Sérsmíði og uppsetning: sá sem smíðar og sá sem setur upp.",
+    "ar": "التصنيع حسب الطلب والتركيب في الموقع."
+   },
+   "scope": {
+    "it": "Produzione su misura; Ingegnerizzazione del disegno; Montaggio e collaudo; Imballo e trasporto",
+    "en": "Bespoke manufacturing; Design engineering; Installation and commissioning; Packing and transport",
+    "is": "Sérsmíði; Hönnunarverkfræði; Uppsetning og úttekt; Pökkun og flutningur",
+    "ar": "تصنيع خاص; هندسة التصميم; تركيب وتشغيل; تغليف ونقل"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "con-shopfitters",
+   "parent": "contract",
+   "label": {
+    "it": "Millwork e shopfitting",
+    "en": "Millwork & shopfitting",
+    "is": "Innréttingasmíði",
+    "ar": "النجارة وتجهيز المحال"
+   },
+   "blurb": {
+    "it": "Il cuore produttivo: chi trasforma uno shop drawing in un pezzo montato e collaudato.",
+    "en": "The productive core: turning a shop drawing into an installed, tested piece.",
+    "is": "Kjarninn: frá teikningu í uppsettan hlut.",
+    "ar": "قلب الإنتاج: من الرسم التنفيذي إلى قطعة مركّبة."
+   },
+   "scope": {
+    "it": "Dallo shop drawing al pezzo montato; Mobili e boiserie su misura; Banconi e reception; Camere e negozi chiavi in mano",
+    "en": "From shop drawing to fitted piece; Bespoke joinery and panelling; Counters and receptions; Turnkey rooms and stores",
+    "is": "Frá teikningu að uppsettum hlut; Sérsmíði og veggklæðning; Afgreiðsluborð og móttökur; Fullbúin rými",
+    "ar": "من الرسم التنفيذي إلى القطعة المركّبة; نجارة وتكسيات مفصّلة; كاونترات واستقبال; غرف ومتاجر جاهزة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "residential",
+    "government",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": [
+    "Cartier",
+    "Prada, Doha",
+    "Dolce & Gabbana",
+    "Christian Louboutin"
+   ]
+  },
+  {
+   "id": "con-install",
+   "parent": "contract",
+   "label": {
+    "it": "Installazione e messa in opera",
+    "en": "Installation & commissioning",
+    "is": "Uppsetning og gangsetning",
+    "ar": "التركيب والتشغيل"
+   },
+   "blurb": {
+    "it": "Squadre di posa che seguono la fornitura fino alla consegna chiavi in mano.",
+    "en": "Fitting crews that follow the supply through to turnkey handover.",
+    "is": "Uppsetningarteymi allt að afhendingu.",
+    "ar": "فرق التركيب حتى التسليم الجاهز."
+   },
+   "scope": {
+    "it": "Squadre di posa in trasferta; Montaggio in quota e in cantiere attivo; Collaudo e chiusura riserve; Assistenza post-consegna",
+    "en": "Travelling fitting crews; Work at height and on live sites; Commissioning and snag closure; Post-handover support",
+    "is": "Uppsetningarteymi á ferð; Vinna í hæð og á virkum svæðum; Úttekt og frágangur; Þjónusta eftir afhendingu",
+    "ar": "فرق تركيب متنقلة; عمل مرتفع وفي مواقع نشطة; تشغيل وإغلاق ملاحظات; دعم بعد التسليم"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "con-hardware",
+   "parent": "contract",
+   "label": {
+    "it": "Ferramenta e componenti tecnici",
+    "en": "Hardware & technical components",
+    "is": "Járnvara og tæknihlutir",
+    "ar": "الإكسسوارات والمكوّنات التقنية"
+   },
+   "blurb": {
+    "it": "Movimenti, cerniere, guide, profili, elettrificazione: il dettaglio che decide la durata.",
+    "en": "Movements, hinges, runners, profiles, wiring: the detail that decides durability.",
+    "is": "Lamir, brautir, prófílar og raflagnir.",
+    "ar": "المفصلات والمجاري والقطاعات والتوصيل الكهربائي."
+   },
+   "scope": {
+    "it": "Movimenti e meccanismi a scomparsa; Cerniere, guide e sistemi di apertura; Profili e maniglierie su misura; Elettrificazione integrata",
+    "en": "Concealed movements and mechanisms; Hinges, runners and opening systems; Bespoke profiles and handles; Integrated wiring",
+    "is": "Faldar hreyfingar og búnaður; Lamir, brautir og opnunarkerfi; Sérsniðnir prófílar og handföng; Innfelldar raflagnir",
+    "ar": "حركات وآليات مخفية; مفصلات ومجاري وأنظمة فتح; قطاعات ومقابض مفصّلة; توصيل كهربائي مدمج"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "residential",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": [
+    "National Gallery, London",
+    "Museo del Prado"
+   ]
+  },
+  {
+   "id": "con-proto",
+   "parent": "contract",
+   "label": {
+    "it": "Prototipi e mockup room",
+    "en": "Prototypes & mockup rooms",
+    "is": "Frumgerðir og sýnisherbergi",
+    "ar": "النماذج وغرف العيّنة"
+   },
+   "blurb": {
+    "it": "Il pezzo zero e il plastico: si sbaglia lì, dove costa poco, non in produzione.",
+    "en": "The zero piece and the scale model: mistakes belong here, where they are cheap.",
+    "is": "Núllhlutur og líkan: mistök eiga heima hér.",
+    "ar": "القطعة الصفرية والمجسّم: الخطأ هنا أرخص."
+   },
+   "scope": {
+    "it": "Pezzo zero prima della serie; Mockup di camera e di dettaglio; Plastici e modelli d'architettura; Stampa 3D e lavorazioni rapide",
+    "en": "Zero piece before the run; Room and detail mockups; Scale and architectural models; 3D printing and rapid work",
+    "is": "Núllhlutur fyrir framleiðslu; Herbergja- og smáatriðamódel; Líkön; Þrívíddarprentun",
+    "ar": "قطعة أولى قبل الإنتاج; نماذج غرف وتفاصيل; مجسّمات معمارية; طباعة ثلاثية وتشغيل سريع"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "con-logistics",
+   "parent": "contract",
+   "label": {
+    "it": "Imballo, spedizione e logistica di cantiere",
+    "en": "Packing, shipping & site logistics",
+    "is": "Pökkun, sendingar og verklogistík",
+    "ar": "التغليف والشحن ولوجستيات الموقع"
+   },
+   "blurb": {
+    "it": "Casse su misura, spedizione e sollevamento: la parte che si nota solo quando va male.",
+    "en": "Bespoke crates, shipping and lifting: the part you notice only when it fails.",
+    "is": "Sérsmíðaðir kassar, sendingar og lyftur.",
+    "ar": "صناديق مفصّلة وشحن ورفع."
+   },
+   "scope": {
+    "it": "Casse su misura e imballi certificati; Spedizioni verso mercati difficili; Groupage e consolidamento; Sollevamento e sdoganamento",
+    "en": "Bespoke crates and certified packing; Shipping to hard-to-reach markets; Groupage and consolidation; Lifting and customs",
+    "is": "Sérsmíðaðir kassar og vottuð pökkun; Sendingar á erfiða markaði; Samflutningur; Lyftur og tollun",
+    "ar": "صناديق مفصّلة وتغليف معتمد; شحن لأسواق صعبة; تجميع وتوحيد; رفع وتخليص"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "con-marine",
+   "parent": "contract",
+   "label": {
+    "it": "Yacht interiors e refit navale",
+    "en": "Yacht interiors & marine refit",
+    "is": "Snekkjuinnréttingar og endurgerð",
+    "ar": "تصميم داخلي لليخوت وتجديد بحري"
+   },
+   "blurb": {
+    "it": "Cantieri e allestitori con capitolati marini: materiali certificati e tolleranze diverse.",
+    "en": "Yards and fit-out firms working to marine specs: certified materials, other tolerances.",
+    "is": "Skipasmíðastöðvar með sjávarstaðla.",
+    "ar": "أحواض وشركات تجهيز بمواصفات بحرية."
+   },
+   "scope": {
+    "it": "Refit di interni a capitolato marino; Materiali certificati per bordo; Arredo fisso e su misura; Cantieri esteri e superyacht",
+    "en": "Interior refit to marine spec; Certified onboard materials; Fixed and bespoke joinery; Foreign yards and superyachts",
+    "is": "Innréttingar eftir sjávarstöðlum; Vottuð efni um borð; Fastar og sérsmíðaðar innréttingar; Erlendar stöðvar",
+    "ar": "تجديد داخلي بمواصفات بحرية; مواد معتمدة للسفن; نجارة ثابتة ومفصّلة; أحواض خارجية ويخوت"
+   },
+   "sectors": [
+    "yachting"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "materials",
+   "parent": null,
+   "label": {
+    "it": "Materiali e finiture",
+    "en": "Materials & Finishes",
+    "is": "Efni og áferð",
+    "ar": "المواد والتشطيبات"
+   },
+   "blurb": {
+    "it": "La materia prima e la sua lavorazione. È il ramo più profondo del network e il cuore della filiera italiana.",
+    "en": "Raw material and how it is worked. The deepest branch of the network and the core of the Italian chain.",
+    "is": "Hráefni og vinnsla þess. Dýpsta grein netsins.",
+    "ar": "المادة الخام وتشغيلها. أعمق فروع الشبكة وقلب السلسلة الإيطالية."
+   },
+   "scope": {
+    "it": "Materie prime e semilavorati; Lavorazioni e finiture; Superfici e rivestimenti; Ricerca e campionatura",
+    "en": "Raw and semi-finished materials; Processing and finishes; Surfaces and cladding; Research and sampling",
+    "is": "Hráefni og hálfunnar vörur; Vinnsla og áferð; Yfirborð og klæðningar; Rannsóknir og sýnishorn",
+    "ar": "مواد خام وشبه مصنّعة; تشغيل وتشطيبات; أسطح وتكسيات; بحث وعينات"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "mat-stone",
+   "parent": "materials",
+   "label": {
+    "it": "Pietra naturale",
+    "en": "Natural stone",
+    "is": "Náttúrusteinn",
+    "ar": "الحجر الطبيعي"
+   },
+   "blurb": {
+    "it": "Marmi, graniti, ardesie, porfido, terrazzo e mosaici, dalla cava alla lastra finita.",
+    "en": "Marble, granite, slate, porphyry, terrazzo and mosaic, from quarry to finished slab.",
+    "is": "Marmari, granít, flísar og mósaík frá námu að plötu.",
+    "ar": "الرخام والغرانيت والأردواز والتيرازو والفسيفساء."
+   },
+   "scope": {
+    "it": "Marmi e graniti da cava selezionata; Terrazzo veneziano e restauro; Pietre da esterno e pavimentazioni; Top, lavabi e scultura su misura",
+    "en": "Marble and granite from selected quarries; Venetian terrazzo and restoration; External stone and paving; Bespoke tops, basins and sculpture",
+    "is": "Marmari og granít úr völdum námum; Feneyskt terrazzo og endurgerð; Útisteinn og hellulögn; Sérsmíðuð borð, vaskar og skúlptúr",
+    "ar": "رخام وغرانيت من محاجر مختارة; تيرازو بندقي وترميم; حجر خارجي وأرصفة; أسطح ومغاسل ونحت مفصّل"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": [
+    "Rolex, Galleria Vittorio Emanuele II"
+   ]
+  },
+  {
+   "id": "mat-wood",
+   "parent": "materials",
+   "label": {
+    "it": "Legno e lavorazioni",
+    "en": "Timber & woodworking",
+    "is": "Timbur og trévinnsla",
+    "ar": "الخشب وأعمال النجارة"
+   },
+   "blurb": {
+    "it": "Essenze, tranciati, pannelli curvati, doghe e lavorazioni CNC per interni d'autore.",
+    "en": "Species, veneers, curved panels, battens and CNC work for signature interiors.",
+    "is": "Viðartegundir, spónn, bogadregnar plötur og CNC-vinnsla.",
+    "ar": "الأنواع والقشرة والألواح المنحنية وأعمال CNC."
+   },
+   "scope": {
+    "it": "Essenze e tranciati per interni d'autore; Pannelli curvati e doghe; Lavorazione CNC su disegno; Legni materici e superfici tattili",
+    "en": "Species and veneers for signature interiors; Curved panels and slats; CNC work to drawing; Textured woods and tactile surfaces",
+    "is": "Viðartegundir og spónn; Bogadregnar plötur og listar; CNC eftir teikningu; Áferðarríkur viður",
+    "ar": "أنواع وقشرة للتصاميم المميزة; ألواح منحنية وشرائح; تشغيل CNC حسب الرسم; أخشاب ذات ملمس"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "mat-woodfloor",
+   "parent": "materials",
+   "label": {
+    "it": "Pavimenti in legno e decking",
+    "en": "Wood flooring & decking",
+    "is": "Viðargólf og pallar",
+    "ar": "الأرضيات الخشبية والديكينغ"
+   },
+   "blurb": {
+    "it": "Parquet, decking per esterni e bambù tecnico, anche in climi estremi.",
+    "en": "Parquet, outdoor decking and technical bamboo, including extreme climates.",
+    "is": "Parket, útipallar og tæknibambus.",
+    "ar": "الباركيه وأسطح خارجية وخيزران تقني."
+   },
+   "scope": {
+    "it": "Parquet e prefiniti di grande formato; Decking per esterni e bordo piscina; Essenze per climi estremi; Oli, finiture e manutenzione",
+    "en": "Large-format parquet and pre-finished boards; Outdoor and poolside decking; Species for extreme climates; Oils, finishes and upkeep",
+    "is": "Parket og forunnin borð; Útipallar og laugarbakkar; Viður fyrir erfitt veðurfar; Olíur og viðhald",
+    "ar": "باركيه وألواح جاهزة كبيرة; ديكينغ خارجي وحول المسابح; أنواع لمناخات قاسية; زيوت وتشطيبات وصيانة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "prime-property"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-metal",
+   "parent": "materials",
+   "label": {
+    "it": "Metallo e reti metalliche",
+    "en": "Metal & metal mesh",
+    "is": "Málmur og málmnet",
+    "ar": "المعادن والشبك المعدني"
+   },
+   "blurb": {
+    "it": "Carpenteria di precisione, ottoni brunito e patinati, corten, tessuti metallici, foglia oro.",
+    "en": "Precision metalwork, burnished and patinated brass, corten, metal fabrics, gold leaf.",
+    "is": "Nákvæm málmsmíði, messing, corten og málmdúkur.",
+    "ar": "أعمال معدنية دقيقة ونحاس وكورتين وأقمشة معدنية."
+   },
+   "scope": {
+    "it": "Carpenteria di precisione per architettura; Ottoni brunito e patinati; Corten e trattamenti d'ossidazione; Tessuti metallici e lamiere forate",
+    "en": "Precision metalwork for architecture; Burnished and patinated brass; Corten and oxidation treatments; Metal fabrics and perforated sheet",
+    "is": "Nákvæm málmsmíði fyrir byggingar; Messing með áferð; Corten og oxunarmeðferð; Málmdúkur og gataplötur",
+    "ar": "أعمال معدنية دقيقة للعمارة; نحاس مصقول ومعتّق; كورتين ومعالجات أكسدة; أقمشة معدنية وصفائح مثقّبة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": [
+    "Armani Silos, Milano",
+    "Max Mara, London"
+   ]
+  },
+  {
+   "id": "mat-glass",
+   "parent": "materials",
+   "label": {
+    "it": "Vetro",
+    "en": "Glass",
+    "is": "Gler",
+    "ar": "الزجاج"
+   },
+   "blurb": {
+    "it": "Stratificati, curvati, retinati, specchi decorativi e vetri strutturali di grande formato.",
+    "en": "Laminated, curved, wired, decorative mirror and large-format structural glass.",
+    "is": "Lagskipt, bogadregið og byggingargler.",
+    "ar": "زجاج مصفّح ومنحني ومرايا وزجاج إنشائي."
+   },
+   "scope": {
+    "it": "Stratificati e vetri strutturali; Curvati e grandi formati; Specchi e vetri decorativi; Serigrafie e trattamenti superficiali",
+    "en": "Laminated and structural glass; Curved and large formats; Mirrors and decorative glass; Screen printing and surface treatment",
+    "is": "Lagskipt og byggingargler; Bogadregið og stórar einingar; Speglar og skreytigler; Silkiprentun og meðhöndlun",
+    "ar": "زجاج مصفّح وإنشائي; منحني وبمقاسات كبيرة; مرايا وزجاج زخرفي; طباعة ومعالجة سطحية"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government",
+    "residential"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "mat-leather",
+   "parent": "materials",
+   "label": {
+    "it": "Pelle",
+    "en": "Leather",
+    "is": "Leður",
+    "ar": "الجلد"
+   },
+   "blurb": {
+    "it": "Concerie e lavorazioni per rivestimenti, testate, pareti e dettagli cuciti a mano.",
+    "en": "Tanneries and workshops for upholstery, headboards, wall panels and hand-stitched detail.",
+    "is": "Sútunarverksmiðjur og handsaumur.",
+    "ar": "مدابغ وورش للتنجيد والجدران والخياطة اليدوية."
+   },
+   "scope": {
+    "it": "Concerie per rivestimento e arredo; Pelli tecniche e ignifughe; Cuciture e lavorazioni a mano; Pareti e testate rivestite",
+    "en": "Tanneries for upholstery and furniture; Technical and flame-retardant hides; Hand stitching and finishing; Clad walls and headboards",
+    "is": "Sútunarhús fyrir húsgögn; Tæknileg og eldtefjandi leður; Handsaumur; Klæddir veggir og gaflar",
+    "ar": "مدابغ للتنجيد والأثاث; جلود تقنية ومقاومة للحريق; خياطة وأعمال يدوية; جدران ومساند مكسوّة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "retail"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-fabric",
+   "parent": "materials",
+   "label": {
+    "it": "Tessuti",
+    "en": "Fabrics",
+    "is": "Textíll",
+    "ar": "الأقمشة"
+   },
+   "blurb": {
+    "it": "Tessuti d'arredo, outdoor, ignifughi e tecnici, incluse garze e reti per allestimento.",
+    "en": "Furnishing, outdoor, flame-retardant and technical fabrics, including scrims and nets.",
+    "is": "Húsgagna-, úti- og eldtefjandi efni.",
+    "ar": "أقمشة مفروشات وخارجية ومقاومة للحريق وتقنية."
+   },
+   "scope": {
+    "it": "Tessuti d'arredo e outdoor; Ignifughi certificati per hospitality; Jacquard e disegni esclusivi; Garze e reti per allestimento",
+    "en": "Furnishing and outdoor fabrics; Certified flame-retardant for hospitality; Jacquard and exclusive designs; Scrims and nets for build",
+    "is": "Húsgagna- og útiefni; Vottuð eldtefjandi efni; Jacquard og einkahönnun; Net og tjull",
+    "ar": "أقمشة مفروشات وخارجية; مقاومة للحريق معتمدة للضيافة; جاكار وتصاميم حصرية; شبكات للتجهيز"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "retail"
+   ],
+   "w": 5,
+   "refs": [
+    "Hermès",
+    "Chanel",
+    "Bottega Veneta",
+    "Giorgio Armani"
+   ]
+  },
+  {
+   "id": "mat-ceramic",
+   "parent": "materials",
+   "label": {
+    "it": "Ceramica e gres",
+    "en": "Ceramic & porcelain",
+    "is": "Keramik og postulín",
+    "ar": "السيراميك والبورسلان"
+   },
+   "blurb": {
+    "it": "Grandi formati, cotto, effetti pietra e cemento, anche per rivestimento di facciata.",
+    "en": "Large formats, terracotta, stone and concrete effects, including façade cladding.",
+    "is": "Stórar plötur, terracotta og steináferð.",
+    "ar": "ألواح كبيرة وطين وتأثيرات حجرية وإسمنتية."
+   },
+   "scope": {
+    "it": "Gres di grande formato; Cotto e cementine; Effetti pietra e cemento; Rivestimento di facciata ventilata",
+    "en": "Large-format porcelain; Terracotta and cement tiles; Stone and concrete effects; Ventilated façade cladding",
+    "is": "Stórar postulínsplötur; Terracotta og sementsflísar; Stein- og steypuáferð; Klæðning loftræstra framhliða",
+    "ar": "بورسلان كبير المقاس; طين وبلاط إسمنتي; تأثيرات حجرية وإسمنتية; تكسية واجهات مهواة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government"
+   ],
+   "w": 4,
+   "refs": [
+    "Flare of Frankfurt"
+   ]
+  },
+  {
+   "id": "mat-solid",
+   "parent": "materials",
+   "label": {
+    "it": "Superfici solide e quarzo",
+    "en": "Solid surface & quartz",
+    "is": "Heilyfirborð og kvars",
+    "ar": "الأسطح الصلبة والكوارتز"
+   },
+   "blurb": {
+    "it": "Materiali termoformabili con giunzione invisibile per top, lavabi e banconi monolitici.",
+    "en": "Thermoformable materials with invisible joints for tops, basins and monolithic counters.",
+    "is": "Hitamótanleg efni með ósýnilegum samskeytum.",
+    "ar": "مواد قابلة للتشكيل بوصلات غير مرئية."
+   },
+   "scope": {
+    "it": "Top e banconi monolitici senza giunzione; Lavabi e vasche in resina; Superfici termoformabili; Retroilluminazione e traslucidi",
+    "en": "Seamless monolithic tops and counters; Resin basins and bathtubs; Thermoformable surfaces; Backlighting and translucency",
+    "is": "Samfelld borð og afgreiðsluborð; Resínvaskar og baðker; Hitamótanleg yfirborð; Baklýsing",
+    "ar": "أسطح وكاونترات متصلة بلا وصلات; مغاسل وأحواض راتنجية; أسطح قابلة للتشكيل; إضاءة خلفية وشفافية"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "residential",
+    "yachting"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-laminate",
+   "parent": "materials",
+   "label": {
+    "it": "Laminati e pannelli",
+    "en": "Laminates & panels",
+    "is": "Plastlagðar plötur",
+    "ar": "الصفائح والألواح"
+   },
+   "blurb": {
+    "it": "HPL, stratificati e pannelli nobilitati per superfici ad alto traffico.",
+    "en": "HPL, compact laminates and faced panels for high-traffic surfaces.",
+    "is": "HPL og plötur fyrir mikla umferð.",
+    "ar": "HPL وألواح مضغوطة للأسطح كثيفة الاستخدام."
+   },
+   "scope": {
+    "it": "HPL e stratificati per alto traffico; Pannelli nobilitati e bordature; Superfici antimpronta e antibatteriche; Grandi formati per rivestimento",
+    "en": "HPL and compact laminates for high traffic; Faced panels and edge banding; Anti-fingerprint and antibacterial surfaces; Large cladding formats",
+    "is": "HPL fyrir mikla umferð; Plötur og kantlíming; Fingrafara- og bakteríuvörn; Stórar klæðningaeiningar",
+    "ar": "HPL وصفائح مضغوطة للاستخدام الكثيف; ألواح وحواف; أسطح مقاومة للبصمات والبكتيريا; مقاسات تكسية كبيرة"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "government"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "mat-polymer",
+   "parent": "materials",
+   "label": {
+    "it": "Polimeri e superfici acriliche",
+    "en": "Polymers & acrylic surfaces",
+    "is": "Fjölliður og akrýlfletir",
+    "ar": "البوليمرات والأسطح الأكريليكية"
+   },
+   "blurb": {
+    "it": "Acrilici, policarbonati, materiali stampabili e traslucidi per elementi retroilluminati.",
+    "en": "Acrylics, polycarbonates, printable and translucent materials for backlit elements.",
+    "is": "Akrýl, pólýkarbónat og gegnumlýsanleg efni.",
+    "ar": "أكريليك وبولي كربونات ومواد شفافة للإضاءة الخلفية."
+   },
+   "scope": {
+    "it": "Metacrilato e policarbonato su misura; Termoformatura e curvature; Traslucidi per elementi retroilluminati; Polimeri da riciclo",
+    "en": "Bespoke acrylic and polycarbonate; Thermoforming and curving; Translucents for backlit elements; Recycled polymers",
+    "is": "Sérsniðið akrýl og pólýkarbónat; Hitamótun og beygingar; Gegnumlýsandi efni; Endurunnar fjölliður",
+    "ar": "أكريليك وبولي كربونات مفصّل; تشكيل حراري وثني; مواد شفافة للإضاءة الخلفية; بوليمرات معاد تدويرها"
+   },
+   "sectors": [
+    "retail",
+    "hospitality"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-concrete",
+   "parent": "materials",
+   "label": {
+    "it": "Cementi, resine e intonaci",
+    "en": "Concrete, resins & renders",
+    "is": "Steypa, resín og múr",
+    "ar": "الخرسانة والراتنجات والملاط"
+   },
+   "blurb": {
+    "it": "Microcementi, biomalte, calci e stucchi veneziani applicati in continuo, senza fughe.",
+    "en": "Microcement, lime and bio-mortars, Venetian plaster: seamless applied finishes.",
+    "is": "Míkrósement, kalk og feneyskt múrhúð.",
+    "ar": "الإسمنت الدقيق والجير والملاط البندقي بلا فواصل."
+   },
+   "scope": {
+    "it": "Microcementi e resine in continuo; Calci, biomalte e stucco veneziano; Effetti cemento e pietra; Applicazione senza fughe su grandi superfici",
+    "en": "Microcement and seamless resins; Lime, bio-mortars and Venetian plaster; Concrete and stone effects; Joint-free application over large areas",
+    "is": "Míkrósement og samfelld resín; Kalk, lífmúr og feneyskt múrhúð; Steypu- og steináferð; Samskeytalaus áferð",
+    "ar": "إسمنت دقيق وراتنجات متصلة; جير وملاط حيوي وملاط بندقي; تأثيرات إسمنتية وحجرية; تطبيق بلا فواصل"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-paint",
+   "parent": "materials",
+   "label": {
+    "it": "Vernici e trattamenti superficiali",
+    "en": "Coatings & surface treatment",
+    "is": "Lökk og yfirborðsmeðferð",
+    "ar": "الدهانات ومعالجة الأسطح"
+   },
+   "blurb": {
+    "it": "Cicli di verniciatura per arredo, UV resistenti, anticorrosione e finiture a campione.",
+    "en": "Coating cycles for furniture: UV-stable, anti-corrosion, matched to sample.",
+    "is": "Lökkun fyrir húsgögn, UV-þolin og tæringarvörn.",
+    "ar": "دورات طلاء للأثاث مقاومة للأشعة والتآكل."
+   },
+   "scope": {
+    "it": "Cicli di verniciatura per arredo; Finiture a campione e RAL su misura; Resistenza UV e ambienti aggressivi; Effetti legno, metallo e materici",
+    "en": "Coating cycles for furniture; Finishes matched to sample and bespoke RAL; UV and harsh-environment resistance; Wood, metal and textured effects",
+    "is": "Lökkunarferli fyrir húsgögn; Áferð eftir sýnishorni og RAL; UV- og veðurþol; Viðar- og málmáferð",
+    "ar": "دورات طلاء للأثاث; تشطيبات مطابقة للعينة وRAL مخصص; مقاومة للأشعة والبيئات القاسية; تأثيرات خشب ومعدن"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-wallcovering",
+   "parent": "materials",
+   "label": {
+    "it": "Rivestimenti murali",
+    "en": "Wallcoverings",
+    "is": "Veggklæðningar",
+    "ar": "أغطية الجدران"
+   },
+   "blurb": {
+    "it": "Carte da parati su misura, pannelli decorativi e stampa d'arte su grande formato.",
+    "en": "Bespoke wallpaper, decorative panels and large-format art printing.",
+    "is": "Sérsniðin veggfóður og listprentun.",
+    "ar": "ورق جدران مفصّل وألواح زخرفية وطباعة فنية."
+   },
+   "scope": {
+    "it": "Carte da parati su misura e murali; Pannelli decorativi e tessili a parete; Stampa d'arte in grande formato; Rivestimenti lavabili per aree comuni",
+    "en": "Bespoke wallpaper and murals; Decorative panels and wall textiles; Large-format art printing; Washable coverings for public areas",
+    "is": "Sérsniðið veggfóður og veggmyndir; Skreytiplötur og veggtextíll; Listprentun í stóru sniði; Þvottheldar klæðningar",
+    "ar": "ورق جدران وجداريات مفصّلة; ألواح زخرفية ومنسوجات جدارية; طباعة فنية كبيرة; أغطية قابلة للغسل"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "prime-property"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "mat-film",
+   "parent": "materials",
+   "label": {
+    "it": "Pellicole e film tecnici",
+    "en": "Films & technical foils",
+    "is": "Filmur og tæknifilmur",
+    "ar": "الأغشية والأفلام التقنية"
+   },
+   "blurb": {
+    "it": "Pellicole per vetro, adesivi di rivestimento, film privacy e decorativi.",
+    "en": "Glass films, wrapping adhesives, privacy and decorative foils.",
+    "is": "Glerfilmur, límfilmur og skreytifilmur.",
+    "ar": "أغشية زجاج ولواصق تغليف وأفلام خصوصية."
+   },
+   "scope": {
+    "it": "Pellicole solari e di privacy per vetro; Adesivi di rivestimento per superfici esistenti; Film decorativi e lenticolari; Grafiche magnetiche riposizionabili",
+    "en": "Solar and privacy glass films; Wrapping adhesives over existing surfaces; Decorative and lenticular films; Repositionable magnetic graphics",
+    "is": "Sól- og einkalífsfilmur; Límfilmur yfir núverandi fleti; Skreyti- og linsufilmur; Færanlegar seglugrafíkur",
+    "ar": "أغشية شمسية وخصوصية للزجاج; لواصق تغليف للأسطح القائمة; أفلام زخرفية وعدسية; رسومات مغناطيسية"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-acoustic",
+   "parent": "materials",
+   "label": {
+    "it": "Acustica e fonoassorbenti",
+    "en": "Acoustics & sound absorption",
+    "is": "Hljóðvist og hljóðdeyfing",
+    "ar": "الصوتيات وامتصاص الصوت"
+   },
+   "blurb": {
+    "it": "Pannelli, baffle e materiali che rendono agibile una sala prima di arredarla.",
+    "en": "Panels, baffles and materials that make a room usable before it is furnished.",
+    "is": "Plötur og efni sem gera rými nothæf.",
+    "ar": "ألواح ومواد تجعل القاعة صالحة قبل تأثيثها."
+   },
+   "scope": {
+    "it": "Pannelli e baffle per correzione di sala; Divisori e schermi fonoassorbenti; Feltri e materiali tessili tecnici; Integrazione acustica nel controsoffitto",
+    "en": "Panels and baffles for room correction; Absorbing partitions and screens; Felts and technical textiles; Acoustic integration in the ceiling",
+    "is": "Plötur og loftgildrur; Hljóðdeyfandi skilrúm; Filt og tækniefni; Hljóðvist felld í loft",
+    "ar": "ألواح وحواجز لتصحيح الصوت; فواصل وشاشات ماصة; لباد ومنسوجات تقنية; دمج صوتي في السقف"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "residential"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "mat-floor",
+   "parent": "materials",
+   "label": {
+    "it": "Pavimenti resilienti e tecnici",
+    "en": "Resilient & technical flooring",
+    "is": "Mýkri og tæknileg gólf",
+    "ar": "الأرضيات المرنة والتقنية"
+   },
+   "blurb": {
+    "it": "Vinilici, tessili-vinilici, resine industriali e pavimentazioni per allestimenti temporanei.",
+    "en": "Vinyl, woven vinyl, industrial resins and flooring for temporary builds.",
+    "is": "Vínyl, iðnaðarresín og tímabundin gólf.",
+    "ar": "الفينيل والراتنجات الصناعية وأرضيات مؤقتة."
+   },
+   "scope": {
+    "it": "Vinilici e tessili-vinilici per alto traffico; Resine industriali continue; Linoleum e materiali naturali; Pavimentazioni per allestimenti temporanei",
+    "en": "Vinyl and woven vinyl for high traffic; Seamless industrial resins; Linoleum and natural materials; Flooring for temporary builds",
+    "is": "Vínyl og ofið vínyl; Samfelld iðnaðarresín; Línóleum og náttúruefni; Gólf fyrir tímabundnar uppsetningar",
+    "ar": "فينيل ومنسوج للاستخدام الكثيف; راتنجات صناعية متصلة; لينوليوم ومواد طبيعية; أرضيات لتجهيزات مؤقتة"
+   },
+   "sectors": [
+    "retail",
+    "government",
+    "hospitality"
+   ],
+   "w": 3,
+   "refs": [
+    "Giochi Olimpici, Paris 2024",
+    "London 2012"
+   ]
+  },
+  {
+   "id": "mat-eco",
+   "parent": "materials",
+   "label": {
+    "it": "Materiali sostenibili e riciclati",
+    "en": "Sustainable & recycled materials",
+    "is": "Sjálfbær og endurunnin efni",
+    "ar": "المواد المستدامة والمعاد تدويرها"
+   },
+   "blurb": {
+    "it": "Materiali a contenuto riciclato e a bassa impronta, con certificazione verificabile.",
+    "en": "Recycled-content and low-footprint materials with verifiable certification.",
+    "is": "Endurunnin efni með vottun.",
+    "ar": "مواد معاد تدويرها منخفضة الأثر بشهادات موثقة."
+   },
+   "scope": {
+    "it": "Materiali a contenuto riciclato certificato; Termoplastici da scarto industriale; Cellulosa e fibre naturali; Tracciabilita' e fine vita dichiarati",
+    "en": "Certified recycled-content materials; Thermoplastics from industrial waste; Cellulose and natural fibres; Declared traceability and end of life",
+    "is": "Vottuð endurunnin efni; Plast úr iðnaðarúrgangi; Sellulósi og náttúrutrefjar; Rekjanleiki og líftímalok",
+    "ar": "مواد بمحتوى معاد تدويره معتمد; لدائن من مخلفات صناعية; سليلوز وألياف طبيعية; تتبّع ونهاية عمر معلنة"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "mat-research",
+   "parent": "materials",
+   "label": {
+    "it": "Material scouting e campionature speciali",
+    "en": "Material scouting & special samples",
+    "is": "Efnisleit og sérsýnishorn",
+    "ar": "البحث عن المواد وعينات خاصة"
+   },
+   "blurb": {
+    "it": "Chi trova il materiale che non esiste ancora a catalogo, e chi lo certifica.",
+    "en": "Those who find the material not yet in any catalogue, and those who certify it.",
+    "is": "Þeir sem finna efnið sem er ekki enn í vörulista.",
+    "ar": "من يجد المادة غير المدرجة بعد ومن يعتمدها."
+   },
+   "scope": {
+    "it": "Scouting di materiali fuori catalogo; Materioteche e archivi di finiture; Consulenza CMF su colore e materia; Campionature rare e prototipi di superficie",
+    "en": "Scouting for off-catalogue materials; Material libraries and finish archives; CMF consulting on colour and matter; Rare samples and surface prototypes",
+    "is": "Leit að efnum utan vörulista; Efnissöfn og áferðarsöfn; CMF-ráðgjöf; Sjaldgæf sýnishorn",
+    "ar": "بحث عن مواد خارج الكتالوج; مكتبات مواد وأرشيف تشطيبات; استشارات CMF; عينات نادرة ونماذج أسطح"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "residential"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "lighting",
+   "parent": null,
+   "label": {
+    "it": "Illuminazione",
+    "en": "Lighting",
+    "is": "Lýsing",
+    "ar": "الإضاءة"
+   },
+   "blurb": {
+    "it": "Luce architetturale, decorativa e tecnica, dalla progettazione illuminotecnica all'insegna.",
+    "en": "Architectural, decorative and technical light, from lighting design to signage.",
+    "is": "Byggingar-, skreyti- og tæknilýsing.",
+    "ar": "إضاءة معمارية وزخرفية وتقنية، من التصميم إلى اللافتات."
+   },
+   "scope": {
+    "it": "Illuminazione architetturale e decorativa; Luce integrata negli arredi; Insegne e identita' luminosa; Progettazione illuminotecnica",
+    "en": "Architectural and decorative lighting; Light built into furniture; Signage and luminous identity; Lighting design",
+    "is": "Byggingar- og skreytilýsing; Ljós í húsgögnum; Skilti og lýsandi ímynd; Lýsingarhönnun",
+    "ar": "إضاءة معمارية وزخرفية; ضوء مدمج بالأثاث; لافتات وهوية مضيئة; تصميم إضاءة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "lig-architectural",
+   "parent": "lighting",
+   "label": {
+    "it": "Illuminazione architetturale",
+    "en": "Architectural lighting",
+    "is": "Byggingarlýsing",
+    "ar": "الإضاءة المعمارية"
+   },
+   "blurb": {
+    "it": "Corpi da incasso, binari e sistemi integrati nell'architettura, non appoggiati sopra.",
+    "en": "Recessed fittings, tracks and systems built into architecture, not added on top.",
+    "is": "Innfelld ljós og kerfi felld inn í byggingu.",
+    "ar": "وحدات مدمجة وأنظمة مبنية داخل العمارة."
+   },
+   "scope": {
+    "it": "Incassi e sistemi a binario; Proiettori orientabili e accenti; Illuminazione integrata nell'architettura; Controllo scenari e dimmerazione",
+    "en": "Recessed fittings and track systems; Adjustable spots and accents; Lighting built into architecture; Scene control and dimming",
+    "is": "Innfelld ljós og brautakerfi; Stillanleg kastljós; Lýsing felld í byggingu; Senustýring og deyfing",
+    "ar": "وحدات مدمجة وأنظمة مسارات; كشافات وإبرازات; إضاءة مدمجة بالعمارة; تحكم بالمشاهد والخفت"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail",
+    "residential"
+   ],
+   "w": 3,
+   "refs": [
+    "Bourse de Commerce — Pinault Collection, Paris"
+   ]
+  },
+  {
+   "id": "lig-decorative",
+   "parent": "lighting",
+   "label": {
+    "it": "Illuminazione decorativa",
+    "en": "Decorative lighting",
+    "is": "Skreytilýsing",
+    "ar": "الإضاءة الزخرفية"
+   },
+   "blurb": {
+    "it": "Lampade d'autore e pezzi custom che diventano l'elemento riconoscibile di uno spazio.",
+    "en": "Designer and custom pieces that become the recognisable element of a space.",
+    "is": "Hönnunarljós og sérsmíði sem einkenna rými.",
+    "ar": "قطع مصممة ومخصصة تميّز المكان."
+   },
+   "scope": {
+    "it": "Lampade d'autore e da collezione; Sospensioni e installazioni su misura; Lavorazioni artigianali in ceramica e vetro; Pezzi identitari per lobby e ristoranti",
+    "en": "Designer and collectible lamps; Bespoke pendants and installations; Craft work in ceramic and glass; Signature pieces for lobbies and restaurants",
+    "is": "Hönnunar- og safnljós; Sérsmíðuð hengiljós; Handverk í keramik og gleri; Einkennisverk fyrir anddyri",
+    "ar": "مصابيح مصممة ومقتناة; معلقات وتجهيزات مفصّلة; حرف يدوية في الخزف والزجاج; قطع مميزة للردهات والمطاعم"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 3,
+   "refs": [
+    "Kameha Grand, Zurich",
+    "Andaz Amsterdam"
+   ]
+  },
+  {
+   "id": "lig-linear",
+   "parent": "lighting",
+   "label": {
+    "it": "Illuminazione lineare e profili LED",
+    "en": "Linear lighting & LED profiles",
+    "is": "Línulýsing og LED-prófílar",
+    "ar": "الإضاءة الخطية وقطاعات LED"
+   },
+   "blurb": {
+    "it": "Profili, strip e alimentazione per luce integrata negli arredi e nei dettagli.",
+    "en": "Profiles, strips and drivers for light built into furniture and detailing.",
+    "is": "Prófílar, borðar og aflgjafar í húsgögn.",
+    "ar": "قطاعات وشرائط ومحوّلات مدمجة بالأثاث."
+   },
+   "scope": {
+    "it": "Profili da incasso per arredi; Strip LED e alimentazione dedicata; Luce continua senza punti visibili; Dissipazione e durata in ambienti umidi",
+    "en": "Recessed profiles for furniture; LED strips and dedicated drivers; Continuous light with no visible dots; Heat dissipation and life in humid areas",
+    "is": "Innfelldir prófílar í húsgögn; LED-borðar og aflgjafar; Samfellt ljós; Varmalosun í rakaumhverfi",
+    "ar": "قطاعات مدمجة بالأثاث; شرائط LED ومحوّلات مخصصة; ضوء متصل بلا نقاط; تبديد حراري وعمر في الرطوبة"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "yachting"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "lig-backlit",
+   "parent": "lighting",
+   "label": {
+    "it": "Soffitti luminosi e backlit",
+    "en": "Luminous ceilings & backlit",
+    "is": "Lýsandi loft og baklýsing",
+    "ar": "الأسقف المضيئة والإضاءة الخلفية"
+   },
+   "blurb": {
+    "it": "Superfici luminose continue: controsoffitti, cassonetti e pareti retroilluminate.",
+    "en": "Continuous luminous surfaces: stretch ceilings, lightboxes, backlit walls.",
+    "is": "Samfelld lýsandi yfirborð og ljósakassar.",
+    "ar": "أسطح مضيئة متصلة وصناديق ضوء وجدران خلفية."
+   },
+   "scope": {
+    "it": "Soffitti tesi e superfici luminose continue; Cassonetti e lightbox su misura; Tessuti retroilluminati stampati; Pareti luminose per lobby e spa",
+    "en": "Stretch ceilings and continuous luminous surfaces; Bespoke lightboxes; Printed backlit fabrics; Luminous walls for lobbies and spas",
+    "is": "Strekkt loft og samfelld lýsandi yfirborð; Sérsmíðaðir ljósakassar; Baklýst prentuð efni; Lýsandi veggir",
+    "ar": "أسقف مشدودة وأسطح مضيئة متصلة; صناديق ضوء مفصّلة; أقمشة مطبوعة مضاءة خلفياً; جدران مضيئة"
+   },
+   "sectors": [
+    "retail",
+    "hospitality"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "lig-signage",
+   "parent": "lighting",
+   "label": {
+    "it": "Insegne e neon",
+    "en": "Signage & neon",
+    "is": "Skilti og neon",
+    "ar": "اللافتات والنيون"
+   },
+   "blurb": {
+    "it": "Lettere scatolate, neon tradizionale e LED flex, con pratiche e omologazioni.",
+    "en": "Built-up letters, traditional neon and flex LED, permits included.",
+    "is": "Upphleypt letur, neon og LED-flex.",
+    "ar": "حروف بارزة ونيون تقليدي وLED مرن مع التراخيص."
+   },
+   "scope": {
+    "it": "Lettere scatolate e insegne d'ingresso; Neon tradizionale e LED flex; Totem e segnaletica luminosa; Pratiche, omologazioni e installazione",
+    "en": "Built-up letters and entrance signs; Traditional neon and flex LED; Illuminated totems and wayfinding; Permits, approvals and installation",
+    "is": "Upphleypt letur og inngangsskilti; Neon og LED-flex; Ljósasúlur og leiðamerkingar; Leyfi og uppsetning",
+    "ar": "حروف بارزة ولافتات مداخل; نيون تقليدي وLED مرن; أعمدة وإرشاد مضيء; تراخيص واعتمادات وتركيب"
+   },
+   "sectors": [
+    "retail",
+    "hospitality"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "lig-design",
+   "parent": "lighting",
+   "label": {
+    "it": "Lighting design",
+    "en": "Lighting design",
+    "is": "Lýsingarhönnun",
+    "ar": "تصميم الإضاءة"
+   },
+   "blurb": {
+    "it": "Studi che calcolano la luce prima di comprarla: livelli, resa cromatica, consumi.",
+    "en": "Practices that calculate light before it is bought: levels, colour rendering, load.",
+    "is": "Stofur sem reikna lýsingu fyrir kaup.",
+    "ar": "مكاتب تحسب الإضاءة قبل شرائها."
+   },
+   "scope": {
+    "it": "Calcolo dei livelli e della resa cromatica; Capitolato luci e scelta dei corpi; Scenari e comfort visivo; Consumi e conformita' normativa",
+    "en": "Level and colour-rendering calculation; Lighting spec and fixture selection; Scenes and visual comfort; Energy use and code compliance",
+    "is": "Útreikningur birtustigs og litaendurgjafar; Ljósaskilgreining og val búnaðar; Senur og sjónþægindi; Orkunotkun og reglufylgni",
+    "ar": "حساب المستويات وإظهار الألوان; مواصفات واختيار الوحدات; مشاهد وراحة بصرية; استهلاك ومطابقة"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail",
+    "residential"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "facades",
+   "parent": null,
+   "label": {
+    "it": "Facciate",
+    "en": "Facades",
+    "is": "Framhliðar",
+    "ar": "الواجهات"
+   },
+   "blurb": {
+    "it": "L'involucro dell'edificio: sistemi di facciata, coperture leggere, elementi di protezione.",
+    "en": "The building envelope: façade systems, lightweight roofing, protective elements.",
+    "is": "Byggingarhjúpur: framhliðakerfi og létt þök.",
+    "ar": "غلاف المبنى: أنظمة الواجهات والأسقف الخفيفة."
+   },
+   "scope": {
+    "it": "Sistemi di facciata e rivestimenti; Coperture leggere e protezioni; Ingegnerizzazione dell'involucro; Posa e collaudo",
+    "en": "Façade systems and cladding; Lightweight roofing and screens; Envelope engineering; Installation and testing",
+    "is": "Framhliðakerfi og klæðningar; Létt þök og skjól; Hjúpverkfræði; Uppsetning og prófun",
+    "ar": "أنظمة واجهات وتكسيات; أسقف خفيفة وحواجز; هندسة الغلاف; تركيب واختبار"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "fac-systems",
+   "parent": "facades",
+   "label": {
+    "it": "Sistemi di facciata",
+    "en": "Façade systems",
+    "is": "Framhliðakerfi",
+    "ar": "أنظمة الواجهات"
+   },
+   "blurb": {
+    "it": "Facciate ventilate, continue e rivestimenti, con ingegnerizzazione del sistema di fissaggio.",
+    "en": "Ventilated and curtain walls with engineered fixing systems.",
+    "is": "Loftræst kerfi og klæðningar með festingum.",
+    "ar": "واجهات مهواة وستائرية بأنظمة تثبيت مهندسة."
+   },
+   "scope": {
+    "it": "Facciate ventilate e continue; Rivestimenti in gres, pietra e metallo; Sottostruttura e ingegnerizzazione dei fissaggi; Frangisole e schermature solari",
+    "en": "Ventilated and curtain wall façades; Porcelain, stone and metal cladding; Substructure and fixing engineering; Brise-soleil and solar screening",
+    "is": "Loftræstar framhliðar og gluggaveggir; Klæðningar úr postulíni, steini og málmi; Undirvirki og festingar; Sólvarnir",
+    "ar": "واجهات مهواة وستائرية; تكسيات بورسلان وحجر ومعدن; هيكل سفلي وهندسة تثبيت; كاسرات شمس"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "retail"
+   ],
+   "w": 3,
+   "refs": [
+    "Flare of Frankfurt"
+   ]
+  },
+  {
+   "id": "fac-canopy",
+   "parent": "facades",
+   "label": {
+    "it": "Pensiline e canopy",
+    "en": "Canopies",
+    "is": "Skyggni",
+    "ar": "المظلات"
+   },
+   "blurb": {
+    "it": "Coperture d'ingresso e protezioni: il primo elemento che un ospite tocca con lo sguardo.",
+    "en": "Entrance covers and shelters: the first element a guest reads.",
+    "is": "Inngangsþök og skýli.",
+    "ar": "مظلات المداخل وعناصر الحماية."
+   },
+   "scope": {
+    "it": "Pensiline d'ingresso e coperture vetrate; Strutture in acciaio a vista; Integrazione di luce e drenaggio; Protezioni per aree esterne",
+    "en": "Entrance canopies and glazed shelters; Exposed steel structures; Integrated lighting and drainage; Screens for outdoor areas",
+    "is": "Inngangsskyggni og glerskýli; Sýnileg stálvirki; Innfelld lýsing og frárennsli; Skjól fyrir útisvæði",
+    "ar": "مظلات مداخل ومظلات زجاجية; هياكل فولاذية ظاهرة; إضاءة وتصريف مدمجان; حماية للمناطق الخارجية"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "fac-tensile",
+   "parent": "facades",
+   "label": {
+    "it": "Tensostrutture e coperture leggere",
+    "en": "Tensile & lightweight structures",
+    "is": "Tjaldvirki og létt þök",
+    "ar": "المنشآت المشدودة والأسقف الخفيفة"
+   },
+   "blurb": {
+    "it": "Strutture temporanee e semipermanenti per estendere uno spazio senza costruirlo.",
+    "en": "Temporary and semi-permanent structures that extend a space without building it.",
+    "is": "Tímabundin mannvirki sem stækka rými.",
+    "ar": "منشآت مؤقتة وشبه دائمة لتوسيع المساحة."
+   },
+   "scope": {
+    "it": "Cupole geodetiche e strutture tese; Pergole bioclimatiche; Coperture stagionali e removibili; Ampliamenti temporanei di superficie",
+    "en": "Geodesic domes and tensile structures; Bioclimatic pergolas; Seasonal and removable covers; Temporary floor-area extensions",
+    "is": "Hvelfingar og tjaldvirki; Pergólur; Árstíðabundin og færanleg þök; Tímabundnar stækkanir",
+    "ar": "قباب جيوديسية ومنشآت مشدودة; برجولات مناخية; أغطية موسمية قابلة للإزالة; توسعات مؤقتة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "construction",
+   "parent": null,
+   "label": {
+    "it": "Costruzione",
+    "en": "Construction",
+    "is": "Bygging",
+    "ar": "الإنشاء"
+   },
+   "blurb": {
+    "it": "Opere edili e componenti d'architettura: chi costruisce, chi chiude e chi apre.",
+    "en": "Building works and architectural components: who builds, who closes, who opens.",
+    "is": "Byggingarvinna og byggingarhlutar.",
+    "ar": "الأعمال الإنشائية ومكوّنات العمارة."
+   },
+   "scope": {
+    "it": "Opere edili e finiture; Componenti d'architettura; Chiusure e aperture; Impresa e gestione di cantiere",
+    "en": "Building works and finishes; Architectural components; Closures and openings; Contracting and site management",
+    "is": "Byggingarvinna og frágangur; Byggingarhlutar; Lokanir og op; Verktaka og verkstjórn",
+    "ar": "أعمال إنشائية وتشطيبات; مكوّنات معمارية; إغلاقات وفتحات; مقاولة وإدارة موقع"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "cns-contractors",
+   "parent": "construction",
+   "label": {
+    "it": "General contractor e opere edili",
+    "en": "General contracting & building works",
+    "is": "Aðalverktaka og byggingarvinna",
+    "ar": "المقاولة العامة والأعمال الإنشائية"
+   },
+   "blurb": {
+    "it": "Imprese generali e specialistiche, incluse quelle per strutture sanitarie e normate.",
+    "en": "General and specialist firms, including healthcare and regulated environments.",
+    "is": "Alhliða og sérhæfðir verktakar.",
+    "ar": "شركات عامة ومتخصصة تشمل المنشآت الصحية."
+   },
+   "scope": {
+    "it": "Impresa generale e opere civili; Cantieri esteri e logistica di sito; Strutture sanitarie e ambienti normati; Coordinamento dei subappalti",
+    "en": "General contracting and civil works; Foreign sites and site logistics; Healthcare and regulated environments; Subcontractor coordination",
+    "is": "Aðalverktaka og jarðvinna; Erlend verk og verklogistík; Heilbrigðis- og reglusett rými; Samhæfing undirverktaka",
+    "ar": "مقاولة عامة وأعمال مدنية; مواقع خارجية ولوجستيات; منشآت صحية وبيئات منظّمة; تنسيق مقاولي الباطن"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "residential"
+   ],
+   "w": 5,
+   "refs": [
+    "Cantina Antinori, Bargino"
+   ]
+  },
+  {
+   "id": "cns-components",
+   "parent": "construction",
+   "label": {
+    "it": "Carpenteria e componenti d'architettura",
+    "en": "Metalwork & architectural components",
+    "is": "Málmsmíði og byggingarhlutar",
+    "ar": "الأعمال المعدنية والمكوّنات المعمارية"
+   },
+   "blurb": {
+    "it": "Scale, parapetti, griglie, botole, sistemi di fissaggio a vista e profili strutturali.",
+    "en": "Stairs, balustrades, grilles, hatches, exposed fixings and structural profiles.",
+    "is": "Stigar, handrið, ristar og festingar.",
+    "ar": "السلالم والدرابزين والشبكات والتثبيتات الظاهرة."
+   },
+   "scope": {
+    "it": "Scale, parapetti e strutture a vista; Pareti divisorie e box doccia minimali; Griglie, botole e fissaggi tecnici; Elementi speciali su disegno",
+    "en": "Stairs, balustrades and exposed structures; Partitions and minimal shower enclosures; Grilles, hatches and technical fixings; Special elements to drawing",
+    "is": "Stigar, handrið og sýnileg virki; Skilrúm og sturtuklefar; Ristar, lúgur og festingar; Sérhlutir eftir teikningu",
+    "ar": "سلالم ودرابزين وهياكل ظاهرة; فواصل وحواجز استحمام; شبكات وفتحات وتثبيتات; عناصر خاصة حسب الرسم"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "residential",
+    "retail"
+   ],
+   "w": 5,
+   "refs": [
+    "Cantina Antinori, Bargino",
+    "Max Mara, London"
+   ]
+  },
+  {
+   "id": "cns-doors",
+   "parent": "construction",
+   "label": {
+    "it": "Porte e sistemi di apertura",
+    "en": "Doors & opening systems",
+    "is": "Hurðir og opnunarkerfi",
+    "ar": "الأبواب وأنظمة الفتح"
+   },
+   "blurb": {
+    "it": "Porte tagliafuoco, filomuro, scorrevoli e movimenti speciali a scomparsa.",
+    "en": "Fire-rated, flush, sliding and special concealed-movement doors.",
+    "is": "Eldvarnar-, renni- og faldar hurðir.",
+    "ar": "أبواب مقاومة للحريق ومنزلقة وحركات خاصة."
+   },
+   "scope": {
+    "it": "Tagliafuoco e certificate per hospitality; Filomuro e complanari; Scorrevoli a scomparsa e a bilico; Movimenti speciali e ante di grande peso",
+    "en": "Fire-rated and hospitality-certified; Flush and coplanar; Pocket sliding and pivot; Special movements and heavy leaves",
+    "is": "Eldvarnar- og vottaðar hurðir; Felldar og samsíða; Rennihurðir og pivot; Sérhreyfingar og þungar hurðir",
+    "ar": "مقاومة للحريق ومعتمدة للضيافة; مستوية ومتحاذية; منزلقة مخفية ومحورية; حركات خاصة وأبواب ثقيلة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "cns-windows",
+   "parent": "construction",
+   "label": {
+    "it": "Infissi e serramenti",
+    "en": "Windows & glazing systems",
+    "is": "Gluggar og gluggakerfi",
+    "ar": "النوافذ وأنظمة التزجيج"
+   },
+   "blurb": {
+    "it": "Serramenti a taglio termico, grandi luci e sistemi per climi rigidi.",
+    "en": "Thermally broken frames, large spans and systems for harsh climates.",
+    "is": "Einangraðir gluggar fyrir erfitt veðurfar.",
+    "ar": "إطارات معزولة حرارياً لمناخات قاسية."
+   },
+   "scope": {
+    "it": "Serramenti a taglio termico; Grandi vetrate e scorrevoli minimali; Prestazioni per climi rigidi e vento; Serramenti su misura per progetto",
+    "en": "Thermally broken frames; Large glazing and minimal sliders; Performance for harsh climates and wind; Bespoke frames per project",
+    "is": "Einangraðir rammar; Stórir gluggar og rennihurðir; Þol fyrir veður og vind; Sérsmíðaðir gluggar",
+    "ar": "إطارات بقطع حراري; تزجيج كبير ومنزلقات دقيقة; أداء لمناخات قاسية ورياح; إطارات مفصّلة للمشروع"
+   },
+   "sectors": [
+    "residential",
+    "hospitality",
+    "government",
+    "prime-property"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "cns-ceiling",
+   "parent": "construction",
+   "label": {
+    "it": "Controsoffitti e sistemi a soffitto",
+    "en": "Ceilings & ceiling systems",
+    "is": "Loftkerfi",
+    "ar": "الأسقف وأنظمتها"
+   },
+   "blurb": {
+    "it": "Controsoffitti ispezionabili, membrane tese e sistemi che integrano luce e impianti.",
+    "en": "Accessible ceilings, stretch membranes and systems integrating light and services.",
+    "is": "Aðgengileg loft og strekkt himnur.",
+    "ar": "أسقف قابلة للفحص وأغشية مشدودة."
+   },
+   "scope": {
+    "it": "Controsoffitti ispezionabili e modulari; Membrane tese e superfici continue; Doghe e sistemi a lamelle; Integrazione di luce, aria e acustica",
+    "en": "Accessible and modular ceilings; Stretch membranes and continuous surfaces; Slats and baffle systems; Integration of light, air and acoustics",
+    "is": "Aðgengileg og einingaloft; Strekktar himnur og samfelld yfirborð; Listar og lamellur; Samþætting ljóss, lofts og hljóðvistar",
+    "ar": "أسقف قابلة للفحص ومعيارية; أغشية مشدودة وأسطح متصلة; شرائح وأنظمة حواجز; دمج الإضاءة والتهوية والصوتيات"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "retail-exhibition",
+   "parent": null,
+   "label": {
+    "it": "Retail ed Exhibition",
+    "en": "Retail & Exhibition",
+    "is": "Verslun og sýningar",
+    "ar": "التجزئة والمعارض"
+   },
+   "blurb": {
+    "it": "Spazi che devono comunicare e cambiare in fretta: negozi, fiere, mostre, eventi.",
+    "en": "Spaces that must communicate and change fast: stores, fairs, exhibitions, events.",
+    "is": "Rými sem verða að tala og breytast hratt.",
+    "ar": "مساحات تتواصل وتتغير بسرعة: متاجر ومعارض وفعاليات."
+   },
+   "scope": {
+    "it": "Allestimenti fieristici e temporanei; Retail e vetrine; Scenografia ed exhibition; Service tecnico ed esperienze",
+    "en": "Trade fair and temporary builds; Retail and windows; Scenography and exhibition; Technical services and experiences",
+    "is": "Sýninga- og tímabundnar uppsetningar; Verslun og gluggar; Leikmynd og sýningar; Tækniþjónusta og upplifun",
+    "ar": "تجهيزات معارض ومؤقتة; تجزئة وواجهات; سينوغرافيا ومعارض; خدمات تقنية وتجارب"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail",
+    "digital"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "ret-fairs",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Allestimenti fieristici",
+    "en": "Trade fair build",
+    "is": "Sýningarbásar",
+    "ar": "تجهيز المعارض التجارية"
+   },
+   "blurb": {
+    "it": "Stand chiavi in mano con accreditamenti di quartiere fieristico e tempi di montaggio blindati.",
+    "en": "Turnkey stands with fairground accreditation and locked build schedules.",
+    "is": "Básar með fullri þjónustu og föstum tíma.",
+    "ar": "أجنحة متكاملة باعتمادات ومواعيد تركيب مؤكدة."
+   },
+   "scope": {
+    "it": "Stand chiavi in mano con accreditamenti; Progettazione e produzione in casa; Montaggio notturno e tempi blindati; Magazzino e riuso fra edizioni",
+    "en": "Turnkey stands with fairground accreditation; In-house design and production; Overnight build and locked schedules; Storage and reuse across editions",
+    "is": "Básar með aðgangsleyfum; Hönnun og framleiðsla innanhúss; Næturuppsetning og fastir tímar; Geymsla og endurnýting",
+    "ar": "أجنحة متكاملة باعتمادات; تصميم وإنتاج داخلي; تركيب ليلي ومواعيد مؤكدة; تخزين وإعادة استخدام"
+   },
+   "sectors": [
+    "retail",
+    "digital"
+   ],
+   "w": 5,
+   "refs": [
+    "Salone del Mobile, Milano",
+    "LVMH Métiers d'Art",
+    "Fendi"
+   ]
+  },
+  {
+   "id": "ret-scenography",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Scenografia ed exhibition design",
+    "en": "Scenography & exhibition design",
+    "is": "Leikmynd og sýningarhönnun",
+    "ar": "السينوغرافيا وتصميم المعارض"
+   },
+   "blurb": {
+    "it": "Chi costruisce un racconto in tre dimensioni: musei, mostre temporanee, installazioni d'artista.",
+    "en": "Building a narrative in three dimensions: museums, temporary shows, artist installations.",
+    "is": "Frásögn í þrívídd: söfn og innsetningar.",
+    "ar": "بناء سردية ثلاثية الأبعاد: متاحف ومعارض وتجهيزات فنية."
+   },
+   "scope": {
+    "it": "Allestimenti museali e mostre temporanee; Scenografie e installazioni d'artista; Sistemi di appensione per opere; Lavorazioni sceniche e sculture",
+    "en": "Museum fit-out and temporary shows; Sets and artist installations; Artwork hanging systems; Scenic work and sculpture",
+    "is": "Safnauppsetningar og sýningar; Leikmyndir og innsetningar; Upphengikerfi fyrir verk; Leikmyndavinna og skúlptúr",
+    "ar": "تجهيز متاحف ومعارض مؤقتة; ديكورات وتجهيزات فنية; أنظمة تعليق الأعمال; أعمال مشهدية ونحت"
+   },
+   "sectors": [
+    "retail",
+    "government",
+    "digital"
+   ],
+   "w": 3,
+   "refs": [
+    "National Gallery, London",
+    "Museo del Prado",
+    "J. Paul Getty Museum",
+    "Hermitage"
+   ]
+  },
+  {
+   "id": "ret-window",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Vetrine e visual merchandising",
+    "en": "Windows & visual merchandising",
+    "is": "Gluggaútstillingar",
+    "ar": "الواجهات والعرض البصري"
+   },
+   "blurb": {
+    "it": "Vetrinisti e produzione di elementi visual, con rotazione stagionale e roll-out multi-store.",
+    "en": "Window teams and visual production, seasonal rotation and multi-store roll-out.",
+    "is": "Gluggaútstillingar og fjölbúðaútfærslur.",
+    "ar": "فرق الواجهات والإنتاج البصري والتوزيع متعدد المتاجر."
+   },
+   "scope": {
+    "it": "Campagne vetrina su rete di store; Rotazione stagionale coordinata; Corner e installazioni in store; Produzione e logistica degli elementi visual",
+    "en": "Window campaigns across store networks; Coordinated seasonal rotation; In-store corners and installations; Production and logistics of visual elements",
+    "is": "Gluggaherferðir í verslanakeðjum; Samræmd árstíðaskipti; Hornsvæði og innsetningar; Framleiðsla og dreifing",
+    "ar": "حملات واجهات عبر شبكات المتاجر; تبديل موسمي منسّق; أركان وتجهيزات داخلية; إنتاج ولوجستيات العناصر"
+   },
+   "sectors": [
+    "retail"
+   ],
+   "w": 3,
+   "refs": [
+    "LVMH",
+    "Kering",
+    "Richemont",
+    "Armani Casa"
+   ]
+  },
+  {
+   "id": "ret-store",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Retail rollout e format di rete",
+    "en": "Retail rollout & network formats",
+    "is": "Verslanaútfærsla og keðjusnið",
+    "ar": "تنفيذ التجزئة وصيغ الشبكة"
+   },
+   "blurb": {
+    "it": "Format replicabili su rete: arredo di vendita, percorso cliente, gestori multi-licenza.",
+    "en": "Network-replicable formats: sales fixtures, customer journey, multi-brand operators.",
+    "is": "Endurtekjanleg snið fyrir verslanakeðjur.",
+    "ar": "صيغ قابلة للتكرار عبر الشبكة ومشغّلون متعددو العلامات."
+   },
+   "scope": {
+    "it": "Format replicabili su rete; Arredo di vendita e percorso cliente; Roll-out multi-paese; Operatori multi-licenza per nuovi mercati",
+    "en": "Network-replicable formats; Sales fixtures and customer journey; Multi-country roll-out; Multi-brand operators for new markets",
+    "is": "Endurtekjanleg snið; Sölubúnaður og viðskiptaferð; Útfærsla í mörgum löndum; Fjölmerkjarekendur",
+    "ar": "صيغ قابلة للتكرار; تجهيزات بيع ورحلة العميل; توزيع متعدد الدول; مشغّلون متعددو العلامات"
+   },
+   "sectors": [
+    "retail"
+   ],
+   "w": 2,
+   "refs": [
+    "BMW & MINI",
+    "Louis Vuitton"
+   ]
+  },
+  {
+   "id": "ret-av",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Service AV e tecnico per eventi",
+    "en": "AV & technical event services",
+    "is": "Tækni- og AV-þjónusta viðburða",
+    "ar": "خدمات الصوت والصورة للفعاليات"
+   },
+   "blurb": {
+    "it": "Noleggio e regia tecnica per eventi: ledwall, proiezione, mapping architetturale.",
+    "en": "Rental and technical direction for events: LED walls, projection, architectural mapping.",
+    "is": "Leiga og tæknistjórn fyrir viðburði.",
+    "ar": "تأجير وإدارة تقنية للفعاليات وإسقاط معماري."
+   },
+   "scope": {
+    "it": "Ledwall e videoproiezione a noleggio; Mapping architetturale su edificio; Audio e luci sceniche per evento; Regia tecnica e presidio in sala",
+    "en": "LED wall and projection rental; Architectural mapping onto buildings; Event audio and stage lighting; Technical direction and on-site crew",
+    "is": "LED-veggir og myndvarp í leigu; Byggingarmöppun; Viðburðahljóð og sviðsljós; Tæknistjórn á staðnum",
+    "ar": "تأجير جدران LED وإسقاط; إسقاط معماري على المباني; صوت وإضاءة للفعاليات; إدارة تقنية في الموقع"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "digital"
+   ],
+   "w": 5,
+   "refs": [
+    "Expo Milano 2015",
+    "Mercedes-Benz",
+    "Sky"
+   ]
+  },
+  {
+   "id": "ret-immersive",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Esperienze immersive e special FX",
+    "en": "Immersive experiences & special FX",
+    "is": "Yfirgripsmikil upplifun og tæknibrellur",
+    "ar": "التجارب الغامرة والمؤثرات الخاصة"
+   },
+   "blurb": {
+    "it": "Ologrammi, realtà estesa, effetti fisici e installazioni generative per spazi brandizzati.",
+    "en": "Holograms, extended reality, physical effects and generative installations for branded spaces.",
+    "is": "Hólógröm, XR og myndræn innsetning.",
+    "ar": "الهولوغرام والواقع الممتد والمؤثرات والتجهيزات التوليدية."
+   },
+   "scope": {
+    "it": "Stanze immersive e proiezione a 360; Ologrammi e realta' estesa; Installazioni generative e interattive; Effetti fisici e scenici",
+    "en": "Immersive rooms and 360 projection; Holograms and extended reality; Generative and interactive installations; Physical and stage effects",
+    "is": "Yfirgripsmikil rými og 360 myndvarp; Hólógröm og XR; Myndrænar og gagnvirkar innsetningar; Tæknibrellur",
+    "ar": "غرف غامرة وإسقاط 360; هولوغرام وواقع ممتد; تجهيزات توليدية وتفاعلية; مؤثرات فيزيائية ومشهدية"
+   },
+   "sectors": [
+    "retail",
+    "digital",
+    "government"
+   ],
+   "w": 4,
+   "refs": [
+    "MoMA, New York",
+    "Intel"
+   ]
+  },
+  {
+   "id": "ret-events",
+   "parent": "retail-exhibition",
+   "label": {
+    "it": "Eventi e styling",
+    "en": "Events & styling",
+    "is": "Viðburðir og stílsetning",
+    "ar": "الفعاليات والتنسيق"
+   },
+   "blurb": {
+    "it": "Regia dell'evento e styling degli ambienti, dal set fotografico all'inaugurazione.",
+    "en": "Event direction and set styling, from photo shoot to opening night.",
+    "is": "Viðburðastjórn og stílsetning rýma.",
+    "ar": "إدارة الفعاليات وتنسيق المشاهد حتى الافتتاح."
+   },
+   "scope": {
+    "it": "Regia e produzione dell'evento; Styling degli ambienti e set fotografici; Inaugurazioni e presentazioni stampa; Coordinamento fornitori in giornata",
+    "en": "Event direction and production; Room styling and photo sets; Openings and press presentations; Same-day supplier coordination",
+    "is": "Viðburðastjórn og framleiðsla; Stílsetning og myndatökur; Opnanir og fjölmiðlakynningar; Samhæfing birgja",
+    "ar": "إدارة وإنتاج الفعاليات; تنسيق المساحات ومواقع التصوير; افتتاحات وعروض صحفية; تنسيق الموردين"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "digital"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "technology",
+   "parent": null,
+   "label": {
+    "it": "Tecnologia e sistemi",
+    "en": "Technology & Systems",
+    "is": "Tækni og kerfi",
+    "ar": "التقنية والأنظمة"
+   },
+   "blurb": {
+    "it": "I sistemi che rendono uno spazio leggibile, sicuro e misurabile.",
+    "en": "The systems that make a space legible, safe and measurable.",
+    "is": "Kerfin sem gera rými læsileg, örugg og mælanleg.",
+    "ar": "الأنظمة التي تجعل المكان مقروءاً وآمناً وقابلاً للقياس."
+   },
+   "scope": {
+    "it": "Display e digital signage; Sistemi interattivi e di misura; Sicurezza e controllo accessi; Rilievo digitale degli spazi",
+    "en": "Displays and digital signage; Interactive and measurement systems; Security and access control; Digital survey of spaces",
+    "is": "Skjáir og stafræn skilti; Gagnvirk og mælikerfi; Öryggi og aðgangsstýring; Stafræn mæling rýma",
+    "ar": "شاشات ولافتات رقمية; أنظمة تفاعلية وقياس; أمن وتحكم بالدخول; مسح رقمي للمساحات"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting",
+    "digital"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "tec-display",
+   "parent": "technology",
+   "label": {
+    "it": "Display, LEDwall e digital signage",
+    "en": "Displays, LED walls & digital signage",
+    "is": "Skjáir og stafræn skilti",
+    "ar": "الشاشات وجدران LED واللافتات الرقمية"
+   },
+   "blurb": {
+    "it": "Schermi da incasso, pareti LED e reti di contenuti gestite da remoto.",
+    "en": "Recessed screens, LED walls and remotely managed content networks.",
+    "is": "Innfelldir skjáir og fjarstýrt efni.",
+    "ar": "شاشات مدمجة وجدران LED وشبكات محتوى بعيدة الإدارة."
+   },
+   "scope": {
+    "it": "Ledwall e schermi da incasso; Display trasparenti e curvi; Gestione contenuti da remoto su rete; Integrazione nell'arredo e nell'architettura",
+    "en": "LED walls and recessed screens; Transparent and curved displays; Remote network content management; Integration into joinery and architecture",
+    "is": "LED-veggir og innfelldir skjáir; Gagnsæir og bogadregnir skjáir; Fjarstýrð efnisstjórnun; Samþætting við innréttingar",
+    "ar": "جدران LED وشاشات مدمجة; شاشات شفافة ومنحنية; إدارة محتوى عن بعد عبر الشبكة; دمج بالأثاث والعمارة"
+   },
+   "sectors": [
+    "retail",
+    "hospitality",
+    "government",
+    "digital"
+   ],
+   "w": 4,
+   "refs": [
+    "McDonald's",
+    "Nissan"
+   ]
+  },
+  {
+   "id": "tec-retail",
+   "parent": "technology",
+   "label": {
+    "it": "Retail technology e self-service",
+    "en": "Retail technology & self-service",
+    "is": "Verslunartækni og sjálfsafgreiðsla",
+    "ar": "تقنية التجزئة والخدمة الذاتية"
+   },
+   "blurb": {
+    "it": "Casse, totem, chioschi, etichette elettroniche e configuratori di prodotto.",
+    "en": "Tills, totems, kiosks, electronic shelf labels and product configurators.",
+    "is": "Kassar, sjálfsafgreiðslustöðvar og rafmerki.",
+    "ar": "نقاط البيع والأكشاك والملصقات الإلكترونية."
+   },
+   "scope": {
+    "it": "Casse e POS self-service; Totem e vending su misura; Etichette elettroniche e prezzi dinamici; Configuratori di prodotto in store",
+    "en": "Tills and self-service POS; Bespoke totems and vending; Electronic labels and dynamic pricing; In-store product configurators",
+    "is": "Kassar og sjálfsafgreiðsla; Sérsmíðaðar súlur og sjálfsalar; Rafmerki og breytilegt verð; Vörustillar í verslun",
+    "ar": "نقاط بيع وأكشاك خدمة ذاتية; أعمدة وآلات بيع مفصّلة; ملصقات إلكترونية وتسعير ديناميكي; مهيئات منتجات"
+   },
+   "sectors": [
+    "retail",
+    "digital"
+   ],
+   "w": 3,
+   "refs": [
+    "Benetton Group"
+   ]
+  },
+  {
+   "id": "tec-audio",
+   "parent": "technology",
+   "label": {
+    "it": "Audio e sound design",
+    "en": "Audio & sound design",
+    "is": "Hljóð og hljóðhönnun",
+    "ar": "الصوت وتصميمه"
+   },
+   "blurb": {
+    "it": "Diffusione sonora integrata e progetto acustico percepito, non solo impianto.",
+    "en": "Integrated sound distribution and perceived acoustic design, not just hardware.",
+    "is": "Innfelld hljóðdreifing og hljóðhönnun.",
+    "ar": "توزيع صوتي مدمج وتصميم صوتي محسوس."
+   },
+   "scope": {
+    "it": "Diffusione sonora integrata e invisibile; Sound design d'ambiente per aree comuni; Impianti per sale e conferenze; Manutenzione e assistenza continuativa",
+    "en": "Integrated, invisible sound distribution; Ambient sound design for public areas; Systems for halls and conferencing; Ongoing service and support",
+    "is": "Innfelld og ósýnileg hljóðdreifing; Umhverfishljóð fyrir almenn rými; Sal- og ráðstefnukerfi; Viðhald og þjónusta",
+    "ar": "توزيع صوتي مدمج وغير مرئي; تصميم صوت للمناطق العامة; أنظمة قاعات ومؤتمرات; صيانة ودعم مستمر"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "yachting"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "tec-interaction",
+   "parent": "technology",
+   "label": {
+    "it": "Interfacce touch e controlli d'ambiente",
+    "en": "Touch interfaces & room controls",
+    "is": "Snertiviðmót og rýmisstýring",
+    "ar": "واجهات لمسية وتحكم بالمكان"
+   },
+   "blurb": {
+    "it": "Superfici touch, pulsantiere custom e interfacce fisiche su misura.",
+    "en": "Touch surfaces, custom control panels and bespoke physical interfaces.",
+    "is": "Snertifletir og sérsmíðuð stjórnborð.",
+    "ar": "أسطح لمسية ولوحات تحكم وواجهات مادية مخصصة."
+   },
+   "scope": {
+    "it": "Superfici touch di grande formato; Pulsantiere e interfacce fisiche su misura; Controlli d'ambiente per camera e suite; Integrazione con i sistemi di struttura",
+    "en": "Large-format touch surfaces; Bespoke control panels and physical interfaces; Room and suite environment controls; Integration with property systems",
+    "is": "Stórir snertifletir; Sérsmíðuð stjórnborð og viðmót; Umhverfisstýring herbergja; Samþætting við kerfi hússins",
+    "ar": "أسطح لمسية كبيرة; لوحات تحكم وواجهات مادية مفصّلة; تحكم ببيئة الغرف والأجنحة; تكامل مع أنظمة المنشأة"
+   },
+   "sectors": [
+    "retail",
+    "government",
+    "digital"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "tec-tracking",
+   "parent": "technology",
+   "label": {
+    "it": "Analytics di spazio e flussi",
+    "en": "Space & footfall analytics",
+    "is": "Rýmis- og umferðargreining",
+    "ar": "تحليلات المساحة والحركة"
+   },
+   "blurb": {
+    "it": "Conteggio presenze, percorsi interni, RFID e NFC per capire come si usa uno spazio.",
+    "en": "Footfall, indoor paths, RFID and NFC: how a space is actually used.",
+    "is": "Umferðartalning, innileiðir, RFID og NFC.",
+    "ar": "عدّ الزوار والمسارات الداخلية وRFID وNFC."
+   },
+   "scope": {
+    "it": "Conteggio presenze e flussi interni; Heatmap di utilizzo dello spazio; RFID e NFC per inventario e antitaccheggio; Dati per rivedere il layout",
+    "en": "Footfall counting and internal flows; Space-usage heatmaps; RFID and NFC for inventory and anti-theft; Data to revisit the layout",
+    "is": "Umferðartalning og innileiðir; Hitakort notkunar; RFID og NFC fyrir birgðir og þjófavörn; Gögn til að endurmeta skipulag",
+    "ar": "عدّ الزوار والتدفقات الداخلية; خرائط حرارية للاستخدام; RFID وNFC للجرد ومكافحة السرقة; بيانات لمراجعة التخطيط"
+   },
+   "sectors": [
+    "retail",
+    "digital"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "tec-security",
+   "parent": "technology",
+   "label": {
+    "it": "Sicurezza e controllo accessi",
+    "en": "Security & access control",
+    "is": "Öryggi og aðgangsstýring",
+    "ar": "الأمن والتحكم بالدخول"
+   },
+   "blurb": {
+    "it": "Controllo accessi, videosorveglianza e custodia di valori per ambienti sensibili.",
+    "en": "Access control, surveillance and secure storage for sensitive environments.",
+    "is": "Aðgangsstýring, eftirlit og verðmætageymsla.",
+    "ar": "التحكم بالدخول والمراقبة وحفظ الأشياء الثمينة."
+   },
+   "scope": {
+    "it": "Controllo accessi per camere e aree riservate; Videosorveglianza e centrale allarmi; Casseforti e custodia di valori; Integrazione con il PMS di struttura",
+    "en": "Access control for rooms and restricted areas; CCTV and alarm centre; Safes and valuables storage; Integration with the property PMS",
+    "is": "Aðgangsstýring herbergja og lokaðra svæða; Eftirlit og viðvörunarmiðstöð; Öryggisskápar; Samþætting við PMS",
+    "ar": "تحكم بدخول الغرف والمناطق المحظورة; مراقبة ومركز إنذار; خزائن وحفظ ثمينات; تكامل مع نظام إدارة المنشأة"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "prime-property"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "tec-survey",
+   "parent": "technology",
+   "label": {
+    "it": "Rilievo digitale e scansione 3D",
+    "en": "Digital survey & 3D scanning",
+    "is": "Stafræn mæling og þrívíddarskönnun",
+    "ar": "المسح الرقمي والمسح ثلاثي الأبعاد"
+   },
+   "blurb": {
+    "it": "Laser scan, fotogrammetria e gaussian splatting: l'esistente misurato prima di progettarci sopra.",
+    "en": "Laser scan, photogrammetry and gaussian splatting: the as-built measured before design.",
+    "is": "Leysimæling og ljósmælingar á núverandi ástandi.",
+    "ar": "المسح بالليزر والقياس التصويري قبل التصميم."
+   },
+   "scope": {
+    "it": "Laser scan dell'esistente prima di progettare; Fotogrammetria e nuvole di punti; Digital twin navigabile della struttura; Verifica as-built contro il progetto",
+    "en": "Laser scan of the existing before design; Photogrammetry and point clouds; Navigable digital twin of the property; As-built check against the design",
+    "is": "Leysimæling fyrir hönnun; Ljósmælingar og punktský; Stafrænn tvíburi hússins; Samanburður við hönnun",
+    "ar": "مسح ليزري للقائم قبل التصميم; قياس تصويري وسحب نقاط; توأم رقمي قابل للتصفح; مطابقة التنفيذ بالتصميم"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "digital",
+    "yachting"
+   ],
+   "w": 2,
+   "refs": [
+    "Lindner Hotels & Resorts",
+    "The Ivy Collection"
+   ]
+  },
+  {
+   "id": "tec-scent",
+   "parent": "technology",
+   "label": {
+    "it": "Scent design ambientale",
+    "en": "Ambient scent design",
+    "is": "Ilmhönnun rýma",
+    "ar": "تصميم الروائح المحيطة"
+   },
+   "blurb": {
+    "it": "Diffusione olfattiva calibrata sul volume: l'ultimo senso che nessuno progetta.",
+    "en": "Scent diffusion calibrated to volume: the one sense nobody designs.",
+    "is": "Ilmdreifing miðuð við rúmmál.",
+    "ar": "نشر الروائح بمعايرة الحجم: الحاسة المنسية."
+   },
+   "scope": {
+    "it": "Firma olfattiva del brand; Diffusione calibrata sul volume degli ambienti; Impianti integrati nella climatizzazione; Ricariche e manutenzione programmata",
+    "en": "Brand scent signature; Diffusion calibrated to room volume; Systems integrated into HVAC; Refills and scheduled maintenance",
+    "is": "Ilmeinkenni vörumerkis; Dreifing stillt eftir rúmmáli; Kerfi felld í loftræstingu; Áfyllingar og viðhald",
+    "ar": "بصمة عطرية للعلامة; نشر معاير لحجم المساحات; أنظمة مدمجة بالتكييف; تعبئة وصيانة مجدولة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "tec-automation",
+   "parent": "technology",
+   "label": {
+    "it": "Elementi cinetici e automazione",
+    "en": "Kinetic elements & automation",
+    "is": "Hreyfikerfi og sjálfvirkni",
+    "ar": "العناصر الحركية والأتمتة"
+   },
+   "blurb": {
+    "it": "Movimentazione, elementi cinetici e macchine speciali su commessa.",
+    "en": "Motion systems, kinetic elements and one-off special machinery.",
+    "is": "Hreyfikerfi og sérsmíðaðar vélar.",
+    "ar": "أنظمة الحركة والعناصر الحركية والآلات الخاصة."
+   },
+   "scope": {
+    "it": "Elementi cinetici e superfici in movimento; Movimentazione e macchine speciali su commessa; Magazzini e sistemi automatici; Manutenzione e ricambi dedicati",
+    "en": "Kinetic elements and moving surfaces; One-off handling and special machinery; Automated storage systems; Dedicated maintenance and spares",
+    "is": "Hreyfanlegir hlutir og fletir; Sérsmíðaðar vélar; Sjálfvirk vörugeymsla; Viðhald og varahlutir",
+    "ar": "عناصر حركية وأسطح متحركة; مناولة وآلات خاصة; أنظمة تخزين آلية; صيانة وقطع غيار"
+   },
+   "sectors": [
+    "government",
+    "retail"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "tec-infrastructure",
+   "parent": "technology",
+   "label": {
+    "it": "Infrastruttura IT e AV di sala",
+    "en": "IT & venue AV infrastructure",
+    "is": "Upplýsinga- og AV-innviðir",
+    "ar": "البنية التقنية وأنظمة الموقع"
+   },
+   "blurb": {
+    "it": "Macchine, rete e player: quello che deve restare acceso quando l'installazione è finita.",
+    "en": "Machines, network and players: what must stay on once the install is done.",
+    "is": "Tölvur, net og spilarar sem verða að ganga.",
+    "ar": "الأجهزة والشبكة والمشغّلات التي تبقى تعمل."
+   },
+   "scope": {
+    "it": "Player e media server per installazioni; Rete e cablaggio di sala; Workstation e postazioni di regia; Assistenza dopo la consegna e ricambi",
+    "en": "Players and media servers for installations; Venue network and cabling; Workstations and control positions; Post-handover support and spares",
+    "is": "Spilarar og miðlarar; Staðarnet og lagnir; Vinnustöðvar og stjórnstöðvar; Þjónusta eftir afhendingu",
+    "ar": "مشغّلات وخوادم للتجهيزات; شبكة وتمديدات الموقع; محطات عمل وتحكم; دعم بعد التسليم وقطع غيار"
+   },
+   "sectors": [
+    "digital",
+    "retail",
+    "government"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "hospitality-ops",
+   "parent": null,
+   "label": {
+    "it": "Hospitality Operations",
+    "en": "Hospitality Operations",
+    "is": "Rekstur gistiþjónustu",
+    "ar": "تشغيل الضيافة"
+   },
+   "blurb": {
+    "it": "Ciò che serve a far funzionare un hotel, una spa o un ristorante il giorno dopo l'inaugurazione.",
+    "en": "What it takes to run a hotel, a spa or a restaurant the day after opening.",
+    "is": "Það sem þarf til að reka hótel daginn eftir opnun.",
+    "ar": "ما يلزم لتشغيل فندق أو منتجع أو مطعم بعد الافتتاح."
+   },
+   "scope": {
+    "it": "Cucine e refrigerazione professionali; Bagno, spa e wellness; Divise e materiale di servizio; Verde e manutenzione degli ambienti",
+    "en": "Professional kitchens and refrigeration; Bathroom, spa and wellness; Uniforms and service supplies; Planting and space upkeep",
+    "is": "Atvinnueldhús og kæling; Bað, heilsulind og vellíðan; Einkennisfatnaður og rekstrarvörur; Gróður og viðhald",
+    "ar": "مطابخ وتبريد مهني; حمّام ومنتجع وعافية; أزياء ومستلزمات خدمة; نباتات وصيانة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "hos-kitchen",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Cucine professionali",
+    "en": "Professional kitchens",
+    "is": "Atvinnueldhús",
+    "ar": "المطابخ المهنية"
+   },
+   "blurb": {
+    "it": "Linee cottura, abbattimento e layout di cucina dimensionati sui coperti reali.",
+    "en": "Cooking lines, blast chilling and kitchen layouts sized on real covers.",
+    "is": "Eldunarlínur og eldhússkipulag miðað við gestafjölda.",
+    "ar": "خطوط الطهي والتبريد وتخطيط المطبخ وفق الأعداد الفعلية."
+   },
+   "scope": {
+    "it": "Linee cottura dimensionate sui coperti reali; Abbattimento e conservazione; Cappe, aspirazione e lavaggio; Layout e flussi di cucina",
+    "en": "Cooking lines sized on real covers; Blast chilling and storage; Hoods, extraction and warewashing; Kitchen layout and flows",
+    "is": "Eldunarlínur miðaðar við gestafjölda; Hraðkæling og geymsla; Háfar, útsog og uppþvottur; Skipulag og flæði",
+    "ar": "خطوط طهي بحسب الأعداد الفعلية; تبريد سريع وتخزين; شفّاطات وسحب وغسيل; تخطيط وتدفق المطبخ"
+   },
+   "sectors": [
+    "hospitality"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "hos-refrigeration",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Refrigerazione professionale",
+    "en": "Professional refrigeration",
+    "is": "Atvinnukæling",
+    "ar": "التبريد المهني"
+   },
+   "blurb": {
+    "it": "Frigovetrine, drop-in e celle: catena del freddo integrata nell'arredo, non appoggiata.",
+    "en": "Display fridges, drop-ins and cold rooms integrated into the joinery, not parked on it.",
+    "is": "Kæliborð og kæliklefar felld í innréttingu.",
+    "ar": "ثلاجات عرض ووحدات مدمجة وغرف تبريد."
+   },
+   "scope": {
+    "it": "Frigovetrine e drop-in integrati nell'arredo; Celle e catena del freddo; Cantine vino e minibar di camera; Refrigerazione per bordo e ambienti difficili",
+    "en": "Display fridges and drop-ins built into joinery; Cold rooms and cold chain; Wine cellars and room minibars; Refrigeration for marine and harsh settings",
+    "is": "Kæliborð felld í innréttingar; Kæliklefar og kælikeðja; Vínkjallarar og minibar; Kæling um borð",
+    "ar": "ثلاجات عرض ووحدات مدمجة بالأثاث; غرف تبريد وسلسلة باردة; أقبية نبيذ وميني بار; تبريد بحري وبيئات صعبة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail"
+   ],
+   "w": 4,
+   "refs": [
+    "Mandarin Oriental",
+    "The Ritz-Carlton",
+    "Bulgari Hotel, Paris",
+    "NASA — Space Shuttle Columbia"
+   ]
+  },
+  {
+   "id": "hos-vending",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Vending e attrezzature self-service",
+    "en": "Vending & self-service equipment",
+    "is": "Sjálfsalar og sjálfsafgreiðsla",
+    "ar": "آلات البيع ومعدات الخدمة الذاتية"
+   },
+   "blurb": {
+    "it": "Erogazione automatica di bevande e cibo per aree comuni e strutture con turni.",
+    "en": "Automatic food and drink service for common areas and shift-based facilities.",
+    "is": "Sjálfvirk þjónusta í sameiginlegum rýmum.",
+    "ar": "خدمة تلقائية للمشروبات والطعام في المناطق العامة."
+   },
+   "scope": {
+    "it": "Distributori bevande e cibo per aree comuni; Macchine da caffe' professionali; Lavanderia self-service per residenze; Assistenza e rifornimento periodico",
+    "en": "Drink and food vending for public areas; Professional coffee machines; Self-service laundry for residences; Service and periodic restocking",
+    "is": "Sjálfsalar fyrir almenn rými; Atvinnukaffivélar; Sjálfsafgreiðsluþvottahús; Þjónusta og áfyllingar",
+    "ar": "آلات بيع للمناطق العامة; ماكينات قهوة مهنية; غسيل ذاتي للمساكن; خدمة وتزويد دوري"
+   },
+   "sectors": [
+    "hospitality",
+    "government",
+    "retail"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "hos-spa",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Bagno, spa e wellness",
+    "en": "Bathroom, spa & wellness",
+    "is": "Bað, heilsulind og vellíðan",
+    "ar": "الحمّام والمنتجع والعافية"
+   },
+   "blurb": {
+    "it": "Sanitari e rubinetteria d'autore, saune, hammam e bagni pubblici automatizzati.",
+    "en": "Designer sanitaryware and taps, saunas, hammams and automated public washrooms.",
+    "is": "Hreinlætistæki, gufuböð og sjálfvirk almenningssalerni.",
+    "ar": "أدوات صحية وخلاطات وساونا وحمّامات عامة آلية."
+   },
+   "scope": {
+    "it": "Sanitari e rubinetteria d'autore; Saune, hammam e aree umide; Lavabi e vasche su misura; Bagni pubblici e automatizzati",
+    "en": "Designer sanitaryware and taps; Saunas, hammams and wet areas; Bespoke basins and bathtubs; Public and automated washrooms",
+    "is": "Hönnunartæki og blöndunartæki; Gufuböð og votrými; Sérsmíðaðir vaskar og baðker; Almenningssalerni",
+    "ar": "أدوات صحية وخلاطات مصممة; ساونا وحمّام بخار ومناطق رطبة; مغاسل وأحواض مفصّلة; حمّامات عامة وآلية"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "yachting",
+    "prime-property"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "hos-appliances",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Appliances e incasso premium",
+    "en": "Appliances & premium built-in",
+    "is": "Innbyggð hágæðatæki",
+    "ar": "الأجهزة والتركيب الفاخر"
+   },
+   "blurb": {
+    "it": "Incasso premium per suite, ville e cucine d'autore, con assistenza in loco.",
+    "en": "Premium built-in for suites, villas and signature kitchens, with local service.",
+    "is": "Innbyggð hágæðatæki með þjónustu á staðnum.",
+    "ar": "أجهزة مدمجة فاخرة للأجنحة والفلل مع خدمة محلية."
+   },
+   "scope": {
+    "it": "Incasso premium per suite e ville; Piani cottura e forni professionali; Cantine e frigoriferi di design; Installazione e assistenza in loco",
+    "en": "Premium built-in for suites and villas; Professional hobs and ovens; Design cellars and refrigerators; Installation and local service",
+    "is": "Innbyggð hágæðatæki; Atvinnuhelluborð og ofnar; Hönnunarkælar; Uppsetning og þjónusta",
+    "ar": "أجهزة مدمجة فاخرة للأجنحة والفلل; مواقد وأفران مهنية; ثلاجات وأقبية مصممة; تركيب وخدمة محلية"
+   },
+   "sectors": [
+    "residential",
+    "hospitality",
+    "yachting",
+    "prime-property"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "hos-uniform",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Divise e workwear",
+    "en": "Uniforms & workwear",
+    "is": "Einkennis- og vinnufatnaður",
+    "ar": "الأزياء وملابس العمل"
+   },
+   "blurb": {
+    "it": "Divise di sala, cucina e housekeeping coordinate con l'identità della struttura.",
+    "en": "Front-of-house, kitchen and housekeeping uniforms matched to the property's identity.",
+    "is": "Einkennisfatnaður samræmdur ímynd hússins.",
+    "ar": "أزياء الصالة والمطبخ والتدبير المنسجمة مع هوية المكان."
+   },
+   "scope": {
+    "it": "Divise di sala, cucina e housekeeping; Coordinamento con l'identita' della struttura; DPI e abbigliamento tecnico di cantiere; Rifornimento ricorrente e taglie",
+    "en": "Front-of-house, kitchen and housekeeping uniforms; Coordination with the property identity; PPE and site workwear; Repeat supply and sizing",
+    "is": "Einkennisfatnaður fyrir sal, eldhús og þrif; Samræming við ímynd hússins; Hlífðarbúnaður; Endurpantanir og stærðir",
+    "ar": "أزياء الصالة والمطبخ والتدبير; تنسيق مع هوية المنشأة; معدات وقاية وملابس موقع; توريد متكرر ومقاسات"
+   },
+   "sectors": [
+    "hospitality"
+   ],
+   "w": 3,
+   "refs": []
+  },
+  {
+   "id": "hos-banqueting",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Banqueting e supporto eventi",
+    "en": "Banqueting & event support",
+    "is": "Veisluþjónusta og viðburðastuðningur",
+    "ar": "الولائم ودعم الفعاليات"
+   },
+   "blurb": {
+    "it": "Attrezzatura e personale per eventi, vernissage e servizi fuori dalla routine.",
+    "en": "Equipment and staff for events, openings and anything outside routine service.",
+    "is": "Búnaður og starfsfólk fyrir viðburði.",
+    "ar": "معدات وطواقم للفعاليات والافتتاحات."
+   },
+   "scope": {
+    "it": "Attrezzatura e allestimento per eventi; Personale di sala e hostess; Vernissage e presentazioni; Servizi fuori dalla routine operativa",
+    "en": "Event equipment and set-up; Floor staff and hosts; Private views and presentations; Services outside routine operations",
+    "is": "Viðburðabúnaður og uppsetning; Þjónustufólk og gestgjafar; Opnanir og kynningar; Þjónusta utan daglegs rekstrar",
+    "ar": "معدات وتجهيز الفعاليات; طاقم خدمة ومضيفون; افتتاحات وعروض; خدمات خارج التشغيل المعتاد"
+   },
+   "sectors": [
+    "hospitality",
+    "retail"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "hos-fitness",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Fitness e wellness equipment",
+    "en": "Fitness & wellness equipment",
+    "is": "Líkamsræktarbúnaður",
+    "ar": "معدات اللياقة والعافية"
+   },
+   "blurb": {
+    "it": "Attrezzature per palestre di hotel e residenze, con pavimentazione dedicata.",
+    "en": "Equipment for hotel and residential gyms, with dedicated flooring.",
+    "is": "Búnaður fyrir hótel- og heimilislíkamsrækt.",
+    "ar": "معدات صالات الفنادق والمساكن بأرضيات مخصصة."
+   },
+   "scope": {
+    "it": "Attrezzature cardio e pesi per hotel; Pavimentazione e acustica dedicate; Palestre di residenza e wellness privati; Layout su superfici ridotte",
+    "en": "Cardio and weights for hotels; Dedicated flooring and acoustics; Residential gyms and private wellness; Layout for small footprints",
+    "is": "Þrektæki og lóð fyrir hótel; Sérstök gólf og hljóðvist; Heimilislíkamsrækt; Skipulag í litlu rými",
+    "ar": "أجهزة كارديو وأوزان للفنادق; أرضيات وصوتيات مخصصة; صالات سكنية وعافية خاصة; تخطيط لمساحات صغيرة"
+   },
+   "sectors": [
+    "hospitality",
+    "residential"
+   ],
+   "w": 1,
+   "refs": []
+  },
+  {
+   "id": "hos-green",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Verde indoor e pareti vegetali",
+    "en": "Indoor planting & green walls",
+    "is": "Innigróður og grænir veggir",
+    "ar": "النباتات الداخلية والجدران الخضراء"
+   },
+   "blurb": {
+    "it": "Pareti verdi, piante stabilizzate e manutenzione programmata del verde interno.",
+    "en": "Green walls, preserved plants and scheduled indoor planting maintenance.",
+    "is": "Grænir veggir og viðhald innigróðurs.",
+    "ar": "جدران خضراء ونباتات محفوظة وصيانة مجدولة."
+   },
+   "scope": {
+    "it": "Pareti verdi e giardini verticali; Piante stabilizzate a manutenzione zero; Verde a noleggio per eventi e fiere; Manutenzione programmata degli interni",
+    "en": "Green walls and vertical gardens; Preserved plants with zero upkeep; Rental planting for events and fairs; Scheduled indoor maintenance",
+    "is": "Grænir veggir og lóðréttir garðar; Varðveittar plöntur; Leigugróður fyrir viðburði; Áætlað viðhald",
+    "ar": "جدران خضراء وحدائق عمودية; نباتات محفوظة بلا صيانة; نباتات مؤجرة للفعاليات; صيانة داخلية مجدولة"
+   },
+   "sectors": [
+    "hospitality",
+    "retail",
+    "government",
+    "residential"
+   ],
+   "w": 3,
+   "refs": [
+    "Diesel HQ"
+   ]
+  },
+  {
+   "id": "hos-facility",
+   "parent": "hospitality-ops",
+   "label": {
+    "it": "Facility management e pulizie tecniche",
+    "en": "Facility management & technical cleaning",
+    "is": "Rekstur og tæknileg þrif",
+    "ar": "إدارة المرافق والتنظيف التقني"
+   },
+   "blurb": {
+    "it": "Pulizie tecniche e manutenzione di superfici delicate dopo la consegna.",
+    "en": "Technical cleaning and care of delicate surfaces after handover.",
+    "is": "Tæknileg þrif og umhirða viðkvæmra flata.",
+    "ar": "تنظيف تقني وعناية بالأسطح الحساسة بعد التسليم."
+   },
+   "scope": {
+    "it": "Pulizia tecnica dopo il cantiere; Cura di superfici delicate e materiali naturali; Pulizia vetri e lavori in quota; Manutenzione periodica programmata",
+    "en": "Technical cleaning after construction; Care of delicate surfaces and natural materials; Glass cleaning and work at height; Scheduled periodic upkeep",
+    "is": "Tæknileg þrif eftir framkvæmdir; Umhirða viðkvæmra flata; Gluggaþrif í hæð; Reglubundið viðhald",
+    "ar": "تنظيف تقني بعد الإنشاء; عناية بالأسطح الحساسة والمواد الطبيعية; تنظيف زجاج وعمل مرتفع; صيانة دورية مجدولة"
+   },
+   "sectors": [
+    "hospitality",
+    "government"
+   ],
+   "w": 2,
+   "refs": []
+  },
+  {
+   "id": "advisory",
+   "parent": null,
+   "label": {
+    "it": "Design, Digital e Owner's Rep",
+    "en": "Design, Digital & Owner's Rep",
+    "is": "Hönnun, stafrænt og eigendafulltrúi",
+    "ar": "التصميم والرقمنة وممثل المالك"
+   },
+   "blurb": {
+    "it": "Il pensiero prima e il controllo durante: progetto, immagine, ingegneria, rappresentanza della committenza.",
+    "en": "The thinking before and the control during: design, image, engineering, client representation.",
+    "is": "Hugsunin á undan og eftirlitið á meðan.",
+    "ar": "التفكير قبل والرقابة أثناء: التصميم والصورة والهندسة وتمثيل المالك."
+   },
+   "scope": {
+    "it": "Progettazione e direzione artistica; Visualizzazione e comunicazione; Ingegneria e certificazione; Rappresentanza della committenza",
+    "en": "Design and art direction; Visualisation and communication; Engineering and certification; Client representation",
+    "is": "Hönnun og listræn stjórn; Myndgerð og samskipti; Verkfræði og vottun; Fulltrúi verkkaupa",
+    "ar": "تصميم وإدارة فنية; تصوّر وتواصل; هندسة واعتماد; تمثيل المالك"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property",
+    "yachting",
+    "digital"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "adv-architecture",
+   "parent": "advisory",
+   "label": {
+    "it": "Architettura e interior design",
+    "en": "Architecture & interior design",
+    "is": "Arkitektúr og innanhússhönnun",
+    "ar": "العمارة والتصميم الداخلي"
+   },
+   "blurb": {
+    "it": "Studi di progettazione con cui la rete ha già lavorato, non un elenco di nomi noti.",
+    "en": "Design practices the network has already worked with, not a list of famous names.",
+    "is": "Hönnunarstofur sem netið hefur unnið með.",
+    "ar": "مكاتب تصميم عملت معها الشبكة فعلاً."
+   },
+   "scope": {
+    "it": "Concept e sviluppo di interni; Progettazione retail e hospitality; Residenze private e ville; Direzione artistica di progetto",
+    "en": "Concept and interior development; Retail and hospitality design; Private residences and villas; Project art direction",
+    "is": "Hugmyndavinna og innanhússþróun; Verslunar- og hótelhönnun; Einkaheimili og villur; Listræn verkefnastjórn",
+    "ar": "مفاهيم وتطوير داخلي; تصميم تجزئة وضيافة; مساكن خاصة وفلل; إدارة فنية للمشروع"
+   },
+   "sectors": [
+    "hospitality",
+    "residential",
+    "government",
+    "retail",
+    "prime-property"
+   ],
+   "w": 4,
+   "refs": [
+    "Guess"
+   ]
+  },
+  {
+   "id": "adv-visualization",
+   "parent": "advisory",
+   "label": {
+    "it": "Visualizzazione e 3D real-time",
+    "en": "Visualisation & real-time 3D",
+    "is": "Myndgerð og rauntíma þrívídd",
+    "ar": "التصوّر ثلاثي الأبعاد الفوري"
+   },
+   "blurb": {
+    "it": "Render, configuratori Unreal e ambienti VR per far decidere il cliente prima di produrre.",
+    "en": "Renders, Unreal configurators and VR spaces that let the client decide before production.",
+    "is": "Myndgerð og VR áður en framleiðsla hefst.",
+    "ar": "تصاميم مرئية ومهيئات وبيئات VR قبل الإنتاج."
+   },
+   "scope": {
+    "it": "Render fotorealistici per approvazione; Configuratori 3D per varianti di prodotto; Showroom e sopralluoghi virtuali; Decidere prima di mettere in produzione",
+    "en": "Photoreal renders for approval; 3D configurators for product variants; Virtual showrooms and walkthroughs; Deciding before going into production",
+    "is": "Raunmyndir til samþykktar; Þrívíddarstillar fyrir vöruútfærslur; Sýndarsalir og skoðunarferðir; Ákvarðanir fyrir framleiðslu",
+    "ar": "صور واقعية للاعتماد; مهيئات ثلاثية لخيارات المنتج; صالات وجولات افتراضية; القرار قبل الإنتاج"
+   },
+   "sectors": [
+    "digital",
+    "retail",
+    "hospitality",
+    "prime-property"
+   ],
+   "w": 5,
+   "refs": [
+    "Ermenegildo Zegna"
+   ]
+  },
+  {
+   "id": "adv-brand",
+   "parent": "advisory",
+   "label": {
+    "it": "Brand identity e produzione grafica",
+    "en": "Brand identity & graphic production",
+    "is": "Vörumerkjaímynd og grafísk framleiðsla",
+    "ar": "هوية العلامة والإنتاج الغرافيكي"
+   },
+   "blurb": {
+    "it": "Identità, packaging, editoria e stampa di produzione, incluse targhe e segnaletica.",
+    "en": "Identity, packaging, publishing and production print, including plaques and signage.",
+    "is": "Ímynd, umbúðir og prentun.",
+    "ar": "الهوية والتغليف والنشر والطباعة واللافتات."
+   },
+   "scope": {
+    "it": "Identita' visiva e sistema di marca; Cataloghi, editoria e cartotecnica; Stampa di produzione su grandi tirature; Targhe, segnaletica e wayfinding",
+    "en": "Visual identity and brand system; Catalogues, publishing and paper engineering; Production print at volume; Plaques, signage and wayfinding",
+    "is": "Sjónræn ímynd og merkjakerfi; Vörulistar og pappírsvinnsla; Prentun í upplagi; Skilti og leiðamerkingar",
+    "ar": "هوية بصرية ونظام العلامة; كتالوجات ونشر وهندسة ورقية; طباعة إنتاجية بكميات; لوحات ولافتات وإرشاد"
+   },
+   "sectors": [
+    "digital",
+    "retail",
+    "hospitality"
+   ],
+   "w": 5,
+   "refs": [
+    "B&B Italia",
+    "Heineken"
+   ]
+  },
+  {
+   "id": "adv-content",
+   "parent": "advisory",
+   "label": {
+    "it": "Fotografia, video e contenuti",
+    "en": "Photography, film & content",
+    "is": "Ljósmyndun, myndbönd og efni",
+    "ar": "التصوير والفيديو والمحتوى"
+   },
+   "blurb": {
+    "it": "Chi produce l'immagine dell'opera finita, e chi la trasforma in installazione generativa.",
+    "en": "Those who produce the image of the finished work, and those who turn it into generative art.",
+    "is": "Þeir sem mynda verkið og gera úr því list.",
+    "ar": "من ينتج صورة العمل ومن يحوّلها إلى فن توليدي."
+   },
+   "scope": {
+    "it": "Fotografia d'interni e di prodotto; Video e contenuti per il lancio; Arte generativa e installazioni digitali; Materiale per social e canali del cliente",
+    "en": "Interior and product photography; Film and launch content; Generative art and digital installations; Material for the client's social channels",
+    "is": "Innanhúss- og vöruljósmyndun; Myndbönd og kynningarefni; Myndræn list og stafrænar innsetningar; Efni fyrir samfélagsmiðla",
+    "ar": "تصوير داخلي ومنتجات; فيديو ومحتوى إطلاق; فن توليدي وتجهيزات رقمية; مواد لقنوات العميل"
+   },
+   "sectors": [
+    "digital",
+    "retail",
+    "hospitality"
+   ],
+   "w": 5,
+   "refs": [
+    "MoMA, New York",
+    "Samsung"
+   ]
+  },
+  {
+   "id": "adv-digital",
+   "parent": "advisory",
+   "label": {
+    "it": "Digital Layer: web, e-commerce, AI",
+    "en": "Digital Layer: web, e-commerce, AI",
+    "is": "Stafrænt lag: vefur, netverslun, gervigreind",
+    "ar": "الطبقة الرقمية: الويب والتجارة والذكاء الاصطناعي"
+   },
+   "blurb": {
+    "it": "Piattaforme, loyalty, dati e automazione: la parte che continua a lavorare dopo la consegna.",
+    "en": "Platforms, loyalty, data and automation: the part that keeps working after handover.",
+    "is": "Kerfi, gögn og sjálfvirkni eftir afhendingu.",
+    "ar": "المنصات والولاء والبيانات والأتمتة بعد التسليم."
+   },
+   "scope": {
+    "it": "Siti, e-commerce e piattaforme di prenotazione; CRM, loyalty e programmi cliente; Automazione AI dei processi ricorrenti; Data intelligence e reportistica",
+    "en": "Websites, e-commerce and booking platforms; CRM, loyalty and guest programmes; AI automation of recurring processes; Data intelligence and reporting",
+    "is": "Vefir, netverslun og bókunarkerfi; CRM og tryggðarkerfi; Sjálfvirkni með gervigreind; Gagnagreind og skýrslur",
+    "ar": "مواقع وتجارة ومنصات حجز; CRM وبرامج ولاء; أتمتة ذكية للعمليات المتكررة; ذكاء بيانات وتقارير"
+   },
+   "sectors": [
+    "digital",
+    "retail",
+    "hospitality"
+   ],
+   "w": 5,
+   "refs": []
+  },
+  {
+   "id": "adv-engineering",
+   "parent": "advisory",
+   "label": {
+    "it": "Ingegneria e certificazione",
+    "en": "Engineering & certification",
+    "is": "Verkfræði og vottun",
+    "ar": "الهندسة والاعتماد"
+   },
+   "blurb": {
+    "it": "Calcolo strutturale, FEM, acustica e enti che rilasciano le certificazioni richieste in gara.",
+    "en": "Structural calculation, FEM, acoustics and the bodies that issue tender-required certificates.",
+    "is": "Burðarþolsreikningar, FEM og vottunaraðilar.",
+    "ar": "الحسابات الإنشائية وFEM والصوتيات وجهات الاعتماد."
+   },
+   "scope": {
+    "it": "Calcolo strutturale e analisi FEM; Ingegnerizzazione del prodotto per la serie; Acustica e comfort ambientale; Certificazioni richieste in gara",
+    "en": "Structural calculation and FEM analysis; Product engineering for production; Acoustics and environmental comfort; Tender-required certification",
+    "is": "Burðarþolsútreikningar og FEM; Vöruþróun fyrir framleiðslu; Hljóðvist og innivist; Vottanir fyrir útboð",
+    "ar": "حسابات إنشائية وتحليل FEM; هندسة المنتج للإنتاج; صوتيات وراحة بيئية; شهادات مطلوبة بالمناقصات"
+   },
+   "sectors": [
+    "government",
+    "hospitality",
+    "yachting",
+    "retail"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "adv-ownersrep",
+   "parent": "advisory",
+   "label": {
+    "it": "Owner's Rep e advisory",
+    "en": "Owner's Rep & advisory",
+    "is": "Eigendafulltrúi og ráðgjöf",
+    "ar": "ممثل المالك والاستشارات"
+   },
+   "blurb": {
+    "it": "Ricerca location, due diligence, assicurazione e ricerche di mercato a monte della decisione.",
+    "en": "Site search, due diligence, insurance and market research upstream of the decision.",
+    "is": "Staðarval, áreiðanleikakönnun og markaðsgreining.",
+    "ar": "البحث عن المواقع والعناية الواجبة والتأمين وأبحاث السوق."
+   },
+   "scope": {
+    "it": "Ricerca location e due diligence; Ricerche di mercato e benchmark; Controllo costi e verifica degli stati avanzamento; Brokeraggio assicurativo di commessa",
+    "en": "Site search and due diligence; Market research and benchmarking; Cost control and progress verification; Project insurance broking",
+    "is": "Staðarleit og áreiðanleikakönnun; Markaðsrannsóknir og samanburður; Kostnaðareftirlit og framvinduúttekt; Tryggingamiðlun",
+    "ar": "بحث مواقع وعناية واجبة; أبحاث سوق ومقارنات; ضبط تكاليف والتحقق من الإنجاز; وساطة تأمين المشروع"
+   },
+   "sectors": [
+    "prime-property",
+    "government",
+    "hospitality",
+    "residential"
+   ],
+   "w": 4,
+   "refs": []
+  },
+  {
+   "id": "adv-craft",
+   "parent": "advisory",
+   "label": {
+    "it": "Artigianato d'arte e restauro",
+    "en": "Fine craft & restoration",
+    "is": "Listhandverk og endurgerð",
+    "ar": "الحرف الفنية والترميم"
+   },
+   "blurb": {
+    "it": "Mestieri rari: kintsugi, rammendo invisibile, scultura, doratura, riparazioni che valgono il pezzo.",
+    "en": "Rare trades: kintsugi, invisible mending, sculpture, gilding, repairs worth the object.",
+    "is": "Sjaldgæf handverk: kintsugi, ósýnileg viðgerð, útskurður.",
+    "ar": "حرف نادرة: الكينتسوغي والرفو الخفي والنحت والتذهيب."
+   },
+   "scope": {
+    "it": "Restauro e riparazioni che valgono il pezzo; Doratura, kintsugi e mestieri rari; Scultura e lavorazioni su misura; Rammendo invisibile e recupero tessile",
+    "en": "Restoration and repairs worth the object; Gilding, kintsugi and rare trades; Sculpture and bespoke work; Invisible mending and textile recovery",
+    "is": "Endurgerð og viðgerðir; Gyllingar, kintsugi og sjaldgæf handverk; Skúlptúr og sérsmíði; Ósýnileg viðgerð textíls",
+    "ar": "ترميم وإصلاحات تليق بالقطعة; تذهيب وكينتسوغي وحرف نادرة; نحت وأعمال مخصصة; رفو خفي واستعادة المنسوجات"
+   },
+   "sectors": [
+    "prime-property",
+    "residential",
+    "hospitality",
+    "yachting"
+   ],
+   "w": 3,
+   "refs": []
+  }
+ ]
+}

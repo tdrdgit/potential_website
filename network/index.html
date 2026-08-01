@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Potential — Supply Network</title>
+<style>
+/* Palette corporate Potential: rosso, grigio, nero, bianco. Nient'altro.
+   I dieci macro-ambiti NON hanno dieci colori: il grafo e' monocromo e il
+   rosso e' riservato alla rilevanza. Quando si filtra un settore, i rami che
+   servono si accendono. E' la stessa logica della headline bicolore del sito. */
+:root{
+  --pt-red:#C71617;
+  --pt-gray:#D9D9D9;
+  --pt-black:#000;
+  --pt-white:#fff;
+  --pt-near-black:#0A0A0A;
+  --pt-hairline:#2E2E2E;
+  --ink:#D9D9D9;
+  --ink-dim:rgba(217,217,217,.52);
+  --ink-faint:rgba(217,217,217,.28);
+  --font:"Plain","Helvetica Neue",system-ui,-apple-system,Arial,sans-serif;
+  --tracking:.18em;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--pt-near-black)}
+body{
+  font-family:var(--font);font-weight:300;color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+canvas{display:block;position:fixed;inset:0;cursor:grab}
+canvas.dragging{cursor:grabbing}
+
+/* ---------- gate ---------- */
+#gate{
+  position:fixed;inset:0;z-index:90;background:var(--pt-near-black);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .7s ease,visibility .7s;
+}
+#gate.open{opacity:0;visibility:hidden}
+.gate-box{width:min(88vw,380px);text-align:left}
+.gate-mark{
+  font-size:clamp(30px,5vw,44px);letter-spacing:-.02em;font-weight:500;
+  color:var(--pt-white);line-height:1;
+}
+.gate-mark em{font-style:normal;color:var(--pt-red)}
+.eyebrow{
+  font-size:.68rem;letter-spacing:var(--tracking);text-transform:uppercase;
+  color:var(--pt-red);font-weight:400;
+}
+.eyebrow::before{content:"— "}
+.gate-box .eyebrow{margin-bottom:22px;display:block}
+.gate-field{display:flex;gap:0;margin-top:28px;border-bottom:1px solid var(--pt-hairline)}
+.gate-field:focus-within{border-color:var(--pt-red)}
+#pw{
+  flex:1;background:none;border:0;outline:0;color:var(--ink);
+  font-family:var(--font);font-size:.95rem;font-weight:300;padding:10px 2px;
+  letter-spacing:.04em;
+}
+#pw::placeholder{color:var(--ink-faint)}
+#go{
+  background:none;border:0;color:var(--pt-red);cursor:pointer;
+  font-family:var(--font);font-size:.68rem;letter-spacing:var(--tracking);
+  text-transform:uppercase;padding:0 4px;
+}
+#gate-err{
+  font-size:.7rem;color:var(--pt-red);margin-top:10px;height:1em;
+  opacity:0;transition:opacity .25s;letter-spacing:.06em;
+}
+#gate-err.on{opacity:1}
+
+/* ---------- chrome ---------- */
+#ui{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .9s ease .25s}
+#ui.on{opacity:1}
+#ui > *{pointer-events:auto}
+
+header{
+  position:absolute;top:0;left:0;right:0;padding:22px clamp(16px,3.2vw,40px);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+}
+.brand{line-height:1.15}
+.brand b{
+  display:block;font-size:1.02rem;font-weight:500;letter-spacing:-.005em;
+  color:var(--pt-white);
+}
+.brand span{display:block;font-size:.7rem;color:var(--ink-dim);margin-top:3px;max-width:38ch}
+
+.langs{display:flex;gap:2px;flex-shrink:0}
+.langs button{
+  background:none;border:1px solid transparent;color:var(--ink-faint);
+  font-family:var(--font);font-size:.66rem;letter-spacing:.12em;font-weight:400;
+  text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:.2s;
+}
+.langs button:hover{color:var(--ink)}
+.langs button[aria-pressed="true"]{color:var(--pt-white);border-color:var(--pt-red)}
+
+/* ---------- filtri ---------- */
+#panel{
+  position:absolute;left:clamp(16px,3.2vw,40px);top:104px;
+  width:min(74vw,232px);display:flex;flex-direction:column;gap:14px;
+}
+.panel-label{font-size:.62rem;letter-spacing:var(--tracking);text-transform:uppercase;color:var(--ink-faint)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{
+  background:none;border:1px solid var(--pt-hairline);color:var(--ink-dim);
+  font-family:var(--font);font-size:.66rem;font-weight:300;letter-spacing:.02em;
+  padding:5px 9px;cursor:pointer;transition:.22s;border-radius:1px;text-align:left;
+}
+.chip:hover{border-color:var(--ink-faint);color:var(--ink)}
+.chip[aria-pressed="true"]{
+  border-color:var(--pt-red);color:var(--pt-white);
+  background:color-mix(in srgb,var(--pt-red) 16%,transparent);
+}
+#q{
+  width:100%;background:none;border:0;border-bottom:1px solid var(--pt-hairline);
+  color:var(--ink);font-family:var(--font);font-size:.74rem;font-weight:300;
+  padding:7px 1px;outline:0;
+}
+#q:focus{border-color:var(--pt-red)}
+#q::placeholder{color:var(--ink-faint)}
+.acts{display:flex;gap:14px}
+.acts button{
+  background:none;border:0;color:var(--ink-faint);cursor:pointer;padding:0;
+  font-family:var(--font);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  transition:.2s;
+}
+.acts button:hover{color:var(--pt-red)}
+
+
+footer{
+  position:absolute;left:clamp(16px,3.2vw,40px);bottom:clamp(16px,3.2vw,40px);
+  font-size:.62rem;color:var(--ink-faint);letter-spacing:.04em;max-width:40ch;
+}
+#err{position:absolute;top:50%;left:0;right:0;text-align:center;font-size:.8rem;color:var(--pt-red)}
+
+/* Arabo: si ribalta la cornice, non il grafo. */
+html[dir="rtl"] header{flex-direction:row-reverse}
+html[dir="rtl"] #panel{left:auto;right:clamp(16px,3.2vw,40px)}
+html[dir="rtl"] footer{left:auto;right:clamp(16px,3.2vw,40px);text-align:right}
+html[dir="rtl"] .eyebrow::before{content:"";}
+html[dir="rtl"] .eyebrow::after{content:" —"}
+html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-align:right}
+
+@media (max-width:760px){
+  #panel{width:calc(100% - 32px);top:96px}
+  footer{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="ui">
+  <header>
+    <div class="brand">
+      <b id="t-title">Il network Potential</b>
+      <span id="t-sub">Ambiti di competenza della rete di fornitura</span>
+    </div>
+    <nav class="langs" id="langs"></nav>
+  </header>
+
+  <div id="panel">
+    <div>
+      <span class="panel-label" id="t-sectors">Settori</span>
+      <div class="chips" id="chips" style="margin-top:8px"></div>
+    </div>
+    <input id="q" type="search" autocomplete="off" placeholder="Cerca un ambito">
+    <div class="acts">
+      <button id="b-expand"></button>
+      <button id="b-reset"></button>
+    </div>
+  </div>
+
+  <footer id="t-hint"></footer>
+  <div id="err" hidden></div>
+</div>
+
+<div id="gate">
+  <div class="gate-box">
+    <span class="eyebrow" id="t-gate">Area riservata</span>
+    <div class="gate-mark">Potential<em>.</em></div>
+    <div class="gate-field">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
+      <button id="go">Enter</button>
+    </div>
+    <div id="gate-err"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* Sorgente dei dati. Lasciando il percorso relativo, HTML e JSON stanno nello
+   stesso repository e si aggiornano insieme: rigenerare network.json e fare
+   push e' tutto quello che serve perche' la pagina cambi. */
+const DATA_URL = "network.json";
+
+/* Il cancello e' offuscamento, non sicurezza: la password vive nel sorgente e
+   chiunque apra il devtools la legge. Regge perche' dietro non c'e' niente di
+   sensibile — nessun nome di fornitore lascia mai il file pubblico. */
+const PASSPHRASE = "welcome";
+
+const RED = "#C71617", GRAY = "#D9D9D9";
+
+let DATA = null, LANG = "it";
+let nodes = [], links = [], byId = new Map();
+let view = { k: 1, x: 0, y: 0 };
+let pointer = { x: -9e9, y: -9e9, inside: false };
+let drag = null, hovered = null, focused = null, selected = null;
+
+/* Monogramma corporate al centro, al posto della parola: Potential_LogoP_red.svg,
+   path originale invariato. Il rosso pieno e' riservato al marchio P — non
+   esiste un lettering Potential tutto rosso, e su fondo scuro questa e' la
+   variante che il design system prevede. */
+const MONOGRAM = new Image();
+MONOGRAM.src = "data:image/svg+xml;utf8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.179999 97.05" ' +
+  'width="70.18" height="97.050003">' +
+  '<g transform="translate(-1.13,-5.29)"><path fill="#c71617" ' +
+  'd="m 34.72,59.46 c 12.15,0 21.87,-8 21.87,-20.44 0,-10.29 -7.58,-20.44 -21.87,-20.44 ' +
+  'H 15.86 V 55.03 H 1.13 V 5.29 h 37.16 c 20.01,0 33.02,14.58 33.02,34.02 0,17.01 ' +
+  '-11.01,33.45 -33.02,33.45 H 26.28 c -5.72,0 -10.43,4.72 -10.43,10.43 v 19.15 H 1.13 ' +
+  'V 84.47 c 0,-13.86 11.15,-25.01 25.01,-25.01 z"/></g></svg>'
+);
+let activeSectors = new Set(), query = "";
+let W = 0, H = 0, DPR = 1;
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+/* ------------------------------------------------------------------ layout */
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + "px"; canvas.style.height = H + "px";
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener("resize", resize);
+
+/* ------------------------------------------------------------------- model */
+function buildGraph(payload) {
+  nodes = []; links = []; byId = new Map();
+
+  const hub = {
+    id: "__hub", parent: null, depth: 0, w: 6, hub: true,
+    label: {}, blurb: {}, sectors: payload.sectors.map(s => s.id), refs: [],
+    x: 0, y: 0, vx: 0, vy: 0, open: true, r: 13, alpha: 1
+  };
+  payload.languages.forEach(l => { hub.label[l] = "Potential"; });
+  nodes.push(hub); byId.set(hub.id, hub);
+
+  const macros = payload.nodes.filter(n => n.parent === null);
+  macros.forEach((n, i) => {
+    const a = (i / macros.length) * Math.PI * 2 - Math.PI / 2;
+    const node = Object.assign({}, n, {
+      depth: 1, hub: false, open: true, alpha: 1,
+      x: Math.cos(a) * 260, y: Math.sin(a) * 260, vx: 0, vy: 0,
+      r: 8, angle: a
+    });
+    nodes.push(node); byId.set(node.id, node);
+    links.push({ a: hub, b: node, rest: 250 });
+  });
+
+  payload.nodes.filter(n => n.parent !== null).forEach(n => {
+    const parent = byId.get(n.parent);
+    const kids = payload.nodes.filter(m => m.parent === n.parent);
+    const idx = kids.indexOf(n);
+    const spread = 1.35;
+    const a = parent.angle + ((idx - (kids.length - 1) / 2) / Math.max(kids.length, 1)) * spread;
+    const node = Object.assign({}, n, {
+      depth: 2, hub: false, open: false, alpha: 1,
+      x: parent.x + Math.cos(a) * 150, y: parent.y + Math.sin(a) * 150,
+      vx: 0, vy: 0, r: 2.6 + n.w * 0.9, angle: a
+    });
+    nodes.push(node); byId.set(node.id, node);
+    links.push({ a: parent, b: node, rest: 108 });
+  });
+}
+
+/* Un nodo "risponde" a un settore se lo serve. Un macro-ambito risponde se
+   almeno un suo sotto-ambito risponde: e' l'unione, calcolata a monte. */
+function matchesSectors(n) {
+  if (!activeSectors.size) return true;
+  if (n.hub) return true;
+  return n.sectors.some(s => activeSectors.has(s));
+}
+function matchesQuery(n) {
+  if (!query) return true;
+  if (n.hub) return true;
+  const l = (n.label[LANG] || "") + " " + (n.blurb[LANG] || "");
+  return l.toLowerCase().includes(query);
+}
+function isLive(n) { return matchesSectors(n) && matchesQuery(n); }
+
+/* Il rosso indica UNA cosa sola: il nodo che hai scelto. Se lo usassimo anche
+   per le corrispondenze di un filtro, un clic su un settore accenderebbe meta'
+   grafo e il colore smetterebbe di voler dire qualcosa. Il filtro lavora per
+   sottrazione: cio' che non serve si spegne e si ritira. */
+function isHot(n) {
+  return !n.hub && selected === n.id;
+}
+
+function inFocus(n) {
+  if (!focused) return true;
+  if (n.hub) return true;
+  return n.id === focused || n.parent === focused || n.id === byId.get(focused).parent;
+}
+
+/* ------------------------------------------------------------------ physics */
+function step() {
+  const cx = W / 2, cy = H / 2;
+
+  for (const n of nodes) {
+    const live = isLive(n), foc = inFocus(n);
+    // un nodo spento si ritira: piu' piccolo, piu' trasparente, piu' vicino al
+    // padre. L'albero si contrae attorno a cio' che serve davvero.
+    const target = (live ? 1 : 0.13) * (foc ? 1 : 0.28);
+    n.alpha += (target - n.alpha) * 0.09;
+  }
+
+  for (const l of links) {
+    const live = isLive(l.b) && inFocus(l.b);
+    const rest = l.rest * (live ? 1 : 0.42) * (l.b.depth === 2 && !l.a.open ? 0.12 : 1);
+    let dx = l.b.x - l.a.x, dy = l.b.y - l.a.y;
+    let d = Math.hypot(dx, dy) || 0.01;
+    const f = (d - rest) * 0.0075;
+    dx /= d; dy /= d;
+    l.a.vx += dx * f; l.a.vy += dy * f;
+    l.b.vx -= dx * f; l.b.vy -= dy * f;
+  }
+
+  for (let i = 0; i < nodes.length; i++) {
+    const a = nodes[i];
+    for (let j = i + 1; j < nodes.length; j++) {
+      const b = nodes[j];
+      let dx = b.x - a.x, dy = b.y - a.y;
+      let d2 = dx * dx + dy * dy;
+      if (d2 > 62000) continue;
+      const d = Math.sqrt(d2) || 0.01;
+      const f = (900 * a.alpha * b.alpha) / d2;
+      dx /= d; dy /= d;
+      a.vx -= dx * f; a.vy -= dy * f;
+      b.vx += dx * f; b.vy += dy * f;
+    }
+  }
+
+  // Il cursore increspa il grafo a distanza e lo lascia fermo da vicino.
+  //
+  // La prima versione spingeva piu' forte man mano che ci si avvicinava, che e'
+  // esattamente il contrario di quello che serve: il nodo che stai per cliccare
+  // era quello che scappava di piu'. Qui la spinta e' una fascia — nulla dentro
+  // CALM, cresce fino a meta' e si spegne a REACH. Attorno al puntatore c'e'
+  // percio' una zona morta larga il doppio di un nodo: si vede il grafo
+  // reagire, ma il bersaglio sta dove l'hai visto.
+  if (pointer.inside && !drag) {
+    const wx = (pointer.x - view.x - cx) / view.k;
+    const wy = (pointer.y - view.y - cy) / view.k;
+    const CALM = 70, REACH = 190, BAND = REACH - CALM;
+    for (const n of nodes) {
+      if (n.hub) continue;
+      let dx = n.x - wx, dy = n.y - wy;
+      const d = Math.hypot(dx, dy) || 0.01;
+      if (d <= CALM || d >= REACH) continue;
+      const t = (d - CALM) / BAND;
+      const f = Math.sin(t * Math.PI) * 0.1;
+      n.vx += (dx / d) * f; n.vy += (dy / d) * f;
+    }
+  }
+
+  // I dieci macro-ambiti tornano sempre verso la loro posizione sull'anello.
+  // Senza questo richiamo la simulazione li accavalla su un lato e l'albero
+  // diventa illeggibile: e' il vincolo che tiene la complessita' governata
+  // senza congelare il movimento.
+  const ring = Math.min(W, H) * 0.31 + 96;
+  for (const n of nodes) {
+    if (n.depth !== 1) continue;
+    const tx = Math.cos(n.angle) * ring, ty = Math.sin(n.angle) * ring;
+    n.vx += (tx - n.x) * 0.0135;
+    n.vy += (ty - n.y) * 0.0135;
+  }
+
+  for (const n of nodes) {
+    if (n.hub) { n.vx -= n.x * 0.05; n.vy -= n.y * 0.05; }
+    else if (n.depth === 2) { n.vx -= n.x * 0.0006; n.vy -= n.y * 0.0006; }
+    n.vx *= 0.86; n.vy *= 0.86;
+    n.x += n.vx; n.y += n.vy;
+  }
+}
+
+/* ------------------------------------------------------------------ render */
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(W / 2 + view.x, H / 2 + view.y);
+  ctx.scale(view.k, view.k);
+
+  // Due livelli di linea, due gerarchie. Dal centro ai macro-ambiti la linea e'
+  // bianca e piena: e' la struttura portante. Dai macro ai sotto-ambiti e'
+  // grigia e sottile: e' ramificazione. Con lo stesso tratto per entrambe
+  // l'albero si legge come una rete piatta e la gerarchia sparisce.
+  for (const l of links) {
+    const a = Math.min(l.a.alpha, l.b.alpha);
+    if (a < 0.03) continue;
+    const trunk = l.a.hub;
+    ctx.beginPath();
+    ctx.moveTo(l.a.x, l.a.y);
+    ctx.lineTo(l.b.x, l.b.y);
+    ctx.strokeStyle = isHot(l.b)
+      ? `rgba(199,22,23,${0.62 * a})`
+      : trunk
+        ? `rgba(255,255,255,${0.5 * a})`
+        : `rgba(217,217,217,${0.16 * a})`;
+    ctx.lineWidth = (trunk ? 1.15 : 0.5) / view.k;
+    ctx.stroke();
+  }
+
+  for (const n of nodes) {
+    if (n.alpha < 0.03) continue;
+    const hot = isHot(n), hov = hovered === n.id;
+    const r = n.r * (hov ? 1.5 : hot ? 1.22 : 1) * (0.42 + 0.58 * n.alpha);
+
+    // L'alone sta SOLO sull'hub e sul nodo sotto il cursore. Su ogni nodo
+    // acceso i quaranta aloni di un filtro si sommano in una macchia rossa e
+    // il grafo sparisce: l'accensione la portano il riempimento e il link.
+    if (n.hub || hov) {
+      const halo = r * (n.hub ? 4.4 : 3.4);
+      const g = ctx.createRadialGradient(n.x, n.y, r * 0.5, n.x, n.y, halo);
+      g.addColorStop(0, `rgba(199,22,23,${(n.hub ? 0.13 : 0.24) * n.alpha})`);
+      g.addColorStop(0.35, `rgba(199,22,23,${(n.hub ? 0.05 : 0.09) * n.alpha})`);
+      g.addColorStop(1, "rgba(199,22,23,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(n.x, n.y, halo, 0, 7); ctx.fill();
+    }
+
+    // Il centro e' il monogramma corporate, non un pallino con una scritta.
+    if (n.hub) {
+      if (MONOGRAM.complete && MONOGRAM.naturalWidth) {
+        const h = 34, w = h * (70.18 / 97.05);
+        ctx.globalAlpha = 0.96;
+        ctx.drawImage(MONOGRAM, n.x - w / 2, n.y - h / 2, w, h);
+        ctx.globalAlpha = 1;
+      }
+      continue;
+    }
+
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, r, 0, 7);
+    ctx.fillStyle = hot
+      ? `rgba(199,22,23,${Math.min(1, n.alpha + 0.15)})`
+      : n.depth === 1
+        ? `rgba(10,10,10,${n.alpha})`
+        : `rgba(217,217,217,${0.42 * n.alpha})`;
+    ctx.fill();
+
+    // I macro-ambiti sono cerchi vuoti con il bordo chiaro: si distinguono dai
+    // sotto-ambiti per forma e non solo per dimensione, che a zoom basso non
+    // si legge.
+    if (n.depth === 1) {
+      ctx.lineWidth = 1.15 / view.k;
+      ctx.strokeStyle = hot
+        ? `rgba(255,255,255,${0.85 * n.alpha})`
+        : `rgba(255,255,255,${0.8 * n.alpha})`;
+      ctx.stroke();
+    }
+
+    // Le etichette dei sotto-ambiti compaiono con lo zoom o col filtro: alla
+    // prima apertura si vede la costellazione, non ottantuno scritte.
+    const showLabel = n.depth === 1 || hov || hot || view.k > 1.22
+      || (focused && n.parent === focused)
+      || ((activeSectors.size || query) && isLive(n));
+    if (!showLabel || n.alpha < 0.18) continue;
+
+    const size = (n.hub ? 13 : n.depth === 1 ? 11.5 : 9.4) / view.k;
+    ctx.font = `${n.depth === 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    const text = n.label[LANG] || n.label.en || n.id;
+    const y = n.y + r + 6 / view.k;
+
+    const wpx = ctx.measureText(text).width;
+    if (n.depth === 2 || hov) {
+      ctx.fillStyle = `rgba(10,10,10,${0.62 * n.alpha})`;
+      ctx.fillRect(n.x - wpx / 2 - 3 / view.k, y - 1.5 / view.k, wpx + 6 / view.k, size * 1.32);
+    }
+
+    ctx.fillStyle = (hot || hov)
+      ? `rgba(255,255,255,${n.alpha})`
+      : n.depth === 2
+        ? `rgba(217,217,217,${0.62 * n.alpha})`
+        : `rgba(255,255,255,${0.92 * n.alpha})`;
+    ctx.fillText(text, n.x, y);
+
+    // Il dettaglio del nodo scelto si apre QUI, sotto il suo nome, nella
+    // stessa tipografia e in grigio. Niente pannello, niente popup: il
+    // contenuto non si stacca mai dall'oggetto a cui appartiene, e non serve
+    // attraversare lo schermo per capire di chi si sta parlando.
+    if (!hot) continue;
+    // Separatore punto e virgola: diverse voci contengono virgole interne, e
+    // l'arabo usa la propria. Splittare sulla virgola le spezzerebbe a meta'.
+    const detail = n.scope && n.scope[LANG]
+      ? n.scope[LANG].split(";").map(v => v.trim()).filter(Boolean) : [];
+    const refs = n.refs || [];
+    if (!detail.length && !refs.length) continue;
+
+    const ds = 8.2 / view.k, lh = ds * 1.62;
+    const top = y + size * 1.55;
+    let dy = y + size * 1.9;
+    ctx.font = `300 ${ds}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
+
+    // Fondo dietro al blocco: senza, l'elenco cade sopra i link e sopra il
+    // monogramma quando il nodo e' vicino al centro, e diventa illeggibile.
+    let bw = 0;
+    for (const item of detail) bw = Math.max(bw, ctx.measureText(item).width);
+    if (refs.length) bw = Math.max(bw, ctx.measureText(refs.join("  ·  ")).width);
+    const lines = detail.length + (refs.length ? 2.6 : 0);
+    const pad = 7 / view.k;
+    ctx.fillStyle = `rgba(10,10,10,${0.86 * n.alpha})`;
+    ctx.fillRect(n.x - bw / 2 - pad, top - pad * 0.5, bw + pad * 2, lines * lh + pad * 1.4);
+
+    for (const item of detail) {
+      ctx.fillStyle = `rgba(217,217,217,${0.62 * n.alpha})`;
+      ctx.fillText(item, n.x, dy);
+      dy += lh;
+    }
+
+    if (refs.length) {
+      dy += lh * 0.42;
+      const rule = 26 / view.k;
+      ctx.beginPath();
+      ctx.moveTo(n.x - rule, dy - lh * 0.28);
+      ctx.lineTo(n.x + rule, dy - lh * 0.28);
+      ctx.strokeStyle = `rgba(217,217,217,${0.22 * n.alpha})`;
+      ctx.lineWidth = 0.5 / view.k;
+      ctx.stroke();
+      ctx.fillStyle = `rgba(255,255,255,${0.62 * n.alpha})`;
+      ctx.fillText(refs.join("  ·  "), n.x, dy);
+      dy += lh;
+      const note = (DATA.ui.ref_note && DATA.ui.ref_note[LANG]) || "";
+      ctx.font = `300 ${ds * 0.82}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
+      ctx.fillStyle = `rgba(217,217,217,${0.3 * n.alpha})`;
+      ctx.fillText(note, n.x, dy);
+    }
+  }
+
+  ctx.restore();
+}
+
+function loop() { step(); draw(); requestAnimationFrame(loop); }
+
+/* ------------------------------------------------------------- interazione */
+function pick(px, py) {
+  const wx = (px - view.x - W / 2) / view.k;
+  const wy = (py - view.y - H / 2) / view.k;
+  let best = null, bestD = 32 / view.k;
+  for (const n of nodes) {
+    if (n.hub || n.alpha < 0.2) continue;
+    const d = Math.hypot(n.x - wx, n.y - wy);
+    if (d < Math.max(bestD, n.r + 8 / view.k)) { best = n; bestD = d; }
+  }
+  return best;
+}
+
+canvas.addEventListener("mousemove", e => {
+  pointer.x = e.clientX; pointer.y = e.clientY; pointer.inside = true;
+  if (drag) {
+    view.x = drag.vx + (e.clientX - drag.x);
+    view.y = drag.vy + (e.clientY - drag.y);
+    return;
+  }
+  const n = pick(e.clientX, e.clientY);
+  const id = n ? n.id : null;
+  if (id !== hovered) {
+    hovered = id;
+    // una selezione fissata vince sull'hover: chi ha cliccato vuole tenere
+    // quella scheda aperta mentre esplora il resto
+  }
+});
+canvas.addEventListener("mouseleave", () => { pointer.inside = false; });
+canvas.addEventListener("mousedown", e => {
+  drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false };
+  canvas.classList.add("dragging");
+});
+window.addEventListener("mousemove", e => {
+  if (drag && (Math.abs(e.clientX - drag.x) > 3 || Math.abs(e.clientY - drag.y) > 3)) drag.moved = true;
+});
+window.addEventListener("mouseup", e => {
+  if (drag && !drag.moved) {
+    const n = pick(e.clientX, e.clientY);
+    if (!n) {
+      selected = null; focused = null;
+    } else {
+      selected = selected === n.id ? null : n.id;
+      // su un macro-ambito il clic isola anche il ramo
+      if (n.depth === 1) focused = focused === n.id ? null : n.id;
+    }
+  }
+  drag = null; canvas.classList.remove("dragging");
+});
+canvas.addEventListener("wheel", e => {
+  e.preventDefault();
+  const k = Math.min(2.8, Math.max(0.45, view.k * (e.deltaY < 0 ? 1.09 : 0.917)));
+  const mx = e.clientX - W / 2 - view.x, my = e.clientY - H / 2 - view.y;
+  view.x -= mx * (k / view.k - 1); view.y -= my * (k / view.k - 1);
+  view.k = k;
+}, { passive: false });
+
+let touch = null;
+canvas.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  touch = { x: t.clientX, y: t.clientY, vx: view.x, vy: view.y };
+}, { passive: true });
+canvas.addEventListener("touchmove", e => {
+  if (!touch) return;
+  const t = e.touches[0];
+  view.x = touch.vx + (t.clientX - touch.x);
+  view.y = touch.vy + (t.clientY - touch.y);
+}, { passive: true });
+canvas.addEventListener("touchend", e => {
+  const t = e.changedTouches[0];
+  if (touch && Math.hypot(t.clientX - touch.x, t.clientY - touch.y) < 6) {
+    const n = pick(t.clientX, t.clientY);
+    if (n) { hovered = n.id; selected = n.id; }
+  }
+  touch = null;
+}, { passive: true });
+
+
+/* ------------------------------------------------------------------- lingua */
+const LANG_LABEL = { it: "ITA", en: "ENG", is: "ÍSL", ar: "عربي" };
+
+function applyLang(l) {
+  LANG = l;
+  const ui = DATA.ui, t = k => (ui[k] && ui[k][l]) || "";
+  const rtl = DATA.rtl.includes(l);
+  document.documentElement.lang = l;
+  document.documentElement.dir = rtl ? "rtl" : "ltr";
+
+  document.getElementById("t-title").textContent = t("title");
+  document.getElementById("t-sub").textContent = t("subtitle");
+  document.getElementById("t-sectors").textContent = t("sectors");
+  document.getElementById("t-gate").textContent = t("gate_intro");
+  document.getElementById("t-hint").textContent = t("hint");
+  document.getElementById("q").placeholder = t("search");
+  document.getElementById("pw").placeholder = t("password");
+  document.getElementById("go").textContent = t("enter");
+  document.getElementById("b-expand").textContent = t("all_sectors");
+  document.getElementById("b-reset").textContent = t("reset");
+  document.title = "Potential — " + t("title");
+
+  document.querySelectorAll("#langs button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.l === l)));
+  document.querySelectorAll("#chips .chip").forEach(b => {
+    const s = DATA.sectors.find(x => x.id === b.dataset.s);
+    b.textContent = s.label[l] || s.label.en;
+  });
+}
+
+/* --------------------------------------------------------------------- boot */
+function mountChrome() {
+  const langs = document.getElementById("langs");
+  DATA.languages.forEach(l => {
+    const b = document.createElement("button");
+    b.dataset.l = l; b.textContent = LANG_LABEL[l] || l.toUpperCase();
+    b.onclick = () => applyLang(l);
+    langs.appendChild(b);
+  });
+
+  const chips = document.getElementById("chips");
+  DATA.sectors.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.dataset.s = s.id;
+    b.setAttribute("aria-pressed", "false");
+    b.onclick = () => {
+      if (activeSectors.has(s.id)) activeSectors.delete(s.id);
+      else activeSectors.add(s.id);
+      b.setAttribute("aria-pressed", String(activeSectors.has(s.id)));
+    };
+    chips.appendChild(b);
+  });
+
+  document.getElementById("q").addEventListener("input", e => {
+    query = e.target.value.trim().toLowerCase();
+  });
+  document.getElementById("b-expand").onclick = () => {
+    activeSectors.clear();
+    document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
+  };
+  document.getElementById("b-reset").onclick = () => {
+    activeSectors.clear(); query = ""; focused = null; selected = null;
+    document.getElementById("q").value = "";
+    document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
+    view = { k: 1, x: 0, y: 0 };
+  };
+}
+
+function openGate() {
+  document.getElementById("gate").classList.add("open");
+  document.getElementById("ui").classList.add("on");
+  try { sessionStorage.setItem("pt-net", "1"); } catch (_) {}
+}
+function tryGate() {
+  const v = document.getElementById("pw").value.trim().toLowerCase();
+  if (v === PASSPHRASE) { openGate(); return; }
+  const e = document.getElementById("gate-err");
+  e.textContent = (DATA && DATA.ui.wrong[LANG]) || "Password non valida";
+  e.classList.add("on");
+  setTimeout(() => e.classList.remove("on"), 2200);
+}
+document.getElementById("go").onclick = tryGate;
+document.getElementById("pw").addEventListener("keydown", e => {
+  if (e.key === "Enter") tryGate();
+});
+
+resize();
+fetch(DATA_URL, { cache: "no-cache" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(payload => {
+    DATA = payload;
+    buildGraph(payload);
+    mountChrome();
+    const stored = (navigator.language || "it").slice(0, 2);
+    applyLang(DATA.languages.includes(stored) ? stored : "it");
+    try { if (sessionStorage.getItem("pt-net") === "1") openGate(); } catch (_) {}
+    document.getElementById("pw").focus();
+    loop();
+  })
+  .catch(err => {
+    const e = document.getElementById("err");
+    e.hidden = false;
+    e.textContent = "network.json non raggiungibile (" + err.message + ")";
+    document.getElementById("ui").classList.add("on");
+  });
+</script>
+</body>
+</html>
