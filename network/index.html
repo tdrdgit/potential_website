@@ -203,9 +203,6 @@ const DATA_URL = "network.json";
    porta vera servirebbe un server. */
 const ACCESS = {
   welcome: "guest",
-  carol:   "guest",
-  fabri:   "guest",
-  noaccess: "owner",
 };
 let ROLE = "guest";
 
@@ -216,6 +213,19 @@ let nodes = [], links = [], byId = new Map();
 let view = { k: 1, x: 0, y: 0 };
 let pointer = { x: -9e9, y: -9e9, inside: false };
 let drag = null, hovered = null, focused = null, selected = null;
+
+/* Monogramma corporate al centro del grafo: Potential_LogoP_red.svg, path
+   originale invariato. Il rosso pieno e' riservato al marchio P. */
+const MONOGRAM = new Image();
+MONOGRAM.src = "data:image/svg+xml;utf8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.179999 97.05" ' +
+  'width="70.18" height="97.050003">' +
+  '<g transform="translate(-1.13,-5.29)"><path fill="#c71617" ' +
+  'd="m 34.72,59.46 c 12.15,0 21.87,-8 21.87,-20.44 0,-10.29 -7.58,-20.44 -21.87,-20.44 ' +
+  'H 15.86 V 55.03 H 1.13 V 5.29 h 37.16 c 20.01,0 33.02,14.58 33.02,34.02 0,17.01 ' +
+  '-11.01,33.45 -33.02,33.45 H 26.28 c -5.72,0 -10.43,4.72 -10.43,10.43 v 19.15 H 1.13 ' +
+  'V 84.47 c 0,-13.86 11.15,-25.01 25.01,-25.01 z"/></g></svg>'
+);
 
 let activeSectors = new Set(), query = "";
 let W = 0, H = 0, DPR = 1;
@@ -427,15 +437,14 @@ function draw() {
       ctx.beginPath(); ctx.arc(n.x, n.y, halo, 0, 7); ctx.fill();
     }
 
-    // Il centro non porta marchio: e' un anello vuoto, piu' largo dei
-    // macro-ambiti e senza etichetta. Regge come punto d'origine per forma e
-    // posizione, che e' quanto serve.
+    // Il centro e' il monogramma, non un pallino con una scritta.
     if (n.hub) {
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, r, 0, 7);
-      ctx.lineWidth = 1.4 / view.k;
-      ctx.strokeStyle = `rgba(255,255,255,${0.8 * n.alpha})`;
-      ctx.stroke();
+      if (MONOGRAM.complete && MONOGRAM.naturalWidth) {
+        const mh = 34, mw = mh * (70.18 / 97.05);
+        ctx.globalAlpha = 0.96;
+        ctx.drawImage(MONOGRAM, n.x - mw / 2, n.y - mh / 2, mw, mh);
+        ctx.globalAlpha = 1;
+      }
       continue;
     }
 
@@ -771,7 +780,6 @@ function mountChrome() {
 function openGate() {
   document.getElementById("gate").classList.add("open");
   document.getElementById("ui").classList.add("on");
-  try { sessionStorage.setItem("pt-net", "1"); } catch (_) {}
 }
 function tryGate() {
   const v = document.getElementById("pw").value.trim().toLowerCase();
@@ -795,7 +803,6 @@ fetch(DATA_URL, { cache: "no-cache" })
     mountChrome();
     const stored = (navigator.language || "it").slice(0, 2);
     applyLang(DATA.languages.includes(stored) ? stored : "it");
-    try { if (sessionStorage.getItem("pt-net") === "1") openGate(); } catch (_) {}
     document.getElementById("pw").focus();
     loop();
   })
