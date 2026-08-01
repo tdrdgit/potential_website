@@ -265,6 +265,16 @@ MONOGRAM.src = "data:image/svg+xml;utf8," + encodeURIComponent(
   'V 84.47 c 0,-13.86 11.15,-25.01 25.01,-25.01 z"/></g></svg>'
 );
 
+/* Altezza del monogramma in unita' di mondo, e le due misure che ne dipendono.
+   MASK e' il disco di fondo pagina che si stampa sotto la P: la scorciatura dei
+   raggi da sola non basta, perche' il glifo e' trasparente attorno alle aste e
+   qualunque linea che passi li' sotto si vede lo stesso. CLEAR sta piu' dentro
+   del disco di proposito, cosi' le punte dei raggi finiscono coperte e non
+   lasciano un bordo circolare visibile. */
+const HUB_H = 34;
+const HUB_MASK = HUB_H * 1.25;
+const HUB_CLEAR = HUB_MASK - 5;
+
 let activeSectors = new Set(), query = "";
 let W = 0, H = 0, DPR = 1;
 
@@ -452,7 +462,7 @@ function draw() {
     if (trunk) {
       const dx = l.b.x - ax, dy = l.b.y - ay;
       const d = Math.hypot(dx, dy) || 1;
-      const clear = 26;
+      const clear = HUB_CLEAR;
       if (d <= clear) continue;
       ax += (dx / d) * clear; ay += (dy / d) * clear;
     }
@@ -473,6 +483,15 @@ function draw() {
     const hot = isHot(n), hov = hovered === n.id;
     const r = n.r * (hov ? 1.5 : hot ? 1.22 : 1) * (0.42 + 0.58 * n.alpha);
 
+    // Sotto il monogramma il fondo torna pieno. Accorciare i raggi non basta:
+    // il glifo e' trasparente attorno alle aste, e li' sotto si vede tutto
+    // quello che passa. Il disco va prima dell'alone, cosi' il rosso resta
+    // sopra e la P non finisce dentro un buco nero.
+    if (n.hub) {
+      ctx.fillStyle = "#0A0A0A";
+      ctx.beginPath(); ctx.arc(n.x, n.y, HUB_MASK, 0, 7); ctx.fill();
+    }
+
     // L'alone sta SOLO sull'hub e sul nodo sotto il cursore. Su ogni nodo
     // acceso i quaranta aloni di un filtro si sommano in una macchia rossa e
     // il grafo sparisce: l'accensione la portano il riempimento e il link.
@@ -489,7 +508,7 @@ function draw() {
     // Il centro e' il monogramma, non un pallino con una scritta.
     if (n.hub) {
       if (MONOGRAM.complete && MONOGRAM.naturalWidth) {
-        const mh = 34, mw = mh * (70.18 / 97.05);
+        const mh = HUB_H, mw = mh * (70.18 / 97.05);
         ctx.globalAlpha = 0.96;
         ctx.drawImage(MONOGRAM, n.x - mw / 2, n.y - mh / 2, mw, mh);
         ctx.globalAlpha = 1;
