@@ -308,7 +308,7 @@ function buildGraph(payload) {
 
   const hub = {
     id: "__hub", parent: null, depth: 0, w: 6, hub: true,
-    label: {}, blurb: {}, sectors: payload.sectors.map(s => s.id), refs: [],
+    label: {}, blurb: {}, sectors: payload.sectors.map(s => s.id),
     x: 0, y: 0, vx: 0, vy: 0, open: true, r: 13, alpha: 1
   };
   nodes.push(hub); byId.set(hub.id, hub);
@@ -606,8 +606,7 @@ function draw() {
     // l'arabo usa la propria. Splittare sulla virgola le spezzerebbe a meta'.
     const detail = n.scope && n.scope[LANG]
       ? n.scope[LANG].split(";").map(v => v.trim()).filter(Boolean) : [];
-    const refs = n.refs || [];
-    if (!detail.length && !refs.length) continue;
+    if (!detail.length) continue;
 
     const ds = TXT / view.k, lh = ds * 1.62;
     const top = y + size * 1.55;
@@ -618,33 +617,14 @@ function draw() {
     // monogramma quando il nodo e' vicino al centro, e diventa illeggibile.
     let bw = 0;
     for (const item of detail) bw = Math.max(bw, ctx.measureText(item).width);
-    if (refs.length) bw = Math.max(bw, ctx.measureText(refs.join("  ·  ")).width);
-    const lines = detail.length + (refs.length ? 2.6 : 0);
     const pad = 7 / view.k;
     ctx.fillStyle = `rgba(10,10,10,${0.86 * n.alpha})`;
-    ctx.fillRect(n.x - bw / 2 - pad, top - pad * 0.5, bw + pad * 2, lines * lh + pad * 1.4);
+    ctx.fillRect(n.x - bw / 2 - pad, top - pad * 0.5, bw + pad * 2, detail.length * lh + pad * 1.4);
 
     for (const item of detail) {
       ctx.fillStyle = `rgba(217,217,217,${0.62 * n.alpha})`;
       ctx.fillText(item, n.x, dy);
       dy += lh;
-    }
-
-    if (refs.length) {
-      dy += lh * 0.42;
-      const rule = 26 / view.k;
-      ctx.beginPath();
-      ctx.moveTo(n.x - rule, dy - lh * 0.28);
-      ctx.lineTo(n.x + rule, dy - lh * 0.28);
-      ctx.strokeStyle = `rgba(217,217,217,${0.22 * n.alpha})`;
-      ctx.lineWidth = 0.5 / view.k;
-      ctx.stroke();
-      ctx.fillStyle = `rgba(255,255,255,${0.62 * n.alpha})`;
-      ctx.fillText(refs.join("  ·  "), n.x, dy);
-      dy += lh;
-      const note = (DATA.ui.ref_note && DATA.ui.ref_note[LANG]) || "";
-      ctx.fillStyle = `rgba(217,217,217,${0.3 * n.alpha})`;
-      ctx.fillText(note, n.x, dy);
     }
   }
 

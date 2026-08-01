@@ -94,18 +94,6 @@
    "is": "Hvað fer hér um",
    "ar": "ما يمر من هنا"
   },
-  "references": {
-   "it": "Referenze della rete",
-   "en": "Network references",
-   "is": "Tilvísanir netsins",
-   "ar": "مراجع الشبكة"
-  },
-  "ref_note": {
-   "it": "Progetti realizzati dai partner della rete Potential",
-   "en": "Projects delivered by partners of the Potential network",
-   "is": "Verkefni unnin af samstarfsaðilum Potential",
-   "ar": "مشاريع نفذها شركاء شبكة بوتنشال"
-  },
   "no_result": {
    "it": "Nessun ambito corrisponde",
    "en": "No capability matches",
@@ -220,8 +208,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "ffe-hospitality",
@@ -250,13 +237,7 @@
     "yachting",
     "prime-property"
    ],
-   "w": 5,
-   "refs": [
-    "Bvlgari Hotels & Resorts",
-    "Hôtel Lutetia, Paris",
-    "Conrad Maldives",
-    "Seagram Building, New York"
-   ]
+   "w": 5
   },
   {
    "id": "ffe-office",
@@ -284,11 +265,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 5,
-   "refs": [
-    "Apple Park, Cupertino",
-    "Museum of the Future, Dubai"
-   ]
+   "w": 5
   },
   {
    "id": "ffe-outdoor",
@@ -316,8 +293,7 @@
     "residential",
     "yachting"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "ffe-upholstery",
@@ -346,8 +322,7 @@
     "yachting",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "ffe-soft",
@@ -376,11 +351,7 @@
     "yachting",
     "government"
    ],
-   "w": 4,
-   "refs": [
-    "Hermès",
-    "Chanel"
-   ]
+   "w": 4
   },
   {
    "id": "ffe-dealers",
@@ -408,8 +379,7 @@
     "hospitality",
     "prime-property"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "ffe-samples",
@@ -436,8 +406,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "contract",
@@ -467,8 +436,7 @@
     "retail",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "con-shopfitters",
@@ -498,13 +466,7 @@
     "government",
     "yachting"
    ],
-   "w": 5,
-   "refs": [
-    "Cartier",
-    "Prada, Doha",
-    "Dolce & Gabbana",
-    "Christian Louboutin"
-   ]
+   "w": 5
   },
   {
    "id": "con-install",
@@ -532,8 +494,7 @@
     "retail",
     "government"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "con-hardware",
@@ -562,11 +523,7 @@
     "residential",
     "yachting"
    ],
-   "w": 5,
-   "refs": [
-    "National Gallery, London",
-    "Museo del Prado"
-   ]
+   "w": 5
   },
   {
    "id": "con-proto",
@@ -594,8 +551,7 @@
     "hospitality",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "con-logistics",
@@ -624,8 +580,7 @@
     "government",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "con-marine",
@@ -651,8 +606,7 @@
    "sectors": [
     "yachting"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "materials",
@@ -683,8 +637,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "mat-stone",
@@ -714,10 +667,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 5,
-   "refs": [
-    "Rolex, Galleria Vittorio Emanuele II"
-   ]
+   "w": 5
   },
   {
    "id": "mat-wood",
@@ -746,8 +696,7 @@
     "government",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "mat-woodfloor",
@@ -776,8 +725,7 @@
     "yachting",
     "prime-property"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-metal",
@@ -806,11 +754,7 @@
     "government",
     "yachting"
    ],
-   "w": 5,
-   "refs": [
-    "Armani Silos, Milano",
-    "Max Mara, London"
-   ]
+   "w": 5
   },
   {
    "id": "mat-glass",
@@ -839,8 +783,7 @@
     "government",
     "residential"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "mat-leather",
@@ -869,8 +812,7 @@
     "yachting",
     "retail"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-fabric",
@@ -899,13 +841,7 @@
     "yachting",
     "retail"
    ],
-   "w": 5,
-   "refs": [
-    "Hermès",
-    "Chanel",
-    "Bottega Veneta",
-    "Giorgio Armani"
-   ]
+   "w": 5
   },
   {
    "id": "mat-ceramic",
@@ -933,10 +869,7 @@
     "residential",
     "government"
    ],
-   "w": 4,
-   "refs": [
-    "Flare of Frankfurt"
-   ]
+   "w": 4
   },
   {
    "id": "mat-solid",
@@ -965,8 +898,7 @@
     "residential",
     "yachting"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-laminate",
@@ -994,8 +926,7 @@
     "hospitality",
     "government"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "mat-polymer",
@@ -1022,8 +953,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-concrete",
@@ -1051,8 +981,7 @@
     "residential",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-paint",
@@ -1081,8 +1010,7 @@
     "yachting",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-wallcovering",
@@ -1110,8 +1038,7 @@
     "residential",
     "prime-property"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "mat-film",
@@ -1139,8 +1066,7 @@
     "hospitality",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-acoustic",
@@ -1168,8 +1094,7 @@
     "government",
     "residential"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "mat-floor",
@@ -1197,11 +1122,7 @@
     "government",
     "hospitality"
    ],
-   "w": 3,
-   "refs": [
-    "Giochi Olimpici, Paris 2024",
-    "London 2012"
-   ]
+   "w": 3
   },
   {
    "id": "mat-eco",
@@ -1229,8 +1150,7 @@
     "government",
     "retail"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "mat-research",
@@ -1258,8 +1178,7 @@
     "retail",
     "residential"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "lighting",
@@ -1290,8 +1209,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "lig-architectural",
@@ -1320,10 +1238,7 @@
     "retail",
     "residential"
    ],
-   "w": 3,
-   "refs": [
-    "Bourse de Commerce — Pinault Collection, Paris"
-   ]
+   "w": 3
   },
   {
    "id": "lig-decorative",
@@ -1352,11 +1267,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 3,
-   "refs": [
-    "Kameha Grand, Zurich",
-    "Andaz Amsterdam"
-   ]
+   "w": 3
   },
   {
    "id": "lig-linear",
@@ -1384,8 +1295,7 @@
     "hospitality",
     "yachting"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "lig-backlit",
@@ -1412,8 +1322,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "lig-signage",
@@ -1440,8 +1349,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "lig-design",
@@ -1470,8 +1378,7 @@
     "retail",
     "residential"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "facades",
@@ -1499,8 +1406,7 @@
     "government",
     "retail"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "fac-systems",
@@ -1528,10 +1434,7 @@
     "hospitality",
     "retail"
    ],
-   "w": 3,
-   "refs": [
-    "Flare of Frankfurt"
-   ]
+   "w": 3
   },
   {
    "id": "fac-canopy",
@@ -1559,8 +1462,7 @@
     "government",
     "retail"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "fac-tensile",
@@ -1587,8 +1489,7 @@
     "hospitality",
     "retail"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "construction",
@@ -1618,8 +1519,7 @@
     "retail",
     "prime-property"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "cns-contractors",
@@ -1647,10 +1547,7 @@
     "hospitality",
     "residential"
    ],
-   "w": 5,
-   "refs": [
-    "Cantina Antinori, Bargino"
-   ]
+   "w": 5
   },
   {
    "id": "cns-components",
@@ -1679,11 +1576,7 @@
     "residential",
     "retail"
    ],
-   "w": 5,
-   "refs": [
-    "Cantina Antinori, Bargino",
-    "Max Mara, London"
-   ]
+   "w": 5
   },
   {
    "id": "cns-doors",
@@ -1711,8 +1604,7 @@
     "residential",
     "government"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "cns-windows",
@@ -1741,8 +1633,7 @@
     "government",
     "prime-property"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "cns-ceiling",
@@ -1770,8 +1661,7 @@
     "retail",
     "government"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "retail-exhibition",
@@ -1800,8 +1690,7 @@
     "retail",
     "digital"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "ret-fairs",
@@ -1828,12 +1717,7 @@
     "retail",
     "digital"
    ],
-   "w": 5,
-   "refs": [
-    "Salone del Mobile, Milano",
-    "LVMH Métiers d'Art",
-    "Fendi"
-   ]
+   "w": 5
   },
   {
    "id": "ret-scenography",
@@ -1861,13 +1745,7 @@
     "government",
     "digital"
    ],
-   "w": 3,
-   "refs": [
-    "National Gallery, London",
-    "Museo del Prado",
-    "J. Paul Getty Museum",
-    "Hermitage"
-   ]
+   "w": 3
   },
   {
    "id": "ret-window",
@@ -1893,13 +1771,7 @@
    "sectors": [
     "retail"
    ],
-   "w": 3,
-   "refs": [
-    "LVMH",
-    "Kering",
-    "Richemont",
-    "Armani Casa"
-   ]
+   "w": 3
   },
   {
    "id": "ret-store",
@@ -1925,11 +1797,7 @@
    "sectors": [
     "retail"
    ],
-   "w": 2,
-   "refs": [
-    "BMW & MINI",
-    "Louis Vuitton"
-   ]
+   "w": 2
   },
   {
    "id": "ret-av",
@@ -1957,12 +1825,7 @@
     "hospitality",
     "digital"
    ],
-   "w": 5,
-   "refs": [
-    "Expo Milano 2015",
-    "Mercedes-Benz",
-    "Sky"
-   ]
+   "w": 5
   },
   {
    "id": "ret-immersive",
@@ -1990,11 +1853,7 @@
     "digital",
     "government"
    ],
-   "w": 4,
-   "refs": [
-    "MoMA, New York",
-    "Intel"
-   ]
+   "w": 4
   },
   {
    "id": "ret-events",
@@ -2022,8 +1881,7 @@
     "hospitality",
     "digital"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "technology",
@@ -2054,8 +1912,7 @@
     "yachting",
     "digital"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "tec-display",
@@ -2084,11 +1941,7 @@
     "government",
     "digital"
    ],
-   "w": 4,
-   "refs": [
-    "McDonald's",
-    "Nissan"
-   ]
+   "w": 4
   },
   {
    "id": "tec-retail",
@@ -2115,10 +1968,7 @@
     "retail",
     "digital"
    ],
-   "w": 3,
-   "refs": [
-    "Benetton Group"
-   ]
+   "w": 3
   },
   {
    "id": "tec-audio",
@@ -2146,8 +1996,7 @@
     "retail",
     "yachting"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "tec-interaction",
@@ -2175,8 +2024,7 @@
     "government",
     "digital"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "tec-tracking",
@@ -2203,8 +2051,7 @@
     "retail",
     "digital"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "tec-security",
@@ -2232,8 +2079,7 @@
     "hospitality",
     "prime-property"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "tec-survey",
@@ -2262,11 +2108,7 @@
     "digital",
     "yachting"
    ],
-   "w": 2,
-   "refs": [
-    "Lindner Hotels & Resorts",
-    "The Ivy Collection"
-   ]
+   "w": 2
   },
   {
    "id": "tec-scent",
@@ -2293,8 +2135,7 @@
     "hospitality",
     "retail"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "tec-automation",
@@ -2321,8 +2162,7 @@
     "government",
     "retail"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "tec-infrastructure",
@@ -2350,8 +2190,7 @@
     "retail",
     "government"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "hospitality-ops",
@@ -2382,8 +2221,7 @@
     "prime-property",
     "yachting"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "hos-kitchen",
@@ -2409,8 +2247,7 @@
    "sectors": [
     "hospitality"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "hos-refrigeration",
@@ -2437,13 +2274,7 @@
     "hospitality",
     "retail"
    ],
-   "w": 4,
-   "refs": [
-    "Mandarin Oriental",
-    "The Ritz-Carlton",
-    "Bulgari Hotel, Paris",
-    "NASA — Space Shuttle Columbia"
-   ]
+   "w": 4
   },
   {
    "id": "hos-vending",
@@ -2471,8 +2302,7 @@
     "government",
     "retail"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "hos-spa",
@@ -2501,8 +2331,7 @@
     "yachting",
     "prime-property"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "hos-appliances",
@@ -2531,8 +2360,7 @@
     "yachting",
     "prime-property"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "hos-uniform",
@@ -2558,8 +2386,7 @@
    "sectors": [
     "hospitality"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   },
   {
    "id": "hos-banqueting",
@@ -2586,8 +2413,7 @@
     "hospitality",
     "retail"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "hos-fitness",
@@ -2614,8 +2440,7 @@
     "hospitality",
     "residential"
    ],
-   "w": 1,
-   "refs": []
+   "w": 1
   },
   {
    "id": "hos-green",
@@ -2644,10 +2469,7 @@
     "government",
     "residential"
    ],
-   "w": 3,
-   "refs": [
-    "Diesel HQ"
-   ]
+   "w": 3
   },
   {
    "id": "hos-facility",
@@ -2674,8 +2496,7 @@
     "hospitality",
     "government"
    ],
-   "w": 2,
-   "refs": []
+   "w": 2
   },
   {
    "id": "advisory",
@@ -2707,8 +2528,7 @@
     "yachting",
     "digital"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "adv-architecture",
@@ -2738,10 +2558,7 @@
     "retail",
     "prime-property"
    ],
-   "w": 4,
-   "refs": [
-    "Guess"
-   ]
+   "w": 4
   },
   {
    "id": "adv-visualization",
@@ -2770,10 +2587,7 @@
     "hospitality",
     "prime-property"
    ],
-   "w": 5,
-   "refs": [
-    "Ermenegildo Zegna"
-   ]
+   "w": 5
   },
   {
    "id": "adv-brand",
@@ -2801,11 +2615,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 5,
-   "refs": [
-    "B&B Italia",
-    "Heineken"
-   ]
+   "w": 5
   },
   {
    "id": "adv-content",
@@ -2833,11 +2643,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 5,
-   "refs": [
-    "MoMA, New York",
-    "Samsung"
-   ]
+   "w": 5
   },
   {
    "id": "adv-digital",
@@ -2865,8 +2671,7 @@
     "retail",
     "hospitality"
    ],
-   "w": 5,
-   "refs": []
+   "w": 5
   },
   {
    "id": "adv-engineering",
@@ -2895,8 +2700,7 @@
     "yachting",
     "retail"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "adv-ownersrep",
@@ -2925,8 +2729,7 @@
     "hospitality",
     "residential"
    ],
-   "w": 4,
-   "refs": []
+   "w": 4
   },
   {
    "id": "adv-craft",
@@ -2955,8 +2758,7 @@
     "hospitality",
     "yachting"
    ],
-   "w": 3,
-   "refs": []
+   "w": 3
   }
  ]
 }
