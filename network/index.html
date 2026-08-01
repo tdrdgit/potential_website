@@ -40,17 +40,12 @@ canvas.dragging{cursor:grabbing}
 }
 #gate.open{opacity:0;visibility:hidden}
 .gate-box{width:min(88vw,380px);text-align:left}
-.gate-mark{
-  font-size:clamp(30px,5vw,44px);letter-spacing:-.02em;font-weight:500;
-  color:var(--pt-white);line-height:1;
-}
-.gate-mark em{font-style:normal;color:var(--pt-red)}
 .eyebrow{
   font-size:.68rem;letter-spacing:var(--tracking);text-transform:uppercase;
   color:var(--pt-red);font-weight:400;
 }
 .eyebrow::before{content:"— "}
-.gate-box .eyebrow{margin-bottom:22px;display:block}
+.gate-box .eyebrow{margin-bottom:4px;display:block}
 .gate-field{display:flex;gap:0;margin-top:28px;border-bottom:1px solid var(--pt-hairline)}
 .gate-field:focus-within{border-color:var(--pt-red)}
 #pw{
@@ -180,7 +175,6 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
 <div id="gate">
   <div class="gate-box">
     <span class="eyebrow" id="t-gate">Area riservata</span>
-    <div class="gate-mark">Potential<em>.</em></div>
     <div class="gate-field">
       <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
       <button id="go">Enter</button>
@@ -197,10 +191,23 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
    push e' tutto quello che serve perche' la pagina cambi. */
 const DATA_URL = "network.json";
 
-/* Il cancello e' offuscamento, non sicurezza: la password vive nel sorgente e
-   chiunque apra il devtools la legge. Regge perche' dietro non c'e' niente di
-   sensibile — nessun nome di fornitore lascia mai il file pubblico. */
-const PASSPHRASE = "welcome";
+/* Una chiave per interlocutore, cosi' si sa a chi e' stato dato il link, e un
+   livello per chiave. Aggiungerne una e' una riga qui dentro.
+   `guest` e' l'esterno, `owner` e' Carlo.
+
+   ⚠️ Sono offuscamento, non sicurezza, e il livello meno di tutto: chiavi e
+   ruoli vivono nel sorgente, e chi apre il devtools legge le une e si assegna
+   gli altri. Vale finche' cio' che il livello nasconde e' materiale che
+   preferiremmo non mostrare, non materiale che non deve uscire — quello non
+   entra proprio nel file pubblico, ed e' build_public.py a garantirlo. Per una
+   porta vera servirebbe un server. */
+const ACCESS = {
+  welcome: "guest",
+  carol:   "guest",
+  fabri:   "guest",
+  noaccess: "owner",
+};
+let ROLE = "guest";
 
 const RED = "#C71617", GRAY = "#D9D9D9";
 
@@ -210,20 +217,6 @@ let view = { k: 1, x: 0, y: 0 };
 let pointer = { x: -9e9, y: -9e9, inside: false };
 let drag = null, hovered = null, focused = null, selected = null;
 
-/* Monogramma corporate al centro, al posto della parola: Potential_LogoP_red.svg,
-   path originale invariato. Il rosso pieno e' riservato al marchio P — non
-   esiste un lettering Potential tutto rosso, e su fondo scuro questa e' la
-   variante che il design system prevede. */
-const MONOGRAM = new Image();
-MONOGRAM.src = "data:image/svg+xml;utf8," + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.179999 97.05" ' +
-  'width="70.18" height="97.050003">' +
-  '<g transform="translate(-1.13,-5.29)"><path fill="#c71617" ' +
-  'd="m 34.72,59.46 c 12.15,0 21.87,-8 21.87,-20.44 0,-10.29 -7.58,-20.44 -21.87,-20.44 ' +
-  'H 15.86 V 55.03 H 1.13 V 5.29 h 37.16 c 20.01,0 33.02,14.58 33.02,34.02 0,17.01 ' +
-  '-11.01,33.45 -33.02,33.45 H 26.28 c -5.72,0 -10.43,4.72 -10.43,10.43 v 19.15 H 1.13 ' +
-  'V 84.47 c 0,-13.86 11.15,-25.01 25.01,-25.01 z"/></g></svg>'
-);
 let activeSectors = new Set(), query = "";
 let W = 0, H = 0, DPR = 1;
 
@@ -249,7 +242,6 @@ function buildGraph(payload) {
     label: {}, blurb: {}, sectors: payload.sectors.map(s => s.id), refs: [],
     x: 0, y: 0, vx: 0, vy: 0, open: true, r: 13, alpha: 1
   };
-  payload.languages.forEach(l => { hub.label[l] = "Potential"; });
   nodes.push(hub); byId.set(hub.id, hub);
 
   const macros = payload.nodes.filter(n => n.parent === null);
@@ -435,14 +427,15 @@ function draw() {
       ctx.beginPath(); ctx.arc(n.x, n.y, halo, 0, 7); ctx.fill();
     }
 
-    // Il centro e' il monogramma corporate, non un pallino con una scritta.
+    // Il centro non porta marchio: e' un anello vuoto, piu' largo dei
+    // macro-ambiti e senza etichetta. Regge come punto d'origine per forma e
+    // posizione, che e' quanto serve.
     if (n.hub) {
-      if (MONOGRAM.complete && MONOGRAM.naturalWidth) {
-        const h = 34, w = h * (70.18 / 97.05);
-        ctx.globalAlpha = 0.96;
-        ctx.drawImage(MONOGRAM, n.x - w / 2, n.y - h / 2, w, h);
-        ctx.globalAlpha = 1;
-      }
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, r, 0, 7);
+      ctx.lineWidth = 1.4 / view.k;
+      ctx.strokeStyle = `rgba(255,255,255,${0.8 * n.alpha})`;
+      ctx.stroke();
       continue;
     }
 
@@ -548,7 +541,45 @@ function draw() {
   ctx.restore();
 }
 
-function loop() { step(); draw(); requestAnimationFrame(loop); }
+/* ------------------------------------------------------------------ camera */
+/* Un clic non salta: la vista ci arriva. Il salto secco fa perdere il filo di
+   dove si era, l'inquadratura che si avvicina lo mantiene — e' la stessa
+   ragione per cui il grafo non si ferma mai del tutto. */
+let camTarget = null;
+
+function fitTo(list, margin) {
+  if (!list.length) return;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const n of list) {
+    x0 = Math.min(x0, n.x); y0 = Math.min(y0, n.y);
+    x1 = Math.max(x1, n.x); y1 = Math.max(y1, n.y);
+  }
+  // le etichette stanno sotto al nodo e sporgono di lato: la gabbia si allarga
+  // di conseguenza, o il testo dei nodi di bordo esce dallo schermo
+  const w = Math.max(x1 - x0, 120) + margin * 2;
+  const h = Math.max(y1 - y0, 120) + margin * 2;
+  const k = Math.min(2.6, Math.max(0.5, Math.min(W / w, H / h)));
+  camTarget = {
+    k,
+    x: -((x0 + x1) / 2) * k,
+    y: -((y0 + y1) / 2) * k,
+  };
+}
+
+function fitAll() { fitTo(nodes, 130); }
+
+function easeCamera() {
+  if (!camTarget) return;
+  view.k += (camTarget.k - view.k) * 0.11;
+  view.x += (camTarget.x - view.x) * 0.11;
+  view.y += (camTarget.y - view.y) * 0.11;
+  if (Math.abs(camTarget.k - view.k) < 0.004 &&
+      Math.hypot(camTarget.x - view.x, camTarget.y - view.y) < 1.2) {
+    camTarget = null;
+  }
+}
+
+function loop() { step(); easeCamera(); draw(); requestAnimationFrame(loop); }
 
 /* ------------------------------------------------------------- interazione */
 function pick(px, py) {
@@ -580,6 +611,7 @@ canvas.addEventListener("mousemove", e => {
 });
 canvas.addEventListener("mouseleave", () => { pointer.inside = false; });
 canvas.addEventListener("mousedown", e => {
+  camTarget = null;
   drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false };
   canvas.classList.add("dragging");
 });
@@ -590,17 +622,33 @@ window.addEventListener("mouseup", e => {
   if (drag && !drag.moved) {
     const n = pick(e.clientX, e.clientY);
     if (!n) {
+      // clic nel vuoto: si esce e si torna a vedere tutto
       selected = null; focused = null;
+      fitAll();
+    } else if (selected === n.id) {
+      selected = null;
+      if (n.depth === 1) focused = null;
+      fitAll();
     } else {
-      selected = selected === n.id ? null : n.id;
-      // su un macro-ambito il clic isola anche il ramo
-      if (n.depth === 1) focused = focused === n.id ? null : n.id;
+      selected = n.id;
+      const kids = nodes.filter(m => m.parent === n.id);
+      if (n.depth === 1) {
+        focused = n.id;
+        // il macro-ambito si inquadra con tutti i suoi sotto-ambiti
+        fitTo([n, ...kids], 150);
+      } else {
+        focused = n.parent;
+        // una foglia non ha figli: si inquadra lei e il gruppo da cui esce,
+        // cosi' si vede dove sta senza perdere il contesto
+        fitTo([n, byId.get(n.parent)], 210);
+      }
     }
   }
   drag = null; canvas.classList.remove("dragging");
 });
 canvas.addEventListener("wheel", e => {
   e.preventDefault();
+  camTarget = null;
   const k = Math.min(2.8, Math.max(0.45, view.k * (e.deltaY < 0 ? 1.09 : 0.917)));
   const mx = e.clientX - W / 2 - view.x, my = e.clientY - H / 2 - view.y;
   view.x -= mx * (k / view.k - 1); view.y -= my * (k / view.k - 1);
@@ -622,7 +670,12 @@ canvas.addEventListener("touchend", e => {
   const t = e.changedTouches[0];
   if (touch && Math.hypot(t.clientX - touch.x, t.clientY - touch.y) < 6) {
     const n = pick(t.clientX, t.clientY);
-    if (n) { hovered = n.id; selected = n.id; }
+    if (n) {
+      hovered = n.id; selected = n.id;
+      const kids = nodes.filter(m => m.parent === n.id);
+      if (n.depth === 1) { focused = n.id; fitTo([n, ...kids], 150); }
+      else { focused = n.parent; fitTo([n, byId.get(n.parent)], 210); }
+    } else { selected = null; focused = null; fitAll(); }
   }
   touch = null;
 }, { passive: true });
@@ -692,7 +745,7 @@ function mountChrome() {
     activeSectors.clear(); query = ""; focused = null; selected = null;
     document.getElementById("q").value = "";
     document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
-    view = { k: 1, x: 0, y: 0 };
+    fitAll();
   };
 }
 
@@ -703,7 +756,7 @@ function openGate() {
 }
 function tryGate() {
   const v = document.getElementById("pw").value.trim().toLowerCase();
-  if (v === PASSPHRASE) { openGate(); return; }
+  if (ACCESS[v]) { ROLE = ACCESS[v]; openGate(); return; }
   const e = document.getElementById("gate-err");
   e.textContent = (DATA && DATA.ui.wrong[LANG]) || "Password non valida";
   e.classList.add("on");
