@@ -74,6 +74,18 @@ canvas.dragging{cursor:grabbing}
 #ui.on{opacity:1}
 #ui > *{pointer-events:auto}
 
+/* ---------- embed ---------- */
+/* La home del sito incorpora questa stessa pagina in un iframe. La' il grafo
+   non e' uno strumento ma un'immagine viva: cadono il gate e tutta la colonna
+   dei filtri, e il canvas smette di ricevere il puntatore.
+   Spegnere il puntatore non e' un dettaglio: senza, la rotella sopra l'iframe
+   zooma il grafo invece di far scorrere la pagina, e il visitatore resta
+   incastrato a meta' del sito. E' il motivo per cui l'interazione vera vive
+   solo su /network/ a pagina piena. */
+body.embed #gate,
+body.embed #ui{display:none}
+body.embed canvas{pointer-events:none;cursor:default}
+
 header{
   position:absolute;top:0;left:0;right:0;padding:22px clamp(16px,3.2vw,40px);
   display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
@@ -232,6 +244,17 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
    stesso repository e si aggiornano insieme: rigenerare network.json e fare
    push e' tutto quello che serve perche' la pagina cambi. */
 const DATA_URL = "network.json";
+
+/* Modalita' embed: `?embed=1` per la sezione in home del sito, `&lang=xx` per
+   farla parlare la lingua che il visitatore ha scelto la' sopra.
+   Il sito copre cinque lingue e la tassonomia quattro, e le due liste non
+   coincidono: chi guarda la home in cinese o in russo vede il grafo in
+   inglese. Meglio dell'italiano, che sarebbe il default di questa pagina.
+   ⚠️ Questo blocco vive nel sorgente in Brain e non nel repository del sito:
+   publish.sh sovrascrive network/index.html a ogni pubblicazione, quindi una
+   modifica fatta la' sparirebbe senza lasciare traccia. */
+const PARAMS = new URLSearchParams(location.search);
+const EMBED = PARAMS.get("embed") === "1";
 
 /* Una chiave per interlocutore, cosi' si sa a chi e' stato dato il link, e un
    livello per chiave. Aggiungerne una e' una riga qui dentro.
@@ -669,7 +692,25 @@ function easeCamera() {
   }
 }
 
-function loop() { step(); easeCamera(); draw(); requestAnimationFrame(loop); }
+/* In embed il cursore non c'e', e senza increspatura la simulazione si assesta
+   in pochi secondi: il grafo diventa una fotografia, e una fotografia in home
+   non dice che dietro c'e' un archivio vivo.
+   Il rimedio non e' una seconda animazione ma un puntatore finto che gira
+   piano: attraversa la stessa fascia di forze dell'hover, quindi il movimento
+   e' esattamente quello che il grafo fa gia' quando qualcuno lo guarda. Due
+   periodi diversi sui due assi perche' l'ellisse non si richiuda su se stessa
+   e il giro non si riconosca. */
+function driftPointer() {
+  const t = performance.now() / 9000;
+  pointer.x = W / 2 + Math.cos(t) * W * 0.3;
+  pointer.y = H / 2 + Math.sin(t * 0.83) * H * 0.3;
+  pointer.inside = true;
+}
+
+function loop() {
+  if (EMBED) driftPointer();
+  step(); easeCamera(); draw(); requestAnimationFrame(loop);
+}
 
 /* ------------------------------------------------------------- interazione */
 function pick(px, py) {
@@ -963,9 +1004,18 @@ fetch(DATA_URL, { cache: "no-cache" })
     buildGraph(payload);
     mountChrome();
     renderTree();
-    const stored = (navigator.language || "it").slice(0, 2);
-    applyLang(DATA.languages.includes(stored) ? stored : "it");
-    document.getElementById("pw").focus();
+    const want = EMBED
+      ? (PARAMS.get("lang") || "").slice(0, 2)
+      : (navigator.language || "it").slice(0, 2);
+    applyLang(DATA.languages.includes(want) ? want : (EMBED ? "en" : "it"));
+    if (EMBED) {
+      // Niente gate da aprire e niente chrome da accendere: si mostra solo il
+      // grafo, inquadrato subito su tutto perche' nessuno potra' allargarlo.
+      document.body.classList.add("embed");
+      fitAll();
+    } else {
+      document.getElementById("pw").focus();
+    }
     loop();
   })
   .catch(err => {
