@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — Potential</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+  @font-face {
+    font-family: 'Plain';
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    src: url('/assets/fonts/Plain-Light.woff2') format('woff2'),
+         url('/assets/fonts/Plain-Light.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Plain';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: url('/assets/fonts/Plain-Medium.woff2') format('woff2'),
+         url('/assets/fonts/Plain-Medium.otf') format('opentype');
+  }
+
+:root{
+  --k:#0a0a0a;
+  --w:#f4f3ef;
+  --r:#c71617;
+  --bd:rgba(255,255,255,.08);
+  --px:clamp(20px,6vw,72px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:'Plain',Arial,sans-serif;font-weight:300;
+  background:var(--k);color:var(--w);
+  overflow-x:hidden;
+  display:flex;flex-direction:column;
+  /* griglia svizzera, come la home */
+  background-image:
+    linear-gradient(to right, var(--bd) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bd) 1px, transparent 1px);
+  background-size:clamp(64px,9vw,128px) clamp(64px,9vw,128px);
+}
+em,i{font-style:normal;}
+
+.top{
+  padding:22px var(--px);
+  border-bottom:1px solid var(--bd);
+}
+.top img{width:150px;height:auto;display:block;}
+
+main{
+  flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(56px,12vh,120px) var(--px);
+  max-width:900px;
+}
+
+.eyebrow{
+  font-weight:300;font-size:11px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--r);display:flex;align-items:center;gap:14px;margin-bottom:30px;
+}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--r);flex-shrink:0;}
+
+h1{
+  font-weight:500;font-size:clamp(38px,7vw,76px);line-height:1.02;
+  letter-spacing:-.03em;margin-bottom:22px;
+}
+h1 em{color:var(--r);}
+
+p{
+  font-weight:300;font-size:clamp(14px,1.5vw,16px);line-height:1.7;
+  color:rgba(244,243,239,.6);max-width:52ch;margin-bottom:44px;
+}
+
+.actions{display:flex;flex-wrap:wrap;gap:14px;}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  min-height:52px;padding:0 28px;
+  font-family:'Plain',Arial,sans-serif;
+  font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;transition:background .25s,color .25s,border-color .25s;
+}
+.btn--primary{background:var(--r);color:#fff;border:1px solid var(--r);}
+.btn--primary:hover{background:transparent;color:var(--r);}
+.btn--ghost{background:transparent;color:var(--w);border:1px solid var(--bd);}
+.btn--ghost:hover{border-color:var(--r);color:var(--r);}
+.btn::before{content:'→';}
+
+footer{
+  border-top:1px solid var(--bd);
+  padding:26px var(--px);
+  font-weight:300;font-size:9px;letter-spacing:.1em;
+  color:rgba(244,243,239,.3);
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <!-- Potential_Logo_payoff_white.svg — variante mono per fondo scuro, non modificata -->
+  <img src="/assets/logos/Potential_Logo_payoff_white.svg" alt="Potential" width="150" height="48">
+</div>
+
+<main>
+  <div class="eyebrow">Error 404</div>
+  <h1>This page.<br><em>Not delivered.</em></h1>
+  <p>The address you followed does not exist on this site — it may have been moved, renamed, or mistyped. Everything else is still where it should be.</p>
+  <div class="actions">
+    <a class="btn btn--primary" href="/">Back to home</a>
+    <a class="btn btn--ghost" href="mailto:info@potential.contractors">Contact us</a>
+  </div>
+</main>
+
+<footer>© 2026 Potential. All rights reserved.</footer>
+
+</body>
+</html>
