@@ -6,3 +6,4 @@ Thumbs.db
 # automatico fa "git add -A", quindi tutto cio' che sta qui dentro e non e'
 # ignorato finisce online al primo push.
 revisore_traduzioni/
+_review/
