@@ -19,9 +19,3 @@ seo_optimization/
 # ⚠️ Qui il path e' ancorato alla cartella: se l'editor trasloca, questa riga va
 # spostata con lui, o il primo "git add -A" lo mette online.
 tools/editor-costellazione/
-
-# Mappa del portfolio: nomina clienti e produttori veri, e a differenza di
-# /network/ non ha il gate con la password. Il noindex tiene la pagina fuori da
-# Google, ma non impedisce a chi ha l'URL di aprirla, e nel repository sarebbe
-# leggibile da chiunque. Resta fuori finche' non si decide come proteggerla.
-potential-portfolio-map.html
