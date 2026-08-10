@@ -45,11 +45,12 @@ Brain, in `COMPANY BRAIN/POTENTIAL BRAIN/suppliers database/`, e `publish.sh` so
 cartella a ogni pubblicazione con un `git reset --hard`: quello che si edita qui a mano sparisce
 alla prima ripubblicazione, senza lasciare traccia.
 
-Per cambiare i testi, aggiungere o togliere nodi si usa l'**editor**, che non è in questo repo
-perché è uno strumento interno (è in `.gitignore`, sta solo sul Mac):
+Per cambiare i testi, aggiungere o togliere nodi si usa l'**editor**, che sta in
+`tools/editor-costellazione/` e non è in questo repo perché è uno strumento interno (è in
+`.gitignore`, sta solo sul Mac). In `network/` resta solo quello che il sito pubblica:
 
 ```bash
-open network/apri-editor.command     # doppio click dal Finder
+open tools/editor-costellazione/apri-editor.command     # doppio click dal Finder
 ```
 
 Scrive su `suppliers database/taxonomy/`. Poi, per portare online:

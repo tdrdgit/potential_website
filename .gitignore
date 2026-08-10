@@ -5,6 +5,9 @@ Thumbs.db
 # Materiale di lavoro interno: questo repository e' PUBBLICO e il backup
 # automatico fa "git add -A", quindi tutto cio' che sta qui dentro e non e'
 # ignorato finisce online al primo push.
+#
+# Questi tre non hanno lo slash iniziale di proposito: valgono a qualsiasi
+# profondita', quindi restano coperti anche se la cartella si sposta.
 revisore_traduzioni/
 _review/
 seo_optimization/
@@ -12,5 +15,7 @@ seo_optimization/
 # Editor della costellazione: strumento interno, apre i sorgenti che vivono nel
 # Brain e non ha niente da fare online. Il sito pubblica network.json, non
 # lo strumento che lo scrive.
-network/editor.html
-network/apri-editor.command
+#
+# ⚠️ Qui il path e' ancorato alla cartella: se l'editor trasloca, questa riga va
+# spostata con lui, o il primo "git add -A" lo mette online.
+tools/editor-costellazione/
