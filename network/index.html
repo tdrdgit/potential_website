@@ -779,11 +779,19 @@ window.addEventListener("mousemove", e => {
   if (drag.dist > 8) drag.moved = true;
 });
 window.addEventListener("mouseup", e => {
+  // Il mouseup sta su window e non sul canvas perche' una trascinata puo'
+  // finire fuori dal grafo. Ma se non era partita di li' l'evento non ci
+  // riguarda, e va lasciato passare: syncTree() rifa' l'elenco da capo, e
+  // rifarlo fra il mousedown e il click di un pulsante della colonna cancella
+  // quel pulsante prima che il click gli arrivi. E' il motivo per cui i
+  // capitoli dell'albero non si aprivano: il click non veniva mai emesso.
+  if (!drag) return;
+
   // Il tremolio da trackpad e la trascinata rapida si somigliano nel tempo
   // ma non nello spazio: il perdono vale solo se il cursore e' rimasto
   // dentro un raggio stretto, o una passata veloce selezionerebbe.
-  const tap = drag && !drag.moved;
-  const jitter = drag && (performance.now() - drag.t) < 300 && (drag.dist || 0) < 22;
+  const tap = !drag.moved;
+  const jitter = (performance.now() - drag.t) < 300 && (drag.dist || 0) < 22;
   if (tap || jitter) {
     const n = pick(e.clientX, e.clientY);
     if (!n) {
