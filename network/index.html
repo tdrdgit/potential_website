@@ -260,8 +260,16 @@ const EMBED = PARAMS.get("embed") === "1";
 
 /* La classe si mette subito, non a dati caricati: il gate e' un pannello nero a
    tutto schermo, e messa dopo il fetch lo si vedrebbe lampeggiare dentro
-   l'iframe della home per tutto il tempo del caricamento. */
-if (EMBED) document.body.classList.add("embed");
+   l'iframe della home per tutto il tempo del caricamento.
+   In embed la porta non si apre mai — si entra dalla home, che ha gia' la sua —
+   quindi il pannello non si nasconde soltanto: si toglie di mezzo. Un campo
+   password nell'iframe, per quanto invisibile e vuoto, e' un campo password che
+   i gestori di credenziali continuano a trovare a ogni ridisegno. */
+if (EMBED) {
+  document.body.classList.add("embed");
+  const g = document.getElementById("gate");
+  if (g) g.remove();
+}
 
 /* Una chiave per interlocutore, cosi' si sa a chi e' stato dato il link, e un
    livello per chiave. Aggiungerne una e' una riga qui dentro.
@@ -962,11 +970,15 @@ function applyLang(l) {
   document.getElementById("t-title").textContent = t("title");
   document.getElementById("t-sub").textContent = t("subtitle");
   document.getElementById("t-sectors").textContent = t("sectors");
-  document.getElementById("t-gate").textContent = t("gate_intro");
   document.getElementById("t-hint").textContent = t("hint");
   document.getElementById("q").placeholder = t("search");
-  document.getElementById("pw").placeholder = t("password");
-  document.getElementById("go").textContent = t("enter");
+  /* Il gate esce dal DOM appena la password passa: da li' in poi la lingua si
+     cambia ancora, ma non c'e' piu' niente da tradurre qui dentro. */
+  if (document.getElementById("gate")) {
+    document.getElementById("t-gate").textContent = t("gate_intro");
+    document.getElementById("pw").placeholder = t("password");
+    document.getElementById("go").textContent = t("enter");
+  }
   document.getElementById("b-expand").textContent = t("all_sectors");
   document.getElementById("b-reset").textContent = t("reset");
   document.title = "Potential — " + t("title");
@@ -1019,9 +1031,24 @@ function mountChrome() {
 }
 
 /* Apre la porta e accende la colonna dei filtri, che resta spenta finche' la
-   password non e' passata. */
+   password non e' passata.
+
+   Il pannello non si limita a sparire alla vista: si svuota subito e si stacca
+   dal DOM a dissolvenza finita. Nascosto restava un <input type="password">
+   pieno della chiave digitata, e ogni clic su un nodo rifa' da capo l'elenco
+   laterale con innerHTML: i gestori di password osservano le mutazioni, e a
+   ogni ricostruzione ritrovavano quel campo e riproponevano "vuoi salvare la
+   password?". Via il campo, via il prompt — e la chiave smette di stare in
+   chiaro nel DOM per tutto il resto della sessione. */
 function openGate() {
-  document.getElementById("gate").classList.add("open");
+  const gate = document.getElementById("gate");
+  if (gate) {
+    document.getElementById("pw").value = "";
+    gate.classList.add("open");
+    // 700ms e' la transizione dichiarata su #gate: si toglie a tendina chiusa,
+    // o l'ultimo fotogramma della dissolvenza salterebbe.
+    setTimeout(() => gate.remove(), 800);
+  }
   document.getElementById("ui").classList.add("on");
 }
 function tryGate() {
@@ -1032,10 +1059,16 @@ function tryGate() {
   e.classList.add("on");
   setTimeout(() => e.classList.remove("on"), 2200);
 }
-document.getElementById("go").onclick = tryGate;
-document.getElementById("pw").addEventListener("keydown", e => {
-  if (e.key === "Enter") tryGate();
-});
+/* In embed il gate e' gia' stato tolto dal DOM la' sopra, e questi due
+   getElementById tornano null. Senza la guardia, `null.onclick` alza un
+   TypeError proprio qui: lo script muore prima di resize() e del fetch, e la
+   home mostra un rettangolo nero al posto della costellazione. */
+if (document.getElementById("gate")) {
+  document.getElementById("go").onclick = tryGate;
+  document.getElementById("pw").addEventListener("keydown", e => {
+    if (e.key === "Enter") tryGate();
+  });
+}
 
 resize();
 fetch(DATA_URL, { cache: "no-cache" })
