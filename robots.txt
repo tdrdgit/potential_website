@@ -4,8 +4,13 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 Disallow: /_review/
-Disallow: /network/
-Disallow: /potential-carousel.html
+
+# /network/ e /potential-carousel.html NON vanno messe qui, anche se sono
+# pagine riservate: portano gia' <meta name="robots" content="noindex">, e il
+# noindex funziona solo se il crawler puo' leggerlo. Vietando la scansione si
+# ottiene il contrario di quello che si vuole — Google non vede il noindex e
+# puo' comunque mostrare l'URL nudo se qualcuno lo linka — e in piu' questo
+# file e' pubblico, quindi elencarle qui e' un indice di cosa nascondiamo.
 
 # Crawler AI: consentiti. Potential e' un'azienda B2B che vuole essere trovata
 # e citata nelle risposte generate dai motori AI, non un editore che monetizza
