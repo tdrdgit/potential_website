@@ -8,3 +8,9 @@ Thumbs.db
 revisore_traduzioni/
 _review/
 seo_optimization/
+
+# Editor della costellazione: strumento interno, apre i sorgenti che vivono nel
+# Brain e non ha niente da fare online. Il sito pubblica network.json, non
+# lo strumento che lo scrive.
+network/editor.html
+network/apri-editor.command
