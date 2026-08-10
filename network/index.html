@@ -37,17 +37,55 @@ body{
 canvas{display:block;position:fixed;inset:0;cursor:grab}
 canvas.dragging{cursor:grabbing}
 
+/* ---------- gate ---------- */
+#gate{
+  position:fixed;inset:0;z-index:90;background:var(--pt-near-black);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .7s ease,visibility .7s;
+}
+#gate.open{opacity:0;visibility:hidden}
+.gate-box{width:min(88vw,380px);text-align:left}
+.eyebrow{
+  font-size:.68rem;letter-spacing:var(--tracking);text-transform:uppercase;
+  color:var(--pt-red);font-weight:400;
+}
+.eyebrow::before{content:"— "}
+.gate-box .eyebrow{margin-bottom:4px;display:block}
+.gate-field{display:flex;gap:0;margin-top:28px;border-bottom:1px solid var(--pt-hairline)}
+.gate-field:focus-within{border-color:var(--pt-red)}
+#pw{
+  flex:1;background:none;border:0;outline:0;color:var(--ink);
+  font-family:var(--font);font-size:.95rem;font-weight:300;padding:10px 2px;
+  letter-spacing:.04em;
+}
+#pw::placeholder{color:var(--ink-faint)}
+#go{
+  background:none;border:0;color:var(--pt-red);cursor:pointer;
+  font-family:var(--font);font-size:.68rem;letter-spacing:var(--tracking);
+  text-transform:uppercase;padding:0 4px;
+}
+#gate-err{
+  font-size:.7rem;color:var(--pt-red);margin-top:10px;height:1em;
+  opacity:0;transition:opacity .25s;letter-spacing:.06em;
+}
+#gate-err.on{opacity:1}
+
 /* ---------- chrome ---------- */
 #ui{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .9s ease .25s}
 #ui.on{opacity:1}
 #ui > *{pointer-events:auto}
 
 /* ---------- embed ---------- */
-/* La home del sito incorpora questa stessa pagina in un iframe. La' cade la
-   colonna dei filtri, ma il grafo si tocca: hover, clic sui nodi, trascinamento
-   e zoom funzionano come qui.
+/* La home del sito incorpora questa stessa pagina in un iframe. La' cadono il
+   gate e la colonna dei filtri, ma il grafo si tocca: hover, clic sui nodi,
+   trascinamento e zoom funzionano come qui.
+   La porta a password vale solo qui, a pagina piena, dove il grafo e' uno
+   strumento: nella home e' un'immagine viva dentro la pagina di chiunque, e
+   fermarla con una password vorrebbe dire lasciare un buco nero in mezzo al
+   sito.
    L'unica cosa che non si prende e' la rotella nuda, che resta della pagina —
    il perche' sta sull'handler wheel piu' sotto. */
+body.embed #gate,
 body.embed #ui{display:none}
 
 header{
@@ -150,6 +188,8 @@ footer{
 html[dir="rtl"] header{flex-direction:row-reverse}
 html[dir="rtl"] #panel{left:auto;right:clamp(16px,3.2vw,40px)}
 html[dir="rtl"] footer{left:auto;right:clamp(16px,3.2vw,40px);text-align:right}
+html[dir="rtl"] .eyebrow::before{content:"";}
+html[dir="rtl"] .eyebrow::after{content:" —"}
 html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-align:right}
 
 @media (max-width:760px){
@@ -188,6 +228,17 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
   <div id="err" hidden></div>
 </div>
 
+<div id="gate">
+  <div class="gate-box">
+    <span class="eyebrow" id="t-gate">Area riservata</span>
+    <div class="gate-field">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
+      <button id="go">Enter</button>
+    </div>
+    <div id="gate-err"></div>
+  </div>
+</div>
+
 <script>
 "use strict";
 
@@ -207,12 +258,25 @@ const DATA_URL = "network.json";
 const PARAMS = new URLSearchParams(location.search);
 const EMBED = PARAMS.get("embed") === "1";
 
-/* La pagina e' pubblica: nessuna chiave in ingresso. La porta a password che
-   stava qui era offuscamento e non sicurezza — chiavi e ruoli vivevano nel
-   sorgente, e chi apriva il devtools leggeva le une e si assegnava gli altri —
-   e per di piu' non nascondeva nulla: l'unico ruolo previsto era `guest`, cioe'
-   quello che si vedeva entrando. Cio' che non deve uscire continua a non
-   entrare affatto nel file pubblico, ed e' build_public.py a garantirlo. */
+/* La classe si mette subito, non a dati caricati: il gate e' un pannello nero a
+   tutto schermo, e messa dopo il fetch lo si vedrebbe lampeggiare dentro
+   l'iframe della home per tutto il tempo del caricamento. */
+if (EMBED) document.body.classList.add("embed");
+
+/* Una chiave per interlocutore, cosi' si sa a chi e' stato dato il link, e un
+   livello per chiave. Aggiungerne una e' una riga qui dentro.
+   `guest` e' l'esterno, `owner` e' Carlo.
+
+   ⚠️ Sono offuscamento, non sicurezza, e il livello meno di tutto: chiavi e
+   ruoli vivono nel sorgente, e chi apre il devtools legge le une e si assegna
+   gli altri. Vale finche' cio' che il livello nasconde e' materiale che
+   preferiremmo non mostrare, non materiale che non deve uscire — quello non
+   entra proprio nel file pubblico, ed e' build_public.py a garantirlo. Per una
+   porta vera servirebbe un server. */
+const ACCESS = {
+  welcome: "guest",
+};
+let ROLE = "guest";
 
 const RED = "#C71617", GRAY = "#D9D9D9";
 
@@ -890,8 +954,11 @@ function applyLang(l) {
   document.getElementById("t-title").textContent = t("title");
   document.getElementById("t-sub").textContent = t("subtitle");
   document.getElementById("t-sectors").textContent = t("sectors");
+  document.getElementById("t-gate").textContent = t("gate_intro");
   document.getElementById("t-hint").textContent = t("hint");
   document.getElementById("q").placeholder = t("search");
+  document.getElementById("pw").placeholder = t("password");
+  document.getElementById("go").textContent = t("enter");
   document.getElementById("b-expand").textContent = t("all_sectors");
   document.getElementById("b-reset").textContent = t("reset");
   document.title = "Potential — " + t("title");
@@ -943,11 +1010,24 @@ function mountChrome() {
   };
 }
 
-/* Accende la colonna dei filtri. Restava spenta finche' non si superava la
-   porta a password; ora che non c'e' piu', si accende a dati caricati. */
-function showChrome() {
+/* Apre la porta e accende la colonna dei filtri, che resta spenta finche' la
+   password non e' passata. */
+function openGate() {
+  document.getElementById("gate").classList.add("open");
   document.getElementById("ui").classList.add("on");
 }
+function tryGate() {
+  const v = document.getElementById("pw").value.trim().toLowerCase();
+  if (ACCESS[v]) { ROLE = ACCESS[v]; openGate(); return; }
+  const e = document.getElementById("gate-err");
+  e.textContent = (DATA && DATA.ui.wrong[LANG]) || "Password non valida";
+  e.classList.add("on");
+  setTimeout(() => e.classList.remove("on"), 2200);
+}
+document.getElementById("go").onclick = tryGate;
+document.getElementById("pw").addEventListener("keydown", e => {
+  if (e.key === "Enter") tryGate();
+});
 
 resize();
 fetch(DATA_URL, { cache: "no-cache" })
@@ -962,12 +1042,11 @@ fetch(DATA_URL, { cache: "no-cache" })
       : (navigator.language || "it").slice(0, 2);
     applyLang(DATA.languages.includes(want) ? want : (EMBED ? "en" : "it"));
     if (EMBED) {
-      // Niente chrome da accendere: si mostra solo il grafo, inquadrato subito
-      // su tutto perche' nessuno potra' allargarlo.
-      document.body.classList.add("embed");
+      // Niente gate da aprire e niente chrome da accendere: si mostra solo il
+      // grafo, inquadrato subito su tutto perche' nessuno potra' allargarlo.
       fitAll();
     } else {
-      showChrome();
+      document.getElementById("pw").focus();
     }
     loop();
   })
@@ -975,7 +1054,9 @@ fetch(DATA_URL, { cache: "no-cache" })
     const e = document.getElementById("err");
     e.hidden = false;
     e.textContent = "network.json non raggiungibile (" + err.message + ")";
-    document.getElementById("ui").classList.add("on");
+    // La porta si apre da sola: dietro non c'e' piu' niente da proteggere, e a
+    // porta chiusa l'errore resterebbe invisibile sotto il pannello nero.
+    openGate();
   });
 </script>
 </body>
