@@ -287,15 +287,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
 }
 @media (max-width:860px){ .net-stage{aspect-ratio:4/5;} }
 .net-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
-/* Il grafo e' un'immagine viva, non uno strumento: l'overlay si prende ogni
-   evento e lo traduce in un solo gesto, aprire la pagina intera. E' anche
-   quello che salva lo scroll su mobile — un dito sull'iframe trascinerebbe il
-   grafo e il visitatore resterebbe incastrato a meta' pagina. */
+/* Il grafo qui dentro si tocca: i nodi si aprono al clic senza uscire dalla
+   home. Percio' la superficie non e' piu' coperta da un collegamento — c'era un
+   overlay a tutta stage, e si prendeva ogni clic per tradurlo nell'unico gesto
+   di aprire la pagina intera.
+   Al suo posto due pezzi separati: uno scrim che sfuma il fondo e non intercetta
+   nulla, e sopra la sola CTA. Lo scroll lo protegge il grafo per conto suo —
+   rotella e dito restano della pagina, ctrl piu' rotella zooma. */
+.net-stage::after{
+  content:'';position:absolute;inset:auto 0 0 0;height:38%;z-index:1;
+  pointer-events:none;
+  background:linear-gradient(to top,rgba(10,10,10,.72) 0%,rgba(10,10,10,0) 100%);
+}
 .net-hit{
-  position:absolute;inset:0;z-index:2;display:flex;
-  align-items:flex-end;justify-content:flex-start;
+  position:absolute;left:0;bottom:0;z-index:2;
   padding:clamp(20px,3vw,40px);text-decoration:none;
-  background:linear-gradient(to top,rgba(10,10,10,.72) 0%,rgba(10,10,10,0) 42%);
 }
 .net-cta{
   font-weight:300;font-size:11px;letter-spacing:.34em;text-transform:uppercase;
@@ -306,7 +312,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
   transition:width .45s var(--ease);
 }
 .net-hit:hover .net-cta::after{width:52px;}
-html[dir="rtl"] .net-hit{justify-content:flex-end;}
+html[dir="rtl"] .net-hit{left:auto;right:0;}
 
 /* ══ PROBLEM — white ══ */
 .s-problem{background:#fff;color:var(--k);padding:clamp(90px,14vh,150px) var(--px);border-top:1px solid var(--bdl);}
@@ -767,7 +773,10 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   <h2 class="net-hero rv-h d1" data-i18n="net-hl">What the network<br><em>can actually do.</em></h2>
   <p class="net-lead rv d1" data-i18n="net-lead">A live map of the capability areas covered by the Potential network. It is generated from our supplier database, not drawn for a brochure: when the network grows, the map grows with it.</p>
   <div class="net-stage rv d2">
-    <iframe id="net-frame" data-src="network/?embed=1" title="Potential supply network" loading="lazy" tabindex="-1" scrolling="no"></iframe>
+    <!-- Niente tabindex="-1": finche' l'iframe stava dietro un overlay era
+         decorativo e toglierlo dal giro del tab era corretto, ma ora e'
+         contenuto con cui si interagisce e deve restare raggiungibile. -->
+    <iframe id="net-frame" data-src="network/?embed=1" title="Potential supply network" loading="lazy" scrolling="no"></iframe>
     <a class="net-hit" href="network/">
       <span class="net-cta" data-i18n="net-cta">Explore the network</span>
     </a>

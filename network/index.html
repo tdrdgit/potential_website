@@ -43,15 +43,12 @@ canvas.dragging{cursor:grabbing}
 #ui > *{pointer-events:auto}
 
 /* ---------- embed ---------- */
-/* La home del sito incorpora questa stessa pagina in un iframe. La' il grafo
-   non e' uno strumento ma un'immagine viva: cade tutta la colonna dei filtri,
-   e il canvas smette di ricevere il puntatore.
-   Spegnere il puntatore non e' un dettaglio: senza, la rotella sopra l'iframe
-   zooma il grafo invece di far scorrere la pagina, e il visitatore resta
-   incastrato a meta' del sito. E' il motivo per cui l'interazione vera vive
-   solo su /network/ a pagina piena. */
+/* La home del sito incorpora questa stessa pagina in un iframe. La' cade la
+   colonna dei filtri, ma il grafo si tocca: hover, clic sui nodi, trascinamento
+   e zoom funzionano come qui.
+   L'unica cosa che non si prende e' la rotella nuda, che resta della pagina —
+   il perche' sta sull'handler wheel piu' sotto. */
 body.embed #ui{display:none}
-body.embed canvas{pointer-events:none;cursor:default}
 
 header{
   position:absolute;top:0;left:0;right:0;padding:22px clamp(16px,3.2vw,40px);
@@ -646,6 +643,14 @@ function easeCamera() {
    e' esattamente quello che il grafo fa gia' quando qualcuno lo guarda. Due
    periodi diversi sui due assi perche' l'ellisse non si richiuda su se stessa
    e il giro non si riconosca. */
+/* Vero quando c'e' un cursore in carne e ossa sopra il canvas. Serve solo in
+   embed, per sapere quando togliere di mezzo il puntatore finto: i due scrivono
+   sulla stessa variabile, e a lasciarli accesi insieme l'evidenziazione
+   rimbalzerebbe fra il nodo sotto il mouse e quello sotto il fantasma. Il drift
+   riprende appena il cursore esce, cosi' la mappa non si irrigidisce in
+   fotografia quando nessuno la guarda. */
+let hasRealPointer = false;
+
 function driftPointer() {
   const t = performance.now() / 9000;
   pointer.x = W / 2 + Math.cos(t) * W * 0.3;
@@ -654,7 +659,7 @@ function driftPointer() {
 }
 
 function loop() {
-  if (EMBED) driftPointer();
+  if (EMBED && !hasRealPointer) driftPointer();
   step(); easeCamera(); draw(); requestAnimationFrame(loop);
 }
 
@@ -680,6 +685,7 @@ function pick(px, py) {
 }
 
 canvas.addEventListener("mousemove", e => {
+  hasRealPointer = true;
   pointer.x = e.clientX; pointer.y = e.clientY; pointer.inside = true;
   if (drag) {
     view.x = drag.vx + (e.clientX - drag.x);
@@ -694,7 +700,9 @@ canvas.addEventListener("mousemove", e => {
     // quella scheda aperta mentre esplora il resto
   }
 });
-canvas.addEventListener("mouseleave", () => { pointer.inside = false; });
+canvas.addEventListener("mouseleave", () => {
+  hasRealPointer = false; pointer.inside = false; hovered = null;
+});
 canvas.addEventListener("mousedown", e => {
   camTarget = null;
   drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y,
@@ -746,6 +754,15 @@ window.addEventListener("mouseup", e => {
   drag = null; canvas.classList.remove("dragging");
 });
 canvas.addEventListener("wheel", e => {
+  /* In embed la rotella nuda deve restare della pagina. Se la prendesse il
+     grafo, chi arriva scrollando dall'alto smetterebbe di scendere appena il
+     cursore entra nell'iframe, e resterebbe incastrato a meta' sito senza
+     capire perche'.
+     Lo zoom c'e' lo stesso, ma chiede ctrl o cmd: e' la convenzione delle
+     mappe incorporate, e il gesto che si fa per sbaglio non e' mai quello con
+     il tasto premuto. Sulla pagina intera non serve nulla di tutto questo,
+     perche' li' sotto non c'e' pagina da scorrere. */
+  if (EMBED && !e.ctrlKey && !e.metaKey) return;
   e.preventDefault();
   camTarget = null;
   const k = Math.min(2.8, Math.max(0.45, view.k * (e.deltaY < 0 ? 1.09 : 0.917)));
@@ -760,6 +777,10 @@ canvas.addEventListener("touchstart", e => {
   touch = { x: t.clientX, y: t.clientY, vx: view.x, vy: view.y };
 }, { passive: true });
 canvas.addEventListener("touchmove", e => {
+  // Stessa ragione della rotella, col dito: in embed il trascinamento e' della
+  // pagina. Il tocco secco su un nodo continua a funzionare, perche' lo gestisce
+  // touchend e non passa di qui.
+  if (EMBED) return;
   if (!touch) return;
   const t = e.touches[0];
   view.x = touch.vx + (t.clientX - touch.x);
