@@ -162,8 +162,30 @@ pagina incorporabile. Il link corto resta buono per il pulsante di scorta e per 
 (verificato l'11.08.2026): l'avorio del sito (`--w`, `#f4f3ef`) a fianco si leggerebbe come una
 cornice grigia. Se Google passa a un grigio Material, quel bianco va rifatto combaciare.
 
-I nove testi nuovi (`stag-book`, `bk-*`) sono tradotti in tutte e cinque le lingue dentro `const T`,
-ma **non sono ancora passati dal revisore** in `tools/revisore_traduzioni/`.
+I nove testi nuovi (`stag-book`, `bk-*`) sono tradotti in tutte e cinque le lingue dentro `const T`
+e sono **già nell'Excel delle traduzioni**, in grigio: tradotti in automatico, non ancora riletti da
+un revisore umano.
+
+## Le traduzioni si tengono allineate, non si ricopiano
+
+`index.html` e `tools/revisore_traduzioni/Potential_Revisione_Traduzioni.xlsx` sono due fonti che
+devono dire la stessa cosa. Chi le allinea è `sync_traduzioni.py`, e **lo stato sta nel colore del
+testo delle celle**: verde = forzatura decisa da Carlo, grigio = traduzione automatica, rosso = da
+riallineare.
+
+```bash
+python3 tools/revisore_traduzioni/sync_traduzioni.py --check    # non scrive, elenca
+python3 tools/revisore_traduzioni/sync_traduzioni.py --scrivi   # backup, poi scrive
+```
+
+⚠️ **Le regole non sono qui**: stanno in `tools/revisore_traduzioni/potential_revisore_traduzioni_rules.md`,
+accanto all'Excel, e vanno lette prima di toccare un testo. Quella cartella è in `.gitignore` — il
+repository è pubblico — quindi né le regole né lo strumento né l'Excel sono in questo repository:
+vivono solo sul Mac di Carlo, in Dropbox.
+
+⚠️ **Dopo ogni modifica di testo sul sito va chiesto a Carlo se aggiornare l'Excel.** Sempre, anche
+per una parola. E se una frase cambia di *significato*, va segnalato anche quando le altre lingue
+sono verdi: un concetto nuovo può rendere sbagliate le forzature fatte a mano.
 
 ## Anteprima locale
 
