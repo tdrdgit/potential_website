@@ -13,7 +13,24 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Plain-Light.woff2" crossorigin>
 <style>
+/* ⚠️ Senza queste @font-face la pagina dichiarava Plain e non lo caricava:
+   lo vedeva in Plain solo chi ce l'ha installato nel sistema — noi — e
+   chiunque altro leggeva Helvetica Neue, iframe della home compreso.
+   I file stanno in /assets/ del sito e questa pagina esce sotto
+   /costellazione/: il path parte con ../, non con assets/. Il peso 400 usato
+   qui sotto non esiste in Plain e cade su Medium: e' voluto. */
+@font-face{
+  font-family:'Plain';font-weight:300;font-style:normal;font-display:swap;
+  src:url('../assets/fonts/Plain-Light.woff2') format('woff2'),
+      url('../assets/fonts/Plain-Light.otf') format('opentype');
+}
+@font-face{
+  font-family:'Plain';font-weight:500;font-style:normal;font-display:swap;
+  src:url('../assets/fonts/Plain-Medium.woff2') format('woff2'),
+      url('../assets/fonts/Plain-Medium.otf') format('opentype');
+}
 /* Palette corporate Potential: rosso, grigio, nero, bianco. Nient'altro.
    I dieci macro-ambiti NON hanno dieci colori: il grafo e' monocromo e il
    rosso e' riservato alla rilevanza. Quando si filtra un settore, i rami che

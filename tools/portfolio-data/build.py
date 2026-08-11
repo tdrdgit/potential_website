@@ -16,6 +16,10 @@ una lettera (A al fornitore con piu' clienti) e nelle pagine finisce solo
 quella. La legenda lettera -> nome vero si stampa a schermo e non si salva da
 nessuna parte, perche' il repository e' pubblico.
 
+Stessa regola per CONTRACTOR dall'11.08.2026: il nome del general contractor
+non esce piu'. Resta il solo flag v (1 = progetto arrivato tramite un
+contractor), che sulla mappa rende grigio il pallino.
+
 Scrive dentro il blocco delimitato da PORTFOLIO-DATA:START/END in:
     portfolio/potential-portfolio-map.html l'array CLIENTS del grafico radar
 
@@ -146,12 +150,11 @@ def read_excel(path):
     out = []
     for name in sorted(clients, key=sort_key):
         rec = clients[name]
-        if len(rec["via"]) > 1:
-            warnings.append(f"{name}: piu' contractor ({' / '.join(rec['via'])}) — li scrivo tutti")
+        # Il nome del contractor si legge ma non si pubblica: diventa un flag,
+        # e il flag e' tutto cio' che serve al pallino grigio.
         detail = " · ".join([rec["label"]] + rec["places"])
-        if rec["via"]:
-            detail += " · for " + " / ".join(rec["via"])
-        out.append({"name": name, "axis": rec["axis"], "detail": detail, "sup": rec["sup"], "rows": rec["rows"]})
+        out.append({"name": name, "axis": rec["axis"], "detail": detail,
+                    "via": bool(rec["via"]), "sup": rec["sup"], "rows": rec["rows"]})
     return out, warnings
 
 
@@ -193,7 +196,8 @@ def render_map(clients, tiers, codes):
         n = f"'{js(c['name'])}',".ljust(w)
         a = f"a:'{c['axis']}',".ljust(18)
         s = f"s:'{codes_of(c, codes)}',".ljust(ws)
-        lines.append(f" {{n:{n}{a}t:{tiers[c['name']]}, {s}d:'{js(c['detail'])}'}},")
+        v = 1 if c["via"] else 0
+        lines.append(f" {{n:{n}{a}t:{tiers[c['name']]}, v:{v}, {s}d:'{js(c['detail'])}'}},")
     lines[-1] = lines[-1].rstrip(",")
     lines.append("];")
     return "\n".join(lines)

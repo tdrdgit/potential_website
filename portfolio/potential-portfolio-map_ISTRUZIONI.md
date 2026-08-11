@@ -35,8 +35,12 @@ CONTRACTOR`. Le due colonne di note non vengono lette.
 | `SECTOR` | asse del radar + etichetta nel dettaglio |
 | `CLIENT / PROJECT` | il nome mostrato |
 | `LOCATION` | va in coda al dettaglio; più righe stesso cliente = più località in fila |
-| `CONTRACTOR` | diventa `· for <nome>`, ed è **ciò che rende grigio il pallino** sulla mappa |
+| `CONTRACTOR` | diventa il flag `v:1`, che **rende grigio il pallino**: il nome non esce |
 | `FORNITORE` | diventa una lettera (`Supplier A`, `B`…) nella riga di filtri della mappa |
+
+Dall'11.08.2026 **il nome del general contractor non esce più**: prima il dettaglio finiva con
+`· for Herman Miller`, ora resta il solo pallino grigio. Chi ha fatto da tramite si legge in
+Excel, non sul sito.
 
 Il nome vero del fornitore **non si salva da nessuna parte**: `A` va a chi ha più clienti, le
 parità si sciolgono in ordine alfabetico, e la legenda lettera → nome si stampa a terminale e

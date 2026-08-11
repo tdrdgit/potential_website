@@ -11,30 +11,36 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#ffffff">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Plain-Light.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Plain-Medium.woff2" crossorigin>
 <style>
+  /* ⚠️ I font stanno in /assets/, questa pagina in /portfolio/: il path parte
+     con ../ e non con assets/, altrimenti il browser cerca
+     /portfolio/assets/fonts/ — che non esiste — e ripiega su Arial senza
+     dirlo a nessuno. Chi ha Plain installato nel sistema non se ne accorge. */
   @font-face {
     font-family: 'Plain';
     font-weight: 100;
     font-style: normal;
     font-display: swap;
-    src: url('assets/fonts/Plain-Thin.woff2') format('woff2'),
-         url('assets/fonts/Plain-Thin.otf') format('opentype');
+    src: url('../assets/fonts/Plain-Thin.woff2') format('woff2'),
+         url('../assets/fonts/Plain-Thin.otf') format('opentype');
   }
   @font-face {
     font-family: 'Plain';
     font-weight: 300;
     font-style: normal;
     font-display: swap;
-    src: url('assets/fonts/Plain-Light.woff2') format('woff2'),
-         url('assets/fonts/Plain-Light.otf') format('opentype');
+    src: url('../assets/fonts/Plain-Light.woff2') format('woff2'),
+         url('../assets/fonts/Plain-Light.otf') format('opentype');
   }
   @font-face {
     font-family: 'Plain';
     font-weight: 500;
     font-style: normal;
     font-display: swap;
-    src: url('assets/fonts/Plain-Medium.woff2') format('woff2'),
-         url('assets/fonts/Plain-Medium.otf') format('opentype');
+    src: url('../assets/fonts/Plain-Medium.woff2') format('woff2'),
+         url('../assets/fonts/Plain-Medium.otf') format('opentype');
   }
   :root{--k:#0a0a0a;--w:#f4f3ef;--r:#c71617;--bd:rgba(255,255,255,0.07);--bdl:rgba(0,0,0,0.1);}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -80,7 +86,13 @@
   .lg-chip.void .lg-num{color:rgba(199,22,23,.35);}
 
   .radar-wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;}
-  #radar{width:100%;height:auto;display:block;overflow:visible;}
+  /* Il testo SVG qui viene scalato (viewBox 1400 su ~1180px reali): con
+     geometricPrecision l'avanzamento dei glifi resta in virgola mobile invece
+     di essere arrotondato al pixel dall'hinting, che è ciò che sgrana la
+     spaziatura larga delle etichette. Misurato l'11.08.2026 su Chrome e
+     WebKit: nessuna differenza, le due rese sono identiche. Resta come rete
+     di sicurezza sui motori che invece arrotondano. */
+  #radar{width:100%;height:auto;display:block;overflow:visible;text-rendering:geometricPrecision;}
 
   .pm-web{fill:none;stroke:rgba(255,255,255,.075);stroke-width:1;}
   .pm-web.tier{stroke:rgba(255,255,255,.055);stroke-dasharray:3 7;}
@@ -115,17 +127,6 @@
   .pm-tip-name{display:block;font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:12px;letter-spacing:.04em;}
   .pm-tip-tier{display:block;font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-top:4px;}
   .pm-tip-det{display:block;font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:10px;letter-spacing:.06em;color:#585852;margin-top:5px;line-height:1.5;}
-
-  .scale{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;position:relative;z-index:3;margin-top:22px;}
-  .sc-step{display:flex;flex-direction:column;align-items:center;gap:7px;padding:0 14px;}
-  .sc-dot{background:var(--r);border-radius:50%;display:block;}
-  .sc-lb{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);white-space:nowrap;}
-  .sc-arrow{width:26px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(199,22,23,.5));margin-bottom:14px;}
-  .keys{display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;position:relative;z-index:3;margin-top:16px;}
-  .key{display:inline-flex;align-items:center;gap:9px;font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);}
-  .key i{width:9px;height:9px;border-radius:50%;background:var(--r);display:block;font-style:normal;}
-  .key.grey i{background:rgba(255,255,255,.45);}
-  [dir="rtl"] .sc-arrow{background:linear-gradient(270deg,rgba(255,255,255,.08),rgba(199,22,23,.5));}
 
   .radar-hint{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.26);text-align:center;margin-top:30px;position:relative;z-index:3;}
 
@@ -247,8 +248,6 @@
     <svg id="radar" viewBox="0 0 1400 1250" role="img" aria-label="Potential portfolio map"></svg>
     <div class="pm-tip" id="pmTip"><span class="pm-tip-name"></span><span class="pm-tip-tier"></span><span class="pm-tip-det"></span></div>
   </div>
-  <div class="scale" id="scale"></div>
-  <div class="keys" id="keys"></div>
   <p class="radar-hint" data-i18n="pm-hint">Hover a dot for the project detail · tap on mobile</p>
 </section>
 
@@ -306,8 +305,6 @@ const T={
 "pm-lead":{"en":"Each dot is a client. Each axis is a coverage area.","it":"Ogni punto è un cliente. Ogni asse è un ambito di copertura.","zh":"每个红点代表一位客户，每条轴线代表一个业务领域。","ru":"Каждая точка — клиент. Каждая ось — область охвата.","ar":"كل نقطة تمثل عميلاً، وكل محور يمثل مجال تغطية."},
 "pm-note":{"en":"Distance from the centre is the client's own positioning: the more luxury the brand, the further out the dot sits. Potential's assessment, not a market ranking.","it":"La distanza dal centro è il posizionamento del cliente: più il marchio è luxury, più il punto va verso l'esterno. È una valutazione di Potential, non una classifica di mercato.","zh":"与中心的距离代表客户品牌的定位：品牌越奢侈，红点越靠外。此为 Potential 的评估，并非市场排名。","ru":"Расстояние от центра — позиционирование самого клиента: чем более люксовый бренд, тем дальше точка. Это оценка Potential, а не рыночный рейтинг.","ar":"المسافة من المركز تعبّر عن مكانة العميل نفسه: كلما كانت العلامة أكثر فخامة، ابتعدت النقطة عن المركز. هذا تقييم من Potential وليس تصنيفًا سوقيًا."},
 "pm-hint":{"en":"Hover a dot for the project detail · tap on mobile","it":"Passa sul punto per il dettaglio del progetto · tocca da mobile","zh":"将鼠标移至红点查看项目详情 · 手机端请点击","ru":"Наведите на точку, чтобы увидеть детали проекта · на мобильном — нажмите","ar":"مرّر المؤشر فوق النقطة لعرض تفاصيل المشروع · اضغط على الهاتف"},
-"pm-direct":{"en":"Direct client","it":"Cliente diretto","zh":"直接客户","ru":"Прямой клиент","ar":"عميل مباشر"},
-"pm-via":{"en":"Through a fit-out contractor","it":"Tramite un contractor del fit-out","zh":"通过装修总包","ru":"Через fit-out подрядчика","ar":"عبر مقاول تجهيزات"},
 "pm-all":{"en":"All areas","it":"Tutti gli ambiti","zh":"全部领域","ru":"Все области","ar":"كل المجالات"},
 "pm-all-sup":{"en":"All suppliers","it":"Tutti i fornitori","zh":"全部供应商","ru":"Все поставщики","ar":"كل المورّدين"},
 "pm-supplier":{"en":"Supplier","it":"Fornitore","zh":"供应商","ru":"Поставщик","ar":"المورّد"},
@@ -345,8 +342,10 @@ const AX=[
      legend on screen and saves it nowhere. A client with no supplier on
      record keeps s empty and drops out of every supplier filter.
    Rows repeated per location (Tiffany, Burberry, Hilton) collapse into
-   one client, locations joined by "·". CONTRACTOR fills the "for ..."
-   at the end of d, which is what turns the dot grey.
+   one client, locations joined by "·". CONTRACTOR never reaches this file
+   either: it only sets v:1, which is what turns the dot grey. The client
+   is in the portfolio, but the relationship was not direct — and who
+   stood in between stays in the Excel.
    ─────────────────────────────────────────────────────────────────── */
 
 /* ── LUXURY TIERS — how far out a client sits ───────────────────────
@@ -361,39 +360,39 @@ const AX=[
    ─────────────────────────────────────────────────────────────────── */
 /* PORTFOLIO-DATA:START — generato da tools/portfolio-data/build.py, non editare a mano */
 const CLIENTS=[
- {n:'ABB',                 a:'retail',       t:1, s:'A', d:'Retail & Luxury · Italy · for Studio Archeias'},
- {n:'Accenture',           a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
- {n:'Auchan',              a:'retail',       t:1, s:'A', d:'Retail & Luxury · Italy · for Studio Archeias'},
- {n:'B&B Italia',          a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
- {n:'Banca Mediolanum',    a:'office',       t:2, s:'A', d:'Office & Corporate · Milan · for Herman Miller'},
- {n:'Biogen',              a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
- {n:'Blue Lagoon Iceland', a:'hospitality',  t:5, s:'A', d:'Hospitality & Spa · Iceland'},
- {n:'Brembo',              a:'office',       t:3, s:'A', d:'Office & Corporate · Bergamo · for Herman Miller'},
- {n:'Burberry',            a:'retail',       t:5, s:'A', d:'Retail & Luxury · Florence · Rome · Zurich · for Studio Archeias'},
- {n:'Chanel',              a:'office',       t:5, s:'A', d:'Office & Corporate · Milan'},
- {n:'Cisco Systems',       a:'office',       t:1, s:'A', d:'Office & Corporate · Vimercate'},
- {n:'Costa Crociere',      a:'office',       t:1, s:'A', d:'Office & Corporate · Genoa · for Herman Miller'},
- {n:'Deloitte',            a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
- {n:'Fastweb',             a:'retail',       t:1, s:'A', d:'Retail & Luxury · Milan · for Knoll'},
- {n:'Flos',                a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
- {n:'Galeries Lafayette',  a:'retail',       t:4, s:'A', d:'Retail & Luxury · Paris · for Studio Archeias'},
- {n:'Gallia',              a:'hospitality',  t:5, s:'A', d:'Hospitality & Spa'},
- {n:'Hilton',              a:'hospitality',  t:3, s:'A', d:'Hospitality & Spa · Kiev · Tel Aviv'},
- {n:'HP Hewlett-Packard',  a:'office',       t:1, s:'A', d:'Office & Corporate · Rome · for Herman Miller'},
- {n:'Kvadrat',             a:'office',       t:4, s:'A', d:'Office & Corporate · Milan'},
- {n:'Lavazza',             a:'office',       t:3, s:'A', d:'Office & Corporate · Rome · for Studio Archeias'},
- {n:'Lingotto',            a:'office',       t:3, s:'A', d:'Office & Corporate · Turin · for Herman Miller'},
- {n:'Louis Poulsen',       a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
- {n:'Marriott',            a:'hospitality',  t:3, s:'A', d:'Hospitality & Spa · London · for Molteni & C'},
- {n:'Marriott County Hall',a:'hospitality',  t:4, s:'A', d:'Hospitality & Spa · London'},
- {n:'MC Donald',           a:'office',       t:1, s:'A', d:'Office & Corporate · Moscow · for Hines'},
- {n:'Melia',               a:'hospitality',  t:3, s:'',  d:'Hospitality & Spa'},
- {n:'Moorer',              a:'retail',       t:4, s:'A', d:'Retail & Luxury · Milan'},
- {n:'Pirelli',             a:'residential',  t:3, s:'A', d:'Residential · London · for Molteni & C'},
- {n:'Showroom Zara',       a:'retail',       t:1, s:'A', d:'Retail & Luxury · for Studio Archeias'},
- {n:'Sofitel',             a:'hospitality',  t:4, s:'A', d:'Hospitality & Spa · Rome'},
- {n:'Tiffany',             a:'retail',       t:5, s:'A', d:'Retail & Luxury · Dubai Airport · Florence · Harrods, London · Heathrow, London · Rome Via Condotti · Toronto · Venezia Fondaco · for Studio Archeias'},
- {n:'U.S. Navy Base NATO', a:'office',       t:1, s:'A', d:'Office & Corporate · Capodichino · for Molteni & C'}
+ {n:'ABB',                 a:'retail',       t:1, v:1, s:'A', d:'Retail & Luxury · Italy'},
+ {n:'Accenture',           a:'office',       t:2, v:0, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Auchan',              a:'retail',       t:1, v:1, s:'A', d:'Retail & Luxury · Italy'},
+ {n:'B&B Italia',          a:'retail',       t:4, v:0, s:'B', d:'Retail & Luxury'},
+ {n:'Banca Mediolanum',    a:'office',       t:2, v:1, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Biogen',              a:'office',       t:2, v:0, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Blue Lagoon Iceland', a:'hospitality',  t:5, v:0, s:'A', d:'Hospitality & Spa · Iceland'},
+ {n:'Brembo',              a:'office',       t:3, v:1, s:'A', d:'Office & Corporate · Bergamo'},
+ {n:'Burberry',            a:'retail',       t:5, v:1, s:'A', d:'Retail & Luxury · Florence · Rome · Zurich'},
+ {n:'Chanel',              a:'office',       t:5, v:0, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Cisco Systems',       a:'office',       t:1, v:0, s:'A', d:'Office & Corporate · Vimercate'},
+ {n:'Costa Crociere',      a:'office',       t:1, v:1, s:'A', d:'Office & Corporate · Genoa'},
+ {n:'Deloitte',            a:'office',       t:2, v:0, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Fastweb',             a:'retail',       t:1, v:1, s:'A', d:'Retail & Luxury · Milan'},
+ {n:'Flos',                a:'retail',       t:4, v:0, s:'B', d:'Retail & Luxury'},
+ {n:'Galeries Lafayette',  a:'retail',       t:4, v:1, s:'A', d:'Retail & Luxury · Paris'},
+ {n:'Gallia',              a:'hospitality',  t:5, v:0, s:'A', d:'Hospitality & Spa'},
+ {n:'Hilton',              a:'hospitality',  t:3, v:0, s:'A', d:'Hospitality & Spa · Kiev · Tel Aviv'},
+ {n:'HP Hewlett-Packard',  a:'office',       t:1, v:1, s:'A', d:'Office & Corporate · Rome'},
+ {n:'Kvadrat',             a:'office',       t:4, v:0, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Lavazza',             a:'office',       t:3, v:1, s:'A', d:'Office & Corporate · Rome'},
+ {n:'Lingotto',            a:'office',       t:3, v:1, s:'A', d:'Office & Corporate · Turin'},
+ {n:'Louis Poulsen',       a:'retail',       t:4, v:0, s:'B', d:'Retail & Luxury'},
+ {n:'Marriott',            a:'hospitality',  t:3, v:1, s:'A', d:'Hospitality & Spa · London'},
+ {n:'Marriott County Hall',a:'hospitality',  t:4, v:0, s:'A', d:'Hospitality & Spa · London'},
+ {n:'MC Donald',           a:'office',       t:1, v:1, s:'A', d:'Office & Corporate · Moscow'},
+ {n:'Melia',               a:'hospitality',  t:3, v:0, s:'',  d:'Hospitality & Spa'},
+ {n:'Moorer',              a:'retail',       t:4, v:0, s:'A', d:'Retail & Luxury · Milan'},
+ {n:'Pirelli',             a:'residential',  t:3, v:1, s:'A', d:'Residential · London'},
+ {n:'Showroom Zara',       a:'retail',       t:1, v:1, s:'A', d:'Retail & Luxury'},
+ {n:'Sofitel',             a:'hospitality',  t:4, v:0, s:'A', d:'Hospitality & Spa · Rome'},
+ {n:'Tiffany',             a:'retail',       t:5, v:1, s:'A', d:'Retail & Luxury · Dubai Airport · Florence · Harrods, London · Heathrow, London · Rome Via Condotti · Toronto · Venezia Fondaco'},
+ {n:'U.S. Navy Base NATO', a:'office',       t:1, v:1, s:'A', d:'Office & Corporate · Capodichino'}
 ];
 /* PORTFOLIO-DATA:END */
 const TIERS={
@@ -414,14 +413,18 @@ const SUPPLIERS=(()=>{
 
 /* ── GEOMETRY ───────────────────────────────────────────────────── */
 const VB={cx:700,cy:630,R:470};
+/* Un solo raggio per tutti i pallini: la fascia luxury la dice la distanza
+   dal centro, non la dimensione. */
+const DOT_R=5.5;
 const N=AX.length, STEP=2*Math.PI/N;
 const axAngle=i=>-Math.PI/2+i*STEP;
 const px=(a,r)=>[VB.cx+r*Math.cos(a),VB.cy+r*Math.sin(a)];
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-/* Projects delivered through a fit-out contractor or a manufacturer —
-   the detail line ends with "for <name>". They get a grey dot: the
-   client is in the portfolio, but the relationship was not direct. */
-const viaOf=c=>{ const m=/·\s*for\s+(.+)$/.exec(c.d); return m?m[1].trim():null; };
+/* Projects delivered through a fit-out contractor or a manufacturer get a
+   grey dot: the client is in the portfolio, but the relationship was not
+   direct. Who the contractor was does not leave the Excel — build.py writes
+   the flag v and drops the name, so there is nothing here to disclose. */
+const viaOf=c=>!!c.v;
 
 /* The radius is the luxury tier: mass market near the centre,
    ultra luxury out at the rim. Clients sharing a tier spread along
@@ -473,7 +476,7 @@ function polarOf(p){
 function setPolar(p,r,d){ const a=p.c+d; p.x=VB.cx+r*Math.cos(a); p.y=VB.cy+r*Math.sin(a); }
 
 function decollide(all){
-  const wOf=p=>p.n.length*6.6+10, H=18, dotR=p=>3.4+p.t*0.7+3;
+  const wOf=p=>p.n.length*6.6+10, H=18, dotR=()=>DOT_R+3;
   const move=(p,dir)=>{
     const {r,d}=polarOf(p);
     const lo=p.rBase-BAND*0.44, hi=p.rBase+BAND*0.44;
@@ -491,7 +494,7 @@ function decollide(all){
         const A=all[i],B=all[j];
         // label against label, and label against the other's dot
         const labels = Math.abs(A.x-B.x)<(wOf(A)+wOf(B))/2 && Math.abs(labY(A)-labY(B))<H;
-        const onDot = (L,D)=>Math.abs(L.x-D.x)<wOf(L)/2+dotR(D) && Math.abs(labY(L)-D.y)<H/2+dotR(D);
+        const onDot = (L,D)=>Math.abs(L.x-D.x)<wOf(L)/2+dotR() && Math.abs(labY(L)-D.y)<H/2+dotR();
         if(labels || onDot(A,B) || onDot(B,A)){
           const rA=Math.hypot(A.x-VB.cx,A.y-VB.cy), rB=Math.hypot(B.x-VB.cx,B.y-VB.cy);
           const m = rA<=rB ? (move(A,-1)|move(B,1)) : (move(B,-1)|move(A,1));
@@ -567,7 +570,7 @@ function renderRadar(){
     s+=`<g class="pm-pt${via?' via':''}" data-ax="${p.a}" data-sup="${esc(p.s||'')}" data-name="${esc(p.n)}" data-det="${esc(p.d)}" data-tier="${p.t}" data-tname="${esc(tName)}" tabindex="0" role="listitem">`
      +   `<title>${esc(p.n)} — ${esc(p.d)}</title>`
      +   `<circle class="pm-halo" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="14"/>`
-     +   `<circle class="pm-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${(3.4+p.t*0.7).toFixed(1)}"/>`
+     +   `<circle class="pm-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${DOT_R}"/>`
      +   `<text class="pm-name" x="${p.x.toFixed(1)}" y="${labY(p).toFixed(1)}">${esc(p.n)}</text>`
      + `</g>`;
   });
@@ -619,19 +622,6 @@ function renderSupLegend(){
       renderSupLegend(); applyFocus();
     };
   });
-}
-
-function renderScale(){
-  const lang=currentLang();
-  document.getElementById('scale').innerHTML=[1,2,3,4,5].map(t=>{
-    const d=(3.4+t*0.7)*2*0.8;
-    return `<div class="sc-step"><span class="sc-dot" style="width:${d.toFixed(1)}px;height:${d.toFixed(1)}px;"></span>`
-         + `<span class="sc-lb">${esc(TIERS[t][lang]||TIERS[t].en)}</span></div>`;
-  }).join('<span class="sc-arrow"></span>');
-  const tr=k=>esc(T[k][lang]||T[k].en);
-  document.getElementById('keys').innerHTML=
-     `<span class="key"><i></i>${tr('pm-direct')}</span>`
-   + `<span class="key grey"><i></i>${tr('pm-via')}</span>`;
 }
 
 function applyFocus(){
@@ -747,7 +737,7 @@ function applyLang(lang){
   });
   document.querySelectorAll('.arabic-only').forEach(el=>el.style.display=isRTL?'':'none');
   document.querySelectorAll('.latin-only').forEach(el=>el.style.display=isRTL?'none':'');
-  renderLegend(); renderSupLegend(); renderScale(); renderRadar(); renderList();
+  renderLegend(); renderSupLegend(); renderRadar(); renderList();
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
