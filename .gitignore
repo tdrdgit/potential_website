@@ -19,3 +19,13 @@ seo_optimization/
 # ⚠️ Qui il path e' ancorato alla cartella: se l'editor trasloca, questa riga va
 # spostata con lui, o il primo "git add -A" lo mette online.
 tools/editor-costellazione/
+
+# L'Excel che governa la costellazione. Sta accanto ai file che genera, ma non
+# e' uno di quelli: e' la fonte, e la fonte non si pubblica. Dentro ci sono i
+# nomi delle cartelle dell'archivio fornitori, che sono struttura interna e non
+# hanno motivo di stare su un repository pubblico.
+#
+# ⚠️ Sta in una cartella che il sito pubblica: senza questa riga il primo
+# "git add -A" del backup automatico lo mette online.
+costellazione/*.xlsx
+costellazione/~$*.xlsx

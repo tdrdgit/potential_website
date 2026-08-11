@@ -86,9 +86,8 @@ file Excel** — fino all'11.08.2026 finiva in coda al dettaglio come `· for �
 
 ## La costellazione (`costellazione/`)
 
-> Procedura per esteso in `tools/editor-costellazione/editor_costellazione_ISTRUZIONI.md`, che
-> sta accanto all'editor e quindi — come l'editor — **non è in questo repository**: è sul Mac di
-> Carlo, in Dropbox.
+> Procedura per esteso, con i casi in cui il build si ferma e cosa vuole:
+> [`tools/costellazione-data/costellazione_dataset_ISTRUZIONI.md`](tools/costellazione-data/costellazione_dataset_ISTRUZIONI.md).
 
 `costellazione/costellazione.html` è la mappa delle competenze della rete di fornitura, quella che
 si vede a https://potential.contractors/costellazione/costellazione.html e, in iframe, nella
@@ -101,20 +100,28 @@ cartella a ogni pubblicazione ripartendo da `origin/main`: quello che si edita q
 alla prima ripubblicazione, senza lasciare traccia. Vale anche per le favicon — vanno aggiunte al
 sorgente nel Brain, non alla copia pubblicata.
 
-Per cambiare i testi, aggiungere o togliere nodi si usa l'**editor**, che sta in
-`tools/editor-costellazione/` e non è in questo repo perché è uno strumento interno (è in
-`.gitignore`, sta solo sul Mac). In `costellazione/` resta solo quello che il sito pubblica:
+Per cambiare i testi, aggiungere o togliere nodi si edita **un Excel**, che dall'11.08.2026 è la
+fonte unica dello strato editoriale — struttura, settori, cartelle, testi nelle quattro lingue:
 
-```bash
-open tools/editor-costellazione/apri-editor.command     # doppio click dal Finder
+```
+costellazione/costellazione-dataset.xlsx     ← in .gitignore: è la fonte, non esce su GitHub
 ```
 
-Scrive su `suppliers database/taxonomy/`. Poi, per portare online:
-
 ```bash
-python3 "suppliers database/scripts/refresh.py"    # rigenera public/network.json
-sh "suppliers database/scripts/publish.sh"         # commit e push su questo repo
+python3 tools/costellazione-data/build.py --check   # dice cosa cambierebbe, non tocca niente
+python3 tools/costellazione-data/build.py           # riscrive i tre json nel Brain
+sh "suppliers database/scripts/publish.sh"          # rigenera network.json, commit e push
+git pull                                            # ⚠️ il repo resta indietro di un commit
 ```
+
+⚠️ **L'Excel non decide la dimensione dei nodi**: il peso viene dal conteggio delle cartelle
+dell'archivio fornitori, compresso in cinque gradini perché non sia leggibile a ritroso. E
+**l'ordine delle righe è l'ordine dei nodi sul grafo** — la colonna `ord` serve a rimettere il
+foglio com'era dopo averlo riordinato per lavorarci.
+
+L'**editor visuale** in `tools/editor-costellazione/` (gitignored, solo sul Mac) è ancora al suo
+posto e scrive sugli stessi tre file. **Si usa uno solo dei due**: l'ultimo che salva cancella il
+lavoro dell'altro senza dirlo. Finché l'Excel è in prova, la regola è l'Excel.
 
 Lingue della mappa: **italiano e inglese**, con l'inglese come ripiego per le altre lingue del
 sito. Islandese e arabo restano tradotti nei sorgenti ma non escono più nel file pubblico.
