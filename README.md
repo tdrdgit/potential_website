@@ -7,14 +7,13 @@ incorporati nell'HTML (base64 / SVG inline), quindi ogni pagina funziona da sola
 
 | File | Descrizione |
 |------|-------------|
-| `index.html` | Landing. Header con **loop push-up** di 16 frame campagna (5s/frame, perpetuo). Multilingua EN/IT/中文/РУС/عربي. Area Riservata (password → carousel). |
+| `index.html` | Landing. Header con **loop push-up** di 16 frame campagna (5s/frame, perpetuo). Multilingua EN/IT/中文/РУС/عربي. Area Riservata (password → portfolio map). |
 | `potential-privacy-policy.html` | Privacy Policy (EN). Link di ritorno → `index.html`. |
 | `404.html` | Pagina di errore. `noindex, follow`, due sole azioni: home e `mailto:` a info@potential.contractors. |
-| `portfolio/potential-carousel.html` | Carousel area riservata. Back → `../index.html`. |
-| `portfolio/potential-portfolio-map.html` | Portfolio map: gli stessi clienti su un radar a 7 assi (i 6 ambiti della home più Office & Corporate). Raggio = fascia luxury del cliente, pallino grigio se il lavoro è passato da un contractor. `noindex`, back → `potential-carousel.html`. |
+| `portfolio/potential-portfolio-map.html` | **La pagina dell'area riservata.** I clienti su un radar a 7 assi (i 6 ambiti della home più Office & Corporate). Raggio = fascia luxury del cliente, pallino grigio se il lavoro è passato da un contractor. `noindex`, back → `../index.html`. |
 | `costellazione/costellazione.html` | La mappa delle competenze della rete. Generata, vedi sotto. |
 
-Le pagine dell'area riservata stanno in **`portfolio/`**, la costellazione in **`costellazione/`**:
+La pagina dell'area riservata sta in **`portfolio/`**, la costellazione in **`costellazione/`**:
 i link fra loro sono relativi, quindi ogni cartella si sposta **intera** o si rompe. Gli asset
 condivisi — favicon, manifest, font, loghi — sono richiamati con path **assoluti** (`/favicon.ico`),
 e restano validi a qualsiasi profondità. Per GitHub Pages la home è già `index.html`.
@@ -48,7 +47,7 @@ cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER
 > Procedura per esteso, con i casi in cui lo script si ferma e cosa vuole:
 > [`portfolio/potential-portfolio-map_ISTRUZIONI.md`](portfolio/potential-portfolio-map_ISTRUZIONI.md).
 
-I clienti delle due pagine in `portfolio/` vengono da **un solo file**:
+I clienti della portfolio map vengono da **un solo file**:
 
 ```
 ~/Dropbox/CARLO DOCUMENTI MAC/WORK - SUPPLIERS OFFERING/PT-SUPPLIERS PROJECTS LIST.xlsx
@@ -61,11 +60,11 @@ quel file: lo script le scarta anche se qualcuno le flagga per sbaglio. Le righe
 
 ```bash
 python3 tools/portfolio-data/build.py --check   # dice cosa cambierebbe, non tocca niente
-python3 tools/portfolio-data/build.py           # riscrive le due pagine
+python3 tools/portfolio-data/build.py           # riscrive la pagina
 ```
 
-Lo script scrive **solo** dentro i blocchi `PORTFOLIO-DATA:START … END` delle due pagine: grafica,
-traduzioni e motore del radar non li tocca.
+Lo script scrive **solo** dentro il blocco `PORTFOLIO-DATA:START … END`: grafica, traduzioni e
+motore del radar non li tocca.
 
 ⚠️ **La fascia luxury non la decide lo script.** Sta in `tools/portfolio-data/tiers.json` (1 mass
 market → 5 ultra luxury) e vale il posizionamento del *marchio del cliente*, non la dimensione della

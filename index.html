@@ -1253,7 +1253,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 /* ── RESERVED AREA ── */
 const CORRECT_PWD = 'welcome';
-const CAROUSEL_PAGE = 'portfolio/potential-carousel.html'; // reserved-area target (same repo/host)
+// Dietro la password c'e' la portfolio map, non piu' la griglia alfabetica: il
+// carousel e' stato eliminato l'11.08.2026 e i suoi clienti sono gli stessi che
+// il radar mostra, con ambito, localita' e contractor gia' addosso.
+const RESERVED_PAGE = 'portfolio/potential-portfolio-map.html'; // reserved-area target (same repo/host)
 
 function openPwdModal(){
   document.getElementById('pwdModal').classList.add('open');
@@ -1269,7 +1272,7 @@ function checkPwd(){
   const lang = localStorage.getItem('pot-lang')||'en';
   const T_local = window._T || {};
   if(val === CORRECT_PWD){
-    window.location.href = CAROUSEL_PAGE;
+    window.location.href = RESERVED_PAGE;
   } else {
     const errMsg = (T_local['pwd-error']&&T_local['pwd-error'][lang]) || 'Incorrect password.';
     document.getElementById('pwdError').textContent = errMsg;

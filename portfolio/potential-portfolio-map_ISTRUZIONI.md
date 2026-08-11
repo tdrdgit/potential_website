@@ -1,8 +1,12 @@
-# Aggiornare la lista clienti — carousel e portfolio map
+# Aggiornare la lista clienti — portfolio map
 
-Riguarda le due pagine di questa cartella: `potential-carousel.html` (griglia alfabetica) e
-`potential-portfolio-map.html` (radar a 7 assi). **L'elenco clienti è generato**: quello che si
-scrive a mano dentro il blocco sparisce alla prima rigenerazione, senza lasciare traccia.
+Riguarda `potential-portfolio-map.html`, il radar a 7 assi che sta dietro la password dell'Area
+Riservata. **L'elenco clienti è generato**: quello che si scrive a mano dentro il blocco sparisce
+alla prima rigenerazione, senza lasciare traccia.
+
+> Fino all'11.08.2026 la stessa catena scriveva anche `potential-carousel.html`, la griglia
+> alfabetica che stava dietro la password. Quella pagina è stata eliminata e il radar è rimasto
+> l'unica vista sui clienti; il codice che componeva la griglia è nella storia di git.
 
 La costellazione della home e di `/costellazione/` è un'altra catena, con un'altra fonte e altri
 comandi: `tools/editor-costellazione/editor_costellazione_ISTRUZIONI.md`.
@@ -47,9 +51,9 @@ Righe ripetute per località — Tiffany, Burberry, Hilton — si fondono in **u
 # 1. l'Excel è già stato modificato e SALVATO (chiuderlo non serve, salvarlo sì)
 
 python3 tools/portfolio-data/build.py --check    # non tocca niente, dice cosa cambierebbe
-python3 tools/portfolio-data/build.py            # riscrive le due pagine
+python3 tools/portfolio-data/build.py            # riscrive la pagina
 
-git diff                                         # deve toccare solo i blocchi PORTFOLIO-DATA
+git diff                                         # deve toccare solo il blocco PORTFOLIO-DATA
 git add -A && git commit -m "..." && git push
 ```
 
@@ -64,7 +68,7 @@ motore del radar non li vede nemmeno.
   dimensione della commessa: Chanel resta 5 anche se il progetto è il loro ufficio di Milano. La
   proposta la fa Claude, la conferma è di Carlo.
 - **Nessuna riga con `WEBSITE = x`.** Si ferma invece di svuotare le pagine.
-- **Marcatori spariti** da una delle due pagine. Si ferma: non sa dove scrivere.
+- **Marcatori spariti** dalla pagina. Si ferma: non sa dove scrivere.
 - **Più di 26 fornitori.** Le lettere finiscono.
 
 ## Cosa segnala senza fermarsi — da leggere

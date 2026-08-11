@@ -16,11 +16,15 @@ una lettera (A al fornitore con piu' clienti) e nelle pagine finisce solo
 quella. La legenda lettera -> nome vero si stampa a schermo e non si salva da
 nessuna parte, perche' il repository e' pubblico.
 
-Scrive dentro i blocchi delimitati da PORTFOLIO-DATA:START/END in:
-    portfolio/potential-carousel.html      la griglia alfabetica dei clienti
+Scrive dentro il blocco delimitato da PORTFOLIO-DATA:START/END in:
     portfolio/potential-portfolio-map.html l'array CLIENTS del grafico radar
 
-Tutto il resto delle due pagine non viene toccato.
+Tutto il resto della pagina non viene toccato.
+
+Fino all'11.08.2026 scriveva anche portfolio/potential-carousel.html, la
+griglia alfabetica dietro l'area riservata: quella pagina e' stata eliminata e
+il radar e' rimasto l'unica vista sui clienti. La funzione che la componeva
+sta nella storia di git, se un giorno la griglia dovesse tornare.
 """
 
 import argparse
@@ -40,7 +44,6 @@ XLSX = Path.home() / "Dropbox/CARLO DOCUMENTI MAC/WORK - SUPPLIERS OFFERING/PT-S
 SHEET = "SUPPLIERS PROJECTS"
 TIERS_FILE = Path(__file__).resolve().parent / "tiers.json"
 
-CAROUSEL = REPO / "portfolio" / "potential-carousel.html"
 MAP = REPO / "portfolio" / "potential-portfolio-map.html"
 
 START = "PORTFOLIO-DATA:START"
@@ -196,16 +199,6 @@ def render_map(clients, tiers, codes):
     return "\n".join(lines)
 
 
-def render_carousel(clients):
-    out = []
-    for c in clients:
-        out.append(f'    <div class="cc-alpha" data-detail="{html(c["detail"])}">')
-        out.append(f'      <span class="cc-alpha-name">{html(c["name"])}</span>')
-        out.append("    </div>")
-        out.append("")
-    return "\n".join(out).rstrip()
-
-
 def splice(path, block, comment):
     """Sostituisce il testo fra i due marcatori. Se non ci sono, si ferma."""
     text = path.read_text(encoding="utf-8")
@@ -256,7 +249,7 @@ def main():
         print("1 mass market · 2 business standard · 3 premium · 4 alta gamma · 5 ultra luxury")
         sys.exit(1)
 
-    before = current_names(MAP) | current_names(CAROUSEL)
+    before = current_names(MAP)
     now = {c["name"] for c in clients}
 
     by_axis = defaultdict(int)
@@ -292,12 +285,8 @@ def main():
     for w in warnings:
         print("  ! " + w)
 
-    jobs = [
-        (MAP, render_map(clients, tiers, codes)),
-        (CAROUSEL, render_carousel(clients)),
-    ]
     changed = []
-    for path, block in jobs:
+    for path, block in [(MAP, render_map(clients, tiers, codes))]:
         new, diff = splice(path, block, None)
         if diff:
             changed.append(path.name)
@@ -305,7 +294,7 @@ def main():
                 path.write_text(new, encoding="utf-8")
 
     if args.check:
-        print("\n--check: " + (", ".join(changed) + " da riscrivere" if changed else "le pagine sono gia' allineate"))
+        print("\n--check: " + (", ".join(changed) + " da riscrivere" if changed else "la pagina e' gia' allineata"))
     else:
         print("\nRiscritte: " + (", ".join(changed) if changed else "nessuna, erano gia' allineate"))
 
