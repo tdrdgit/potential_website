@@ -1,7 +1,16 @@
 # Potential — website
 
-Sito Potential (*Every space. Delivered.*). Pagine HTML **autonome**: font Plain e loghi sono
-incorporati nell'HTML (base64 / SVG inline), quindi ogni pagina funziona da sola, senza dipendenze esterne.
+Sito Potential (*Every space. Delivered.*). Pagine HTML senza build e senza framework: nessuna
+dipendenza da CDN, librerie o servizi esterni. **Autonome però non lo sono:** i loghi sì, sono SVG
+inline, ma il font Plain e i frame dell'header vengono caricati da `assets/`, e una pagina separata
+da quella cartella — o con il path scritto male — perde il font.
+
+⚠️ **Il ripiego su Arial è silenzioso, e su un Mac che ha Plain installato nel sistema non si vede
+proprio:** il browser pesca il font locale e la pagina sembra giusta a chi la pubblica. I path dei
+font si controllano sull'URL vero (`curl -o /dev/null -w "%{http_code}"` sul `.woff2`) o in console
+con `[...document.fonts].map(f=>f.family+' '+f.status)`. Le pagine in sottocartella vogliono
+`../assets/fonts/`, la home `assets/fonts/`. L'11.08.2026 portfolio map e costellazione servivano
+Arial e Helvetica Neue a tutti i visitatori, e dal Mac di casa sembravano perfette.
 
 ## Pagine
 
@@ -26,7 +35,7 @@ nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home
 
 - `assets/logos/` — loghi ufficiali Potential (SVG, non modificare).
 - `assets/header/` — i 16 frame dell'header `CAMP_00..15.svg` (850×551). Sequenza: **logo · claim · claim** che si ripete; i frame 00/03/06/09/12/15 sono il logo.
-- `assets/fonts/` — font **Plain (Optimo)**, pesi Thin/Light/Medium. È incorporato nell'HTML per il rendering; i `.otf` sono inclusi qui come sorgente.
+- `assets/fonts/` — font **Plain (Optimo)**, pesi Thin/Light/Medium. Le pagine lo **caricano da qui** via `@font-face` (`.woff2`, con l'`.otf` come ripiego): non è incorporato in nessun HTML, quindi questa cartella serve al sito in esercizio, non è solo un archivio di sorgenti.
 
 > **Nota licenza font:** Plain (Optimo) è un font commerciale su licenza. I `.otf` sono inclusi nel repo
 > su scelta esplicita del titolare del progetto, che si assume la responsabilità della distribuzione.
@@ -127,13 +136,21 @@ cookie Google parte.
 | Cosa | Dove |
 |---|---|
 | Interruttore acceso/spento | attributo `data-cta` su `.book-cta` |
-| Durata dichiarata nei testi | `window.CALL_MIN` (in fondo a `index.html`), segnaposto `{min}` nelle traduzioni |
+| Durata dichiarata nei testi | **nessuna**, per scelta dell'11.08.2026 — il meccanismo resta: `{min}` in una stringa, riempito da `window.CALL_MIN` |
+| Taglio della testata di Google | `--bkcrop` su `.bk-frame` (172px sopra i 1000px di larghezza, 0 sotto) |
 | Agenda incorporata | `data-src` dell'iframe `#bkFrame` |
 | Link di scorta, si apre su Google | `href` di `.bk-alt` — `https://calendar.app.google/mrsYTpu4XFsmfZCm7` |
 
-⚠️ **`window.CALL_MIN` non cambia lo slot su Google.** La durata vera si imposta in Google Calendar
-→ Programmazione appuntamenti; quel numero serve solo ai testi. Se le due cifre divergono, il
-visitatore legge una durata e ne prenota un'altra.
+⚠️ **I testi non dicono quanto dura la call.** Lo slot su Google è da 60 minuti, ma nessuna stringa
+lo dichiara. Chi la volesse dichiarare non scrive il numero nelle traduzioni: mette `{min}` nella
+stringa e lo riempie `window.CALL_MIN`. E **`window.CALL_MIN` non cambia lo slot su Google** — la
+durata vera si imposta in Google Calendar → Programmazione appuntamenti. Se le due cifre divergono,
+il visitatore legge una durata e ne prenota un'altra.
+
+⚠️ **Il taglio della testata di Google vale solo da 1000px in su.** Sopra quella soglia la finestra
+mostra i soli orari; sul telefono si vede la testata di Google per intero, "Appuntamenti di 60"
+compreso. Se la durata non deve comparire da nessuna parte, va cambiato lo slot su Google, non il
+sito.
 
 ⚠️ **L'URL incorporato non è quello che si condivide.** Il link corto `calendar.app.google/…`
 risponde `X-Frame-Options: SAMEORIGIN` e dentro una cornice resta bianco. Nell'iframe ci va la forma
