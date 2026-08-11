@@ -136,6 +136,7 @@ cookie Google parte.
 | Cosa | Dove |
 |---|---|
 | Interruttore acceso/spento | attributo `data-cta` su `.book-cta` |
+| Indirizzo del pulsante mail | `href` di `.bk-mail` — `info@potential.contractors` |
 | Durata dichiarata nei testi | **nessuna**, per scelta dell'11.08.2026 — il meccanismo resta: `{min}` in una stringa, riempito da `window.CALL_MIN` |
 | Taglio della testata di Google | `--bkcrop` su `.bk-frame` (172px sopra i 1000px di larghezza, 0 sotto) |
 | Agenda incorporata | `data-src` dell'iframe `#bkFrame` |
