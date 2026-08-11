@@ -765,12 +765,15 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 </section>
 
 <!-- ══ NETWORK ══ -->
-<!-- L'iframe punta alla stessa pagina che vive su /network/, non a una copia:
-     publish.sh la rigenera dal database fornitori e la pubblica qui, quindi la
-     home si aggiorna da sola senza che il sito venga toccato. Il src sta in
-     data-src e viene montato solo quando la sezione entra in viewport: e' una
-     simulazione a forze con novantuno nodi, e non deve girare mentre qualcuno
-     sta leggendo l'hero. -->
+<!-- L'iframe punta alla stessa pagina che vive su /costellazione/, non a una
+     copia: publish.sh la rigenera dal database fornitori e la pubblica qui,
+     quindi la home si aggiorna da sola senza che il sito venga toccato. Il src
+     sta in data-src e viene montato solo quando la sezione entra in viewport:
+     e' una simulazione a forze con novantuno nodi, e non deve girare mentre
+     qualcuno sta leggendo l'hero.
+     ⚠️ Il file si chiama costellazione.html, non index.html: la cartella da
+     sola non apre niente, il percorso va scritto per esteso. Chi lo cambia qui
+     lo cambia anche in publish.sh, o l'iframe resta vuoto. -->
 <section class="s-network">
   <div class="stag rv" data-i18n="stag-network">The network</div>
   <h2 class="net-hero rv-h d1" data-i18n="net-hl">What the network<br><em>can actually do.</em></h2>
@@ -779,8 +782,8 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
     <!-- Niente tabindex="-1": finche' l'iframe stava dietro un overlay era
          decorativo e toglierlo dal giro del tab era corretto, ma ora e'
          contenuto con cui si interagisce e deve restare raggiungibile. -->
-    <iframe id="net-frame" data-src="network/?embed=1" title="Potential supply network" loading="lazy" scrolling="no"></iframe>
-    <a class="net-hit" href="network/">
+    <iframe id="net-frame" data-src="costellazione/costellazione.html?embed=1" title="Potential supply network" loading="lazy" scrolling="no"></iframe>
+    <a class="net-hit" href="costellazione/costellazione.html">
       <span class="net-cta" data-i18n="net-cta">Explore the network (restricted access)</span>
     </a>
   </div>
@@ -1250,7 +1253,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 /* ── RESERVED AREA ── */
 const CORRECT_PWD = 'welcome';
-const CAROUSEL_PAGE = 'potential-carousel.html'; // reserved-area target (same repo/host)
+const CAROUSEL_PAGE = 'portfolio/potential-carousel.html'; // reserved-area target (same repo/host)
 
 function openPwdModal(){
   document.getElementById('pwdModal').classList.add('open');

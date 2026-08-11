@@ -1,6 +1,6 @@
 # Potential — website
 
-Sito Potential (*Every space. Delivered.*). Tre pagine HTML **autonome**: font Plain e loghi sono
+Sito Potential (*Every space. Delivered.*). Pagine HTML **autonome**: font Plain e loghi sono
 incorporati nell'HTML (base64 / SVG inline), quindi ogni pagina funziona da sola, senza dipendenze esterne.
 
 ## Pagine
@@ -9,10 +9,19 @@ incorporati nell'HTML (base64 / SVG inline), quindi ogni pagina funziona da sola
 |------|-------------|
 | `index.html` | Landing. Header con **loop push-up** di 16 frame campagna (5s/frame, perpetuo). Multilingua EN/IT/中文/РУС/عربي. Area Riservata (password → carousel). |
 | `potential-privacy-policy.html` | Privacy Policy (EN). Link di ritorno → `index.html`. |
-| `potential-carousel.html` | Carousel area riservata. Back → `index.html` (relativo). |
+| `404.html` | Pagina di errore. `noindex, follow`, due sole azioni: home e `mailto:` a info@potential.contractors. |
+| `portfolio/potential-carousel.html` | Carousel area riservata. Back → `../index.html`. |
+| `portfolio/potential-portfolio-map.html` | Portfolio map: gli stessi clienti su un radar a 7 assi (i 6 ambiti della home più Office & Corporate). Raggio = fascia luxury del cliente, pallino grigio se il lavoro è passato da un contractor. `noindex`, back → `potential-carousel.html`. |
+| `costellazione/costellazione.html` | La mappa delle competenze della rete. Generata, vedi sotto. |
 
-I link interni sono **relativi**, quindi le tre pagine vanno tenute nella stessa cartella sul server.
-Per GitHub Pages la home è già `index.html`.
+Le pagine dell'area riservata stanno in **`portfolio/`**, la costellazione in **`costellazione/`**:
+i link fra loro sono relativi, quindi ogni cartella si sposta **intera** o si rompe. Gli asset
+condivisi — favicon, manifest, font, loghi — sono richiamati con path **assoluti** (`/favicon.ico`),
+e restano validi a qualsiasi profondità. Per GitHub Pages la home è già `index.html`.
+
+⚠️ `costellazione/` non contiene un `index.html`: l'indirizzo buono è
+`/costellazione/costellazione.html` per esteso, e la cartella da sola dà 404. Chi cambia questo
+nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home, il link sotto.
 
 ## Sorgenti (`assets/`)
 
@@ -34,20 +43,58 @@ python3 tools/build-header-frames.py
 Lo script re-incorpora i frame (base64) dentro `index.html`. Le slide restano identiche: cambia solo
 cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER LOOP` in fondo a `index.html`.
 
-## La costellazione (`network/`)
+## L'elenco clienti si rigenera, non si scrive a mano
 
-`network/index.html` è la mappa delle competenze della rete di fornitura, quella che si vede a
-https://potential.contractors/network/ e, in iframe, nella sezione nera della home. **Una sola
-pagina per due posti**: la home la incorpora con `network/?embed=1`, non ne tiene una copia.
+> Procedura per esteso, con i casi in cui lo script si ferma e cosa vuole:
+> [`portfolio/potential-portfolio-map_ISTRUZIONI.md`](portfolio/potential-portfolio-map_ISTRUZIONI.md).
 
-⚠️ **`network/index.html` e `network/network.json` sono file generati.** I sorgenti vivono nel
-Brain, in `COMPANY BRAIN/POTENTIAL BRAIN/suppliers database/`, e `publish.sh` sovrascrive questa
-cartella a ogni pubblicazione con un `git reset --hard`: quello che si edita qui a mano sparisce
-alla prima ripubblicazione, senza lasciare traccia.
+I clienti delle due pagine in `portfolio/` vengono da **un solo file**:
+
+```
+~/Dropbox/CARLO DOCUMENTI MAC/WORK - SUPPLIERS OFFERING/PT-SUPPLIERS PROJECTS LIST.xlsx
+foglio "SUPPLIERS PROJECTS"
+```
+
+Entrano solo le righe con **`WEBSITE = x`**. Le righe **`RISERVATO`** (ville private) non escono da
+quel file: lo script le scarta anche se qualcuno le flagga per sbaglio. Le righe ripetute per località
+— Tiffany, Burberry, Hilton — si fondono in un cliente solo, con le località in fila.
+
+```bash
+python3 tools/portfolio-data/build.py --check   # dice cosa cambierebbe, non tocca niente
+python3 tools/portfolio-data/build.py           # riscrive le due pagine
+```
+
+Lo script scrive **solo** dentro i blocchi `PORTFOLIO-DATA:START … END` delle due pagine: grafica,
+traduzioni e motore del radar non li tocca.
+
+⚠️ **La fascia luxury non la decide lo script.** Sta in `tools/portfolio-data/tiers.json` (1 mass
+market → 5 ultra luxury) e vale il posizionamento del *marchio del cliente*, non la dimensione della
+commessa. Quando l'Excel porta un cliente nuovo, il build **si ferma e lo elenca**: la fascia va
+assegnata a mano, e solo dopo la pagina si rigenera.
+
+Il colore del pallino invece è automatico: la colonna `CONTRACTOR` diventa il `· for …` in coda al
+dettaglio, e quel `for` è ciò che rende il pallino grigio invece che rosso.
+
+## La costellazione (`costellazione/`)
+
+> Procedura per esteso in `tools/editor-costellazione/editor_costellazione_ISTRUZIONI.md`, che
+> sta accanto all'editor e quindi — come l'editor — **non è in questo repository**: è sul Mac di
+> Carlo, in Dropbox.
+
+`costellazione/costellazione.html` è la mappa delle competenze della rete di fornitura, quella che
+si vede a https://potential.contractors/costellazione/costellazione.html e, in iframe, nella
+sezione nera della home. **Una sola pagina per due posti**: la home la incorpora con
+`costellazione/costellazione.html?embed=1`, non ne tiene una copia.
+
+⚠️ **I due file in `costellazione/` sono generati.** I sorgenti vivono nel Brain, in
+`COMPANY BRAIN/POTENTIAL BRAIN/suppliers database/public/`, e `publish.sh` sovrascrive questa
+cartella a ogni pubblicazione ripartendo da `origin/main`: quello che si edita qui a mano sparisce
+alla prima ripubblicazione, senza lasciare traccia. Vale anche per le favicon — vanno aggiunte al
+sorgente nel Brain, non alla copia pubblicata.
 
 Per cambiare i testi, aggiungere o togliere nodi si usa l'**editor**, che sta in
 `tools/editor-costellazione/` e non è in questo repo perché è uno strumento interno (è in
-`.gitignore`, sta solo sul Mac). In `network/` resta solo quello che il sito pubblica:
+`.gitignore`, sta solo sul Mac). In `costellazione/` resta solo quello che il sito pubblica:
 
 ```bash
 open tools/editor-costellazione/apri-editor.command     # doppio click dal Finder

@@ -4,8 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<link rel="canonical" href="https://potential.contractors/network/">
+<link rel="canonical" href="https://potential.contractors/costellazione/costellazione.html">
 <title>Potential — Supply Network</title>
+<!-- Le favicon puntano alla radice del sito, non a questa cartella: la pagina
+     esce sotto /costellazione/ ma gli asset stanno in radice. Erano state messe
+     una volta sola nel repo del sito e il primo publish.sh se le sarebbe
+     riprese: stanno qui, che e' il sorgente. -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -256,8 +260,8 @@ const DATA_URL = "network.json";
    coincidono: chi guarda la home in cinese o in russo vede il grafo in
    inglese. Meglio dell'italiano, che sarebbe il default di questa pagina.
    ⚠️ Questo blocco vive nel sorgente in Brain e non nel repository del sito:
-   publish.sh sovrascrive network/index.html a ogni pubblicazione, quindi una
-   modifica fatta la' sparirebbe senza lasciare traccia. */
+   publish.sh sovrascrive costellazione/costellazione.html a ogni pubblicazione,
+   quindi una modifica fatta la' sparirebbe senza lasciare traccia. */
 const PARAMS = new URLSearchParams(location.search);
 const EMBED = PARAMS.get("embed") === "1";
 

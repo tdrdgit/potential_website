@@ -5,7 +5,7 @@ Allow: /
 Disallow: /tools/
 Disallow: /_review/
 
-# /network/ e /potential-carousel.html NON vanno messe qui, anche se sono
+# /costellazione/ e /portfolio/ NON vanno messe qui, anche se sono
 # pagine riservate: portano gia' <meta name="robots" content="noindex">, e il
 # noindex funziona solo se il crawler puo' leggerlo. Vietando la scansione si
 # ottiene il contrario di quello che si vuole — Google non vede il noindex e

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://potential.contractors/portfolio/potential-portfolio-map.html">
+<title>Potential — Portfolio Map</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<style>
+  @font-face {
+    font-family: 'Plain';
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+    src: url('assets/fonts/Plain-Thin.woff2') format('woff2'),
+         url('assets/fonts/Plain-Thin.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Plain';
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    src: url('assets/fonts/Plain-Light.woff2') format('woff2'),
+         url('assets/fonts/Plain-Light.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Plain';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: url('assets/fonts/Plain-Medium.woff2') format('woff2'),
+         url('assets/fonts/Plain-Medium.otf') format('opentype');
+  }
+  :root{--k:#0a0a0a;--w:#f4f3ef;--r:#c71617;--bd:rgba(255,255,255,0.07);--bdl:rgba(0,0,0,0.1);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  html,body{max-width:100%;overflow-x:hidden;}
+  body{font-family:'Plain',Arial,sans-serif;font-weight:500;background:var(--w);color:var(--k);overflow-y:auto;cursor:none;max-width:100vw;}
+
+  #cur{position:fixed;width:8px;height:8px;background:var(--r);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  #ring{position:fixed;width:34px;height:34px;border:1px solid rgba(199,22,23,.28);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 56px;display:flex;justify-content:space-between;align-items:center;background:rgba(244,243,239,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdl);box-sizing:border-box;width:100%;}
+  .back-btn{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--r);background:none;border:none;cursor:pointer;text-decoration:none;transition:opacity .2s;}
+  .back-btn:hover{opacity:.6;}
+  .lang-switcher{display:flex;align-items:center;gap:20px;}
+  .lang-btn{font-family:'Plain',Arial,sans-serif;font-size:9px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:rgba(199,22,23,.4);background:none;border:none;cursor:pointer;padding:0;transition:color .2s;}
+  .lang-btn:hover,.lang-btn.active{color:var(--r);font-weight:500;}
+
+  .car-hero{padding:140px 56px 72px;background:var(--w);border-bottom:3px solid var(--r);width:100%;}
+  .stag{font-size:12px;letter-spacing:.5em;text-transform:uppercase;color:var(--r);display:flex;align-items:center;gap:14px;margin-bottom:40px;}
+  .stag::before{content:'';width:22px;height:1px;background:var(--r);}
+  .car-hero h1{font-size:clamp(36px,6vw,80px);line-height:.95;letter-spacing:-.025em;color:var(--k);}
+  .car-hero .hero-lead{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:15px;line-height:1.6;color:#444;max-width:620px;margin-top:26px;}
+  .car-hero .hero-note{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:11px;line-height:1.6;letter-spacing:.02em;color:#8b8b85;max-width:620px;margin-top:10px;}
+
+  /* ── RADAR ── */
+  .section-radar{background:var(--k);padding:64px 56px 72px;position:relative;overflow:hidden;}
+  .radar-glow{position:absolute;inset:0;background:radial-gradient(ellipse 46% 46% at 50% 52%,rgba(199,22,23,.09) 0%,transparent 70%);pointer-events:none;animation:gp 5s ease-in-out infinite;}
+  @keyframes gp{0%,100%{opacity:1;}50%{opacity:.5;}}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:relative;z-index:3;margin-bottom:26px;}
+  /* Seconda riga: gli stessi chip, un filo piu' piccoli, perche' si legga
+     come un secondo criterio e non come la continuazione del primo. */
+  .legend.stacked{margin-bottom:9px;}
+  .legend-sup{margin-bottom:8px;}
+  .legend-sup .lg-chip{font-size:8px;padding:7px 12px;gap:8px;}
+  .legend-note{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.24);text-align:center;position:relative;z-index:3;margin-bottom:24px;padding:0 12px;}
+  .lg-chip{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);background:none;border:1px solid var(--bd);padding:8px 14px;cursor:pointer;transition:color .2s,border-color .2s,background .2s;display:inline-flex;align-items:center;gap:9px;}
+  .lg-chip:hover{color:var(--w);border-color:rgba(255,255,255,.22);}
+  .lg-chip.on{color:var(--w);border-color:var(--r);background:rgba(199,22,23,.1);}
+  .lg-chip.void{color:rgba(255,255,255,.24);}
+  .lg-chip.void:hover{color:rgba(255,255,255,.4);}
+  .lg-num{font-weight:500;color:var(--r);font-size:9px;letter-spacing:.1em;}
+  .lg-chip.void .lg-num{color:rgba(199,22,23,.35);}
+
+  .radar-wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;}
+  #radar{width:100%;height:auto;display:block;overflow:visible;}
+
+  .pm-web{fill:none;stroke:rgba(255,255,255,.075);stroke-width:1;}
+  .pm-web.tier{stroke:rgba(255,255,255,.055);stroke-dasharray:3 7;}
+  .pm-web.outer{stroke:rgba(255,255,255,.16);}
+  .pm-spoke{stroke:rgba(255,255,255,.09);stroke-width:1;}
+  .pm-wedge{fill:rgba(199,22,23,.08);opacity:0;transition:opacity .35s ease;}
+  .pm-wedge.on{opacity:1;}
+  .pm-field{fill:rgba(199,22,23,.055);}
+  .pm-edge{stroke:rgba(255,255,255,.06);stroke-width:1;}
+  .pm-core{fill:none;stroke:rgba(199,22,23,.5);stroke-width:1;}
+
+  .pm-ax{font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:15px;letter-spacing:.18em;text-transform:uppercase;fill:rgba(255,255,255,.62);transition:fill .3s ease;}
+  .pm-ax.void{fill:rgba(255,255,255,.2);}
+  .pm-ax.lit{fill:var(--w);}
+  .pm-axn{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:11px;letter-spacing:.28em;fill:rgba(199,22,23,.85);}
+  .pm-axn.void{fill:rgba(255,255,255,.16);}
+
+  .pm-pt{cursor:none;outline:none;}
+  .pm-dot{fill:var(--r);transition:r .25s ease;}
+  .pm-pt.via .pm-dot{fill:rgba(255,255,255,.45);}
+  .pm-pt.via .pm-halo{stroke:rgba(255,255,255,.4);}
+  .pm-halo{fill:rgba(199,22,23,.001);stroke:rgba(199,22,23,.45);stroke-width:1;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .3s ease,transform .3s ease;transform:scale(.5);}
+  .pm-name{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:12px;letter-spacing:.06em;fill:rgba(255,255,255,.78);text-anchor:middle;pointer-events:none;transition:fill .25s ease;}
+  .pm-pt:hover .pm-dot,.pm-pt:focus .pm-dot,.pm-pt.on .pm-dot{r:9;}
+  .pm-pt:hover .pm-halo,.pm-pt:focus .pm-halo,.pm-pt.on .pm-halo{opacity:1;transform:scale(1);}
+  .pm-pt:hover .pm-name,.pm-pt:focus .pm-name,.pm-pt.on .pm-name{fill:var(--w);font-weight:500;}
+  .pm-pt.dim{opacity:.16;}
+  .pm-pt{transition:opacity .35s ease;}
+
+  .pm-tip{position:absolute;left:0;top:0;background:var(--w);color:var(--k);padding:11px 15px;border-left:2px solid var(--r);box-shadow:0 10px 32px rgba(0,0,0,.45);opacity:0;pointer-events:none;transform:translate(-50%,-100%) translateY(2px);transition:opacity .22s ease,transform .22s ease;z-index:60;max-width:min(320px,84vw);}
+  .pm-tip.on{opacity:1;transform:translate(-50%,-100%) translateY(-6px);}
+  .pm-tip-name{display:block;font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:12px;letter-spacing:.04em;}
+  .pm-tip-tier{display:block;font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-top:4px;}
+  .pm-tip-det{display:block;font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:10px;letter-spacing:.06em;color:#585852;margin-top:5px;line-height:1.5;}
+
+  .scale{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;position:relative;z-index:3;margin-top:22px;}
+  .sc-step{display:flex;flex-direction:column;align-items:center;gap:7px;padding:0 14px;}
+  .sc-dot{background:var(--r);border-radius:50%;display:block;}
+  .sc-lb{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);white-space:nowrap;}
+  .sc-arrow{width:26px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(199,22,23,.5));margin-bottom:14px;}
+  .keys{display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;position:relative;z-index:3;margin-top:16px;}
+  .key{display:inline-flex;align-items:center;gap:9px;font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);}
+  .key i{width:9px;height:9px;border-radius:50%;background:var(--r);display:block;font-style:normal;}
+  .key.grey i{background:rgba(255,255,255,.45);}
+  [dir="rtl"] .sc-arrow{background:linear-gradient(270deg,rgba(255,255,255,.08),rgba(199,22,23,.5));}
+
+  .radar-hint{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.26);text-align:center;margin-top:30px;position:relative;z-index:3;}
+
+  /* ── CLIENT LIST BY AREA ── */
+  .section-list{padding:72px 56px 84px;background:var(--w);}
+  .list-head{font-size:12px;letter-spacing:.5em;text-transform:uppercase;color:var(--r);display:flex;align-items:center;gap:14px;margin-bottom:40px;}
+  .list-head::before{content:'';width:22px;height:1px;background:var(--r);}
+  .area-block{margin-bottom:36px;}
+  .area-title{font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--k);display:flex;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--bdl);}
+  .area-count{font-weight:300;font-size:10px;letter-spacing:.2em;color:var(--r);}
+  .area-void .area-title{color:#a3a39c;}
+  .area-empty{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:11px;letter-spacing:.08em;color:#a3a39c;padding:16px 0 0;}
+  .cgrid-alpha{display:grid;grid-template-columns:1fr 1fr;margin-top:16px;border-top:1px solid #d4d2cc;}
+  .cc-alpha{position:relative;background:var(--w);padding:18px 24px;cursor:pointer;transition:background .2s;border-bottom:1px solid #d4d2cc;border-right:1px solid #d4d2cc;}
+  .cc-alpha:nth-child(2n){border-right:none;}
+  .cc-alpha:hover{background:#eceae4;}
+  .cc-alpha{display:flex;align-items:baseline;justify-content:space-between;gap:16px;}
+  .cc-alpha-name{font-size:13px;color:#111;font-weight:500;font-family:'Plain',Arial,sans-serif;}
+  .cc-alpha-tier{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#9c9c95;white-space:nowrap;}
+  .cc-dot{width:7px;height:7px;border-radius:50%;background:var(--r);display:inline-block;margin-right:10px;font-style:normal;}
+  .cc-dot.grey{background:#b6b4ae;}
+  .cc-alpha::after{
+    content:attr(data-detail);
+    position:absolute;left:24px;bottom:calc(100% + 6px);
+    background:var(--k);color:var(--w);
+    font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:10px;letter-spacing:.08em;
+    padding:9px 14px;white-space:nowrap;border-radius:2px;
+    opacity:0;pointer-events:none;transform:translateY(4px);
+    transition:opacity .35s ease, transform .35s ease;z-index:50;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+  .cc-alpha::before{
+    content:'';position:absolute;left:34px;bottom:calc(100% + 2px);
+    width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid var(--k);
+    opacity:0;pointer-events:none;transform:translateY(4px);
+    transition:opacity .35s ease, transform .35s ease;z-index:50;
+  }
+  .cc-alpha:hover::after,.cc-alpha:hover::before,
+  .cc-alpha.touch-active::after,.cc-alpha.touch-active::before{opacity:1;transform:translateY(0);}
+
+  /* ── CTA + FOOTER ── */
+  .cta-section{background:var(--k);min-height:70vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 56px 80px;position:relative;overflow:hidden;}
+  .cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 50% 60%,rgba(199,22,23,.1) 0%,transparent 70%);animation:gp 5s ease-in-out infinite;pointer-events:none;}
+  .cta-hl{font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:clamp(52px,8vw,108px);line-height:.92;letter-spacing:-.03em;position:relative;z-index:2;margin-bottom:48px;color:var(--w);}
+  .cta-hl-white{color:var(--w);font-style:normal;}
+  .cta-hl-red{color:var(--r);font-style:normal;}
+  .cta-email{font-family:'Plain',Arial,sans-serif;font-weight:500;font-size:18px;color:var(--w);text-decoration:none;border-bottom:1px solid var(--r);padding-bottom:2px;position:relative;z-index:2;letter-spacing:.03em;transition:color .2s;display:inline-block;margin-bottom:12px;}
+  .cta-email:hover{color:var(--r);}
+  .cta-sub{font-family:'Plain',Arial,sans-serif;font-weight:300;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(199,22,23,.45);position:relative;z-index:2;margin-top:6px;}
+
+  .car-footer{background:var(--k);color:var(--w);padding:28px 56px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:24px;}
+  .footer-logo-wrap svg{width:160px;height:auto;display:block;}
+  .arabic-only{display:none;}
+  [dir="rtl"] nav{flex-direction:row-reverse;}
+  [dir="rtl"] .lang-switcher{flex-direction:row-reverse;}
+  [dir="rtl"] .stag,[dir="rtl"] .list-head{flex-direction:row-reverse;}
+
+  @media (max-width: 900px){
+    .section-radar{padding:48px 20px 56px;}
+    .pm-name{font-size:14px;}
+    .pm-ax{font-size:19px;}
+    .pm-axn{font-size:14px;}
+  }
+  @media (max-width: 700px){
+    .pm-name{display:none;}
+    .pm-dot{r:6;}
+    .pm-ax{font-size:22px;letter-spacing:.12em;}
+    .pm-axn{font-size:16px;}
+    .cgrid-alpha{grid-template-columns:1fr;}
+    .cc-alpha{border-right:none;}
+  }
+  @media (max-width: 600px){
+    nav{padding:16px 16px;}
+    .back-btn{font-size:9px;letter-spacing:.2em;}
+    .car-hero{padding:100px 16px 40px;}
+    .car-hero h1{font-size:clamp(28px,8vw,52px);}
+    .car-hero .hero-lead{font-size:13px;}
+    .section-radar{padding:40px 12px 48px;}
+    .section-list{padding:48px 16px 64px;}
+    .cc-alpha{padding:14px 16px;}
+    .cc-alpha-name{font-size:12px;}
+    .cc-alpha::after{font-size:9px;left:16px;max-width:calc(100vw - 40px);white-space:normal;}
+    .cc-alpha::before{left:26px;}
+    .cta-section{padding:72px 16px 56px;}
+    .cta-hl{font-size:clamp(36px,10vw,64px);}
+    .cta-email{font-size:14px;}
+    .car-footer{padding:24px 16px;flex-wrap:wrap;gap:12px;}
+    .footer-logo-wrap svg{width:120px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="ring"></div>
+
+<nav>
+  <a class="back-btn" data-i18n="back-portfolio" href="potential-carousel.html">← Back to Client Portfolio</a>
+  <div id="lang-switcher" class="lang-switcher"></div>
+</nav>
+
+<!-- HERO -->
+<section class="car-hero">
+  <div class="stag" data-i18n="stag-coverage">Coverage Areas</div>
+  <h1 data-i18n="pm-title">Portfolio Map</h1>
+  <p class="hero-lead" data-i18n="pm-lead">Each dot is a client. Each axis is a coverage area.</p>
+  <p class="hero-note" data-i18n="pm-note">Distance from the centre carries no value: it only keeps the names readable.</p>
+</section>
+
+<!-- RADAR -->
+<section class="section-radar">
+  <div class="radar-glow"></div>
+  <div class="legend" id="legend"></div>
+  <div id="supFilter">
+    <div class="legend legend-sup" id="legendSup"></div>
+    <p class="legend-note" data-i18n="pm-sup-note">Suppliers appear as letters — the names stay with us.</p>
+  </div>
+  <div class="radar-wrap" id="radarWrap">
+    <svg id="radar" viewBox="0 0 1400 1250" role="img" aria-label="Potential portfolio map"></svg>
+    <div class="pm-tip" id="pmTip"><span class="pm-tip-name"></span><span class="pm-tip-tier"></span><span class="pm-tip-det"></span></div>
+  </div>
+  <div class="scale" id="scale"></div>
+  <div class="keys" id="keys"></div>
+  <p class="radar-hint" data-i18n="pm-hint">Hover a dot for the project detail · tap on mobile</p>
+</section>
+
+<!-- CLIENT LIST BY AREA -->
+<section class="section-list">
+  <div class="list-head" data-i18n="pm-list">Clients by coverage area</div>
+  <div id="areaList"></div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <h2 class="cta-hl">
+    <span class="cta-hl-white latin-only" data-i18n="cta-hl-1">Every space.</span>
+    <span class="cta-hl-white arabic-only" dir="rtl" style="display:none;" data-i18n="cta-hl-1">كلّ فضاء،</span>
+    <br>
+    <span class="cta-hl-red latin-only" data-i18n="cta-hl-2">Delivered.</span>
+    <span class="cta-hl-red arabic-only" dir="rtl" style="display:none;" data-i18n="cta-hl-2">مُنجَز.</span>
+  </h2>
+  <a href="mailto:info@potential.contractors" class="cta-email">info@potential.contractors</a>
+  <p class="cta-sub latin-only" data-i18n="cta-sub">Worldwide Projects</p>
+  <p class="cta-sub arabic-only" dir="rtl" style="display:none;">مشاريع عالمية</p>
+</section>
+
+<footer class="car-footer">
+  <div class="footer-logo-wrap">
+    <svg style="width:min(600px,85vw);height:auto;display:block;" viewBox="0 0 531.95 171.63" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#c71617" d="M34.72,59.46c12.15,0,21.87-8,21.87-20.44,0-10.29-7.58-20.44-21.87-20.44H15.86v36.45H1.13V5.29h37.16c20.01,0,33.02,14.58,33.02,34.02,0,17.01-11.01,33.45-33.02,33.45h-12.01c-5.72,0-10.43,4.72-10.43,10.43v19.15H1.13v-17.87c0-13.86,11.15-25.01,25.01-25.01h8.58Z"/>
+      <path fill="#1d1d1b" d="M108.33,103.48c-19.87,0-31.44-16.58-31.44-31.3v-13.15c0-14.72,12.43-31.59,32.3-31.59h5.29c19.87,0,32.3,16.87,32.3,31.59v13.15c0,14.72-11.58,31.3-31.44,31.3h-7ZM91.61,72.18c0,11.86,10,18.01,20.15,18.01s20.3-6.15,20.3-18.01v-13.15c0-12.15-10.15-18.15-20.3-18.15-10.86,0-20.15,6.72-20.15,18.15v13.15Z"/>
+      <path fill="#1d1d1b" d="M200.23,103.34c-1.57.43-7.58.43-9.29.43-16.44,0-23.01-8.43-23.01-25.87v-36.59h-14.58v-8.86c9.58,0,19.72-4.29,19.72-21.15h9.58v17.58h18.15v12.43h-18.15v36.3c0,9.29,3.57,11.72,11.29,11.72h8l-1.72,14.01Z"/>
+      <path fill="#1d1d1b" d="M322.72,27.44c19.58,0,30.87,12.01,30.87,31.59v43.31h-14.72v-43.31c0-8.15-6.29-18.15-18.72-18.15-10,0-16.44,5.57-21.87,13.29-.43.71-.86,1.29-1.29,2-12.15,18.58-19.87,47.6-52.31,47.6-15.44,0-36.16-10.29-36.16-31.3v-13.15c0-14.72,12.43-31.59,32.3-31.59h2.43c8.58,0,16.72,3.43,22.58,9,9.86,9.43,9.72,18.44,9.72,31.16v2h-52.31c0,11.01,7.29,20.44,22.73,20.44,22.15,0,31.3-16.72,40.59-32.87v-28.59h13.29l1.43,7.72c1.72-1.71,3.72-3.29,6-4.57l.14-.14c4.29-2.57,9.29-4.15,15.29-4.43ZM261.26,57.31c0-10.01-8.29-16.44-17.87-16.44-11.58,0-19.3,8.72-20.01,16.44h37.88ZM301.28,61.89v40.45h-14.72v-14.58l14.72-25.87Z"/>
+      <path fill="#1d1d1b" d="M407.05,103.34c-1.57.43-7.58.43-9.29.43-16.44,0-23.01-8.43-23.01-25.87v-36.59h-14.58v-8.86c9.58,0,19.72-4.29,19.72-21.15h9.58v17.58h18.15v12.43h-18.15v36.3c0,9.29,3.57,11.72,11.29,11.72h8l-1.72,14.01Z"/>
+      <path fill="#1d1d1b" d="M431.63.14v15.15h-14.86V.14h14.86ZM431.63,28.87v73.47h-14.72V28.87h14.72Z"/>
+      <path fill="#1d1d1b" d="M490.8,94.62c-5.29,5.29-13.15,9.15-23.58,9.15-15.01,0-26.44-9-26.44-22.15,0-14.86,13.01-23.01,28.3-23.01h7.29c5.15,0,15.72-2.57,15.72-9.15,0-5.57-7.29-8.58-15.15-8.58-9,0-18.58,3.86-18.58,12.01h-14.72c0-17.15,16.44-25.44,32.73-25.44,15.44,0,30.87,7.58,30.87,22.73s-17.15,19.87-29.01,19.87h-9.72c-5.57,0-12.86,3.29-12.86,10,0,7.72,9.43,10.58,15.15,10.58,8.43,0,21.73-5.72,22.87-16.15h11.58v27.87h-13.01l-1.43-7.72Z"/>
+      <path fill="#1d1d1b" d="M516.1,0h14.72v102.34h-14.72V0Z"/>
+      <path fill="#1d1d1b" d="M0,160.25v-37.34h21.78v5.11H5.66v9.68h14.46v5.11H5.66v12.37h16.11v5.11H2.8v-.06H0Z"/>
+      <path fill="#1d1d1b" d="M29.75,131.98l7.81,21.61,7.75-21.61h5.72l-10.78,28.27h-5.44l-10.78-28.27h5.72Z"/>
+      <path fill="#1d1d1b" d="M57.09,147.66v.99c0,3.13,2.47,6.93,7.26,6.93,3.52,0,6.98-1.54,6.98-4.56h5.61c0,5-5.22,9.68-11.82,9.68h-1.59c-7.64,0-12.1-6.38-12.1-12.04v-5.06c0-5.66,4.78-12.15,12.43-12.15h.93c3.3,0,6.43,1.32,8.69,3.46,3.79,3.63,3.74,7.09,3.74,11.99v.77h-20.13ZM71.72,142.93c0-3.85-3.3-6.32-6.98-6.32-4.45,0-7.26,3.35-7.59,6.32h14.57Z"/>
+    </svg>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+
+/* ── I18N ───────────────────────────────────────────────────────── */
+const LANGS=['en','it','zh','ru','ar'];
+const LANG_LABELS={en:'ENG',it:'ITA',zh:'中文',ru:'РУС',ar:'عربي'};
+const T={
+"stag-coverage":{"en":"Coverage Areas","it":"Aree di Copertura","zh":"覆盖领域","ru":"Области охвата","ar":"مجالات التغطية"},
+"pm-title":{"en":"Portfolio Map","it":"Mappa del Portfolio","zh":"业务版图","ru":"Карта портфеля","ar":"خريطة المحفظة"},
+"pm-lead":{"en":"Each dot is a client. Each axis is a coverage area.","it":"Ogni punto è un cliente. Ogni asse è un ambito di copertura.","zh":"每个红点代表一位客户，每条轴线代表一个业务领域。","ru":"Каждая точка — клиент. Каждая ось — область охвата.","ar":"كل نقطة تمثل عميلاً، وكل محور يمثل مجال تغطية."},
+"pm-note":{"en":"Distance from the centre is the client's own positioning: the more luxury the brand, the further out the dot sits. Potential's assessment, not a market ranking.","it":"La distanza dal centro è il posizionamento del cliente: più il marchio è luxury, più il punto va verso l'esterno. È una valutazione di Potential, non una classifica di mercato.","zh":"与中心的距离代表客户品牌的定位：品牌越奢侈，红点越靠外。此为 Potential 的评估，并非市场排名。","ru":"Расстояние от центра — позиционирование самого клиента: чем более люксовый бренд, тем дальше точка. Это оценка Potential, а не рыночный рейтинг.","ar":"المسافة من المركز تعبّر عن مكانة العميل نفسه: كلما كانت العلامة أكثر فخامة، ابتعدت النقطة عن المركز. هذا تقييم من Potential وليس تصنيفًا سوقيًا."},
+"pm-hint":{"en":"Hover a dot for the project detail · tap on mobile","it":"Passa sul punto per il dettaglio del progetto · tocca da mobile","zh":"将鼠标移至红点查看项目详情 · 手机端请点击","ru":"Наведите на точку, чтобы увидеть детали проекта · на мобильном — нажмите","ar":"مرّر المؤشر فوق النقطة لعرض تفاصيل المشروع · اضغط على الهاتف"},
+"pm-direct":{"en":"Direct client","it":"Cliente diretto","zh":"直接客户","ru":"Прямой клиент","ar":"عميل مباشر"},
+"pm-via":{"en":"Through a fit-out contractor","it":"Tramite un contractor del fit-out","zh":"通过装修总包","ru":"Через fit-out подрядчика","ar":"عبر مقاول تجهيزات"},
+"pm-all":{"en":"All areas","it":"Tutti gli ambiti","zh":"全部领域","ru":"Все области","ar":"كل المجالات"},
+"pm-all-sup":{"en":"All suppliers","it":"Tutti i fornitori","zh":"全部供应商","ru":"Все поставщики","ar":"كل المورّدين"},
+"pm-supplier":{"en":"Supplier","it":"Fornitore","zh":"供应商","ru":"Поставщик","ar":"المورّد"},
+"pm-sup-note":{"en":"Suppliers appear as letters — the names stay with us.","it":"I fornitori compaiono come lettere: i nomi restano riservati.","zh":"供应商以字母显示，名称不予公开。","ru":"Поставщики обозначены буквами — названия не раскрываются.","ar":"يظهر المورّدون بأحرف — الأسماء تبقى محفوظة لدينا."},
+"pm-list":{"en":"Clients by coverage area","it":"Clienti per ambito di copertura","zh":"按业务领域划分的客户","ru":"Клиенты по областям охвата","ar":"العملاء حسب مجال التغطية"},
+"pm-empty":{"en":"Coverage area — no client listed yet","it":"Ambito di copertura — nessun cliente in elenco","zh":"业务领域 — 暂无客户列示","ru":"Область охвата — клиенты пока не указаны","ar":"مجال تغطية — لا يوجد عميل مُدرج بعد"},
+"back-portfolio":{"en":"← Back to Client Portfolio","it":"← Torna al Portfolio Clienti","zh":"← 返回客户案例","ru":"← Назад к портфелю клиентов","ar":"← العودة إلى محفظة العملاء"},
+"cta-hl-1":{"en":"Every space.","it":"Every space.","zh":"每一个空间。","ru":"Каждое пространство.","ar":"كلّ فضاء،"},
+"cta-hl-2":{"en":"Delivered.","it":"Delivered.","zh":"完美交付。","ru":"Реализовано.","ar":"مُنجَز."},
+"cta-sub":{"en":"Worldwide Projects","it":"Worldwide Projects","zh":"全球项目","ru":"Международные проекты","ar":"مشاريع عالمية"}
+};
+
+/* ── AXES — the seven coverage areas ────────────────────────────── */
+/* Labels 01–06 come verbatim from the homepage sector cards.        */
+/* "Office & Corporate" is not a homepage sector but is the largest  */
+/* group in the portfolio, so it gets its own axis.                  */
+const AX=[
+ {id:'hospitality',t:{en:'Hospitality|& Spa',it:'Hotel|& Spa',zh:'酒店|与水疗',ru:'Гостиницы|и спа',ar:'الضيافة|والسبا'}},
+ {id:'residential',t:{en:'Residential|& Private',it:'Residenziale',zh:'住宅|与私宅',ru:'Жилой|и частный',ar:'سكني|وخاص'}},
+ {id:'government', t:{en:'Government|Buildings',it:'Edifici|Governativi',zh:'政府|建筑',ru:'Государственные|здания',ar:'المباني|الحكومية'}},
+ {id:'retail',     t:{en:'Retail',it:'Retail',zh:'零售',ru:'Ритейл',ar:'تجزئة'}},
+ {id:'prime',      t:{en:'Prime Property|Sourcing',it:'Prime Property|Sourcing',zh:'优质房产|寻源',ru:'Поиск элитной|недвижимости',ar:'توريد العقارات|المتميزة'}},
+ {id:'yachting',   t:{en:'Yachting|& Marine',it:'Yachting|& Marina',zh:'游艇|与海洋',ru:'Яхтинг|и морской',ar:'يخوت|وبحري'}},
+ {id:'office',     t:{en:'Office|& Corporate',it:'Uffici|& Corporate',zh:'办公|与企业',ru:'Офисы|и корпорации',ar:'المكاتب|والشركات'}}
+];
+
+/* ── SOURCE OF TRUTH ────────────────────────────────────────────────
+   Dropbox / WORK - SUPPLIERS OFFERING / PT-SUPPLIERS PROJECTS LIST.xlsx
+   sheet "SUPPLIERS PROJECTS". Only the rows flagged WEBSITE = x belong
+   here; the RISERVATO rows never leave that file. Columns map as:
+     SECTOR → a · CLIENT/PROJECT → n · LOCATION + CONTRACTOR → d
+     FORNITORE → s, one letter per supplier, several letters when a
+     client was served by more than one. The supplier names never reach
+     this file: the letters are assigned in build.py, which prints the
+     legend on screen and saves it nowhere. A client with no supplier on
+     record keeps s empty and drops out of every supplier filter.
+   Rows repeated per location (Tiffany, Burberry, Hilton) collapse into
+   one client, locations joined by "·". CONTRACTOR fills the "for ..."
+   at the end of d, which is what turns the dot grey.
+   ─────────────────────────────────────────────────────────────────── */
+
+/* ── LUXURY TIERS — how far out a client sits ───────────────────────
+   t = positioning of the CLIENT'S OWN BRAND in its market, not the
+   size or the value of the project. Editorial assessment, to be
+   assigned by the same rule every time a client is added:
+     1  Mass market      — volume brands, no premium claim
+     2  Business standard— corporate, professional, institutional
+     3  Premium          — upper-mid, brand-led, performance-led
+     4  High-end         — design authority, upscale, prestige retail
+     5  Ultra luxury     — maisons, 5-star landmarks, ultra-prime
+   ─────────────────────────────────────────────────────────────────── */
+/* PORTFOLIO-DATA:START — generato da tools/portfolio-data/build.py, non editare a mano */
+const CLIENTS=[
+ {n:'ABB',                 a:'retail',       t:1, s:'A', d:'Retail & Luxury · Italy · for Studio Archeias'},
+ {n:'Accenture',           a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Auchan',              a:'retail',       t:1, s:'A', d:'Retail & Luxury · Italy · for Studio Archeias'},
+ {n:'B&B Italia',          a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
+ {n:'Banca Mediolanum',    a:'office',       t:2, s:'A', d:'Office & Corporate · Milan · for Herman Miller'},
+ {n:'Biogen',              a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Blue Lagoon Iceland', a:'hospitality',  t:5, s:'A', d:'Hospitality & Spa · Iceland'},
+ {n:'Brembo',              a:'office',       t:3, s:'A', d:'Office & Corporate · Bergamo · for Herman Miller'},
+ {n:'Burberry',            a:'retail',       t:5, s:'A', d:'Retail & Luxury · Florence · Rome · Zurich · for Studio Archeias'},
+ {n:'Chanel',              a:'office',       t:5, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Cisco Systems',       a:'office',       t:1, s:'A', d:'Office & Corporate · Vimercate'},
+ {n:'Costa Crociere',      a:'office',       t:1, s:'A', d:'Office & Corporate · Genoa · for Herman Miller'},
+ {n:'Deloitte',            a:'office',       t:2, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Fastweb',             a:'retail',       t:1, s:'A', d:'Retail & Luxury · Milan · for Knoll'},
+ {n:'Flos',                a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
+ {n:'Galeries Lafayette',  a:'retail',       t:4, s:'A', d:'Retail & Luxury · Paris · for Studio Archeias'},
+ {n:'Gallia',              a:'hospitality',  t:5, s:'A', d:'Hospitality & Spa'},
+ {n:'Hilton',              a:'hospitality',  t:3, s:'A', d:'Hospitality & Spa · Kiev · Tel Aviv'},
+ {n:'HP Hewlett-Packard',  a:'office',       t:1, s:'A', d:'Office & Corporate · Rome · for Herman Miller'},
+ {n:'Kvadrat',             a:'office',       t:4, s:'A', d:'Office & Corporate · Milan'},
+ {n:'Lavazza',             a:'office',       t:3, s:'A', d:'Office & Corporate · Rome · for Studio Archeias'},
+ {n:'Lingotto',            a:'office',       t:3, s:'A', d:'Office & Corporate · Turin · for Herman Miller'},
+ {n:'Louis Poulsen',       a:'retail',       t:4, s:'B', d:'Retail & Luxury'},
+ {n:'Marriott',            a:'hospitality',  t:3, s:'A', d:'Hospitality & Spa · London · for Molteni & C'},
+ {n:'Marriott County Hall',a:'hospitality',  t:4, s:'A', d:'Hospitality & Spa · London'},
+ {n:'MC Donald',           a:'office',       t:1, s:'A', d:'Office & Corporate · Moscow · for Hines'},
+ {n:'Melia',               a:'hospitality',  t:3, s:'',  d:'Hospitality & Spa'},
+ {n:'Moorer',              a:'retail',       t:4, s:'A', d:'Retail & Luxury · Milan'},
+ {n:'Pirelli',             a:'residential',  t:3, s:'A', d:'Residential · London · for Molteni & C'},
+ {n:'Showroom Zara',       a:'retail',       t:1, s:'A', d:'Retail & Luxury · for Studio Archeias'},
+ {n:'Sofitel',             a:'hospitality',  t:4, s:'A', d:'Hospitality & Spa · Rome'},
+ {n:'Tiffany',             a:'retail',       t:5, s:'A', d:'Retail & Luxury · Dubai Airport · Florence · Harrods, London · Heathrow, London · Rome Via Condotti · Toronto · Venezia Fondaco · for Studio Archeias'},
+ {n:'U.S. Navy Base NATO', a:'office',       t:1, s:'A', d:'Office & Corporate · Capodichino · for Molteni & C'}
+];
+/* PORTFOLIO-DATA:END */
+const TIERS={
+ 1:{en:'Mass market',      it:'Grande distribuzione', zh:'大众市场', ru:'Масс-маркет',    ar:'السوق العام'},
+ 2:{en:'Business standard',it:'Business standard',    zh:'商务标准', ru:'Бизнес-стандарт',ar:'معيار الأعمال'},
+ 3:{en:'Premium',          it:'Premium',              zh:'高端',     ru:'Премиум',        ar:'بريميوم'},
+ 4:{en:'High-end',         it:'Alta gamma',           zh:'高级',     ru:'Хай-энд',        ar:'راقٍ'},
+ 5:{en:'Ultra luxury',     it:'Ultra luxury',         zh:'顶级奢华', ru:'Ультра-люкс',    ar:'فخامة فائقة'}
+};
+
+/* Suppliers actually present, with the number of clients each one covers.
+   Letters come out of build.py already ordered by size, so A leads. */
+const SUPPLIERS=(()=>{
+  const m=new Map();
+  CLIENTS.forEach(c=>[...(c.s||'')].forEach(k=>m.set(k,(m.get(k)||0)+1)));
+  return [...m.keys()].sort().map(k=>({k,n:m.get(k)}));
+})();
+
+/* ── GEOMETRY ───────────────────────────────────────────────────── */
+const VB={cx:700,cy:630,R:470};
+const N=AX.length, STEP=2*Math.PI/N;
+const axAngle=i=>-Math.PI/2+i*STEP;
+const px=(a,r)=>[VB.cx+r*Math.cos(a),VB.cy+r*Math.sin(a)];
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* Projects delivered through a fit-out contractor or a manufacturer —
+   the detail line ends with "for <name>". They get a grey dot: the
+   client is in the portfolio, but the relationship was not direct. */
+const viaOf=c=>{ const m=/·\s*for\s+(.+)$/.exec(c.d); return m?m[1].trim():null; };
+
+/* The radius is the luxury tier: mass market near the centre,
+   ultra luxury out at the rim. Clients sharing a tier spread along
+   the arc of their own wedge and, when the arc runs out, stack on
+   secondary rows that stay inside the band of that tier. */
+const BAND=(0.95-0.40)*VB.R/4;
+const tierR=t=>0.40*VB.R+(t-1)*BAND;
+function layoutSector(i,items){
+  if(!items.length) return [];
+  const span=STEP*0.80, c=axAngle(i), MIN_ARC=112, ROW=[0,-26,26,-50,50,-62,62];
+  const out=[];
+  [1,2,3,4,5].forEach(t=>{
+    const grp=items.filter(x=>x.t===t).sort((a,b)=>a.n.localeCompare(b.n));
+    if(!grp.length) return;
+    const rBase=tierR(t);
+    const cap=Math.max(1,Math.floor(span*rBase/MIN_ARC)+1);
+    const rows=Math.ceil(grp.length/cap);
+    let k=0;
+    for(let row=0;row<rows && k<grp.length;row++){
+      const cnt=Math.min(cap,grp.length-k);
+      const r=rBase+(ROW[row]||0);
+      // odd rows sit half a slot round, inside the same span — never past it
+      const stagger = row%2 ? span/(2*Math.max(cnt,2)) : 0;
+      const usable = span-2*stagger;
+      for(let m=0;m<cnt;m++,k++){
+        const f = cnt===1 ? .5 : m/(cnt-1);
+        const ang = c-span/2+stagger+usable*f;
+        const [x,y]=px(ang,r);
+        // rows alternate the name above and below the dot, so a crowded
+        // tier never stacks two names on the same line
+        out.push({...grp[k],x,y,rBase,c,span,lab:row%2?1:-1});
+      }
+    }
+  });
+  return out;
+}
+
+/* Baseline of a client name: above its dot, or below it on odd rows. */
+const labY=p=>p.y+(p.lab>0?19:-15);
+
+/* Separates names that would overlap. A point may move a little in or
+   out inside the band of its own tier and, when the band is exhausted,
+   sideways inside the wedge of its own area — so neither the tier nor
+   the coverage area it belongs to is ever misread. */
+function polarOf(p){
+  const ang=Math.atan2(p.y-VB.cy,p.x-VB.cx);
+  return {r:Math.hypot(p.x-VB.cx,p.y-VB.cy), d:Math.atan2(Math.sin(ang-p.c),Math.cos(ang-p.c))};
+}
+function setPolar(p,r,d){ const a=p.c+d; p.x=VB.cx+r*Math.cos(a); p.y=VB.cy+r*Math.sin(a); }
+
+function decollide(all){
+  const wOf=p=>p.n.length*6.6+10, H=18, dotR=p=>3.4+p.t*0.7+3;
+  const move=(p,dir)=>{
+    const {r,d}=polarOf(p);
+    const lo=p.rBase-BAND*0.44, hi=p.rBase+BAND*0.44;
+    const nr=Math.min(Math.max(r+dir*4,lo),hi);
+    if(Math.abs(nr-r)>0.5){ setPolar(p,nr,d); return true; }
+    const half=p.span/2;
+    const nd=Math.min(Math.max(d+dir*0.018,-half),half);
+    if(Math.abs(nd-d)<1e-5) return false;
+    setPolar(p,r,nd); return true;
+  };
+  for(let pass=0;pass<200;pass++){
+    let moved=false;
+    for(let i=0;i<all.length;i++){
+      for(let j=i+1;j<all.length;j++){
+        const A=all[i],B=all[j];
+        // label against label, and label against the other's dot
+        const labels = Math.abs(A.x-B.x)<(wOf(A)+wOf(B))/2 && Math.abs(labY(A)-labY(B))<H;
+        const onDot = (L,D)=>Math.abs(L.x-D.x)<wOf(L)/2+dotR(D) && Math.abs(labY(L)-D.y)<H/2+dotR(D);
+        if(labels || onDot(A,B) || onDot(B,A)){
+          const rA=Math.hypot(A.x-VB.cx,A.y-VB.cy), rB=Math.hypot(B.x-VB.cx,B.y-VB.cy);
+          const m = rA<=rB ? (move(A,-1)|move(B,1)) : (move(B,-1)|move(A,1));
+          moved = moved || !!m;
+        }
+      }
+    }
+    if(!moved) break;
+  }
+  return all;
+}
+
+/* ── RENDER ─────────────────────────────────────────────────────── */
+/* Two independent filters, combined: a dot stays lit only if it belongs to
+   the area in focus AND to the supplier in focus. */
+let focusAx=null, focusSup=null;
+function currentLang(){return document.documentElement.lang||'en';}
+
+function renderRadar(){
+  const lang=currentLang();
+  const svg=document.getElementById('radar');
+  let s='';
+
+  // web: one ring per luxury tier, plus the rim
+  [1,2,3,4,5].forEach(t=>{
+    const pts=AX.map((_,i)=>px(axAngle(i),tierR(t)).map(v=>v.toFixed(1)).join(',')).join(' ');
+    s+=`<polygon class="pm-web tier" points="${pts}"/>`;
+  });
+  s+=`<polygon class="pm-web outer" points="${AX.map((_,i)=>px(axAngle(i),VB.R).map(v=>v.toFixed(1)).join(',')).join(' ')}"/>`;
+  // wedges: a permanent tint on the areas that hold clients, plus the
+  // highlight layer used when one area is put in focus
+  AX.forEach((ax,i)=>{
+    const a=axAngle(i);
+    const [x1,y1]=px(a-STEP/2,VB.R), [x2,y2]=px(a+STEP/2,VB.R);
+    const pts=`${VB.cx},${VB.cy} ${x1.toFixed(1)},${y1.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`;
+    if(CLIENTS.some(c=>c.a===ax.id)) s+=`<polygon class="pm-field" points="${pts}"/>`;
+    s+=`<polygon class="pm-wedge" data-wedge="${ax.id}" points="${pts}"/>`;
+  });
+  // boundaries between one area and the next
+  AX.forEach((_,i)=>{
+    const [x,y]=px(axAngle(i)+STEP/2,VB.R);
+    s+=`<line class="pm-edge" x1="${VB.cx}" y1="${VB.cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+  });
+  // spokes
+  AX.forEach((_,i)=>{
+    const [x,y]=px(axAngle(i),VB.R);
+    s+=`<line class="pm-spoke" x1="${VB.cx}" y1="${VB.cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+  });
+  s+=`<circle class="pm-core" cx="${VB.cx}" cy="${VB.cy}" r="5"/>`;
+
+  // axis labels + client counts
+  AX.forEach((ax,i)=>{
+    const a=axAngle(i), [x,y]=px(a,VB.R+38);
+    const cos=Math.cos(a), sin=Math.sin(a);
+    const anchor = cos>0.3 ? 'start' : cos<-0.3 ? 'end' : 'middle';
+    const lines=(ax.t[lang]||ax.t.en).split('|');
+    const count=CLIENTS.filter(c=>c.a===ax.id).length;
+    const nLines=lines.length+1;
+    const base = sin<-0.5 ? y-(nLines-1)*20 : sin>0.5 ? y+16 : y+4;
+    const cls = count? '' : ' void';
+    lines.forEach((ln,j)=>{
+      s+=`<text class="pm-ax${cls}" data-axlabel="${ax.id}" x="${x.toFixed(1)}" y="${(base+j*20).toFixed(1)}" text-anchor="${anchor}">${esc(ln)}</text>`;
+    });
+    s+=`<text class="pm-axn${cls}" x="${x.toFixed(1)}" y="${(base+lines.length*20+2).toFixed(1)}" text-anchor="${anchor}">${count?String(count).padStart(2,'0'):'—'}</text>`;
+  });
+
+  // client dots
+  let pts=[];
+  AX.forEach((ax,i)=>{ pts=pts.concat(layoutSector(i,CLIENTS.filter(c=>c.a===ax.id))); });
+  decollide(pts).forEach(p=>{
+    const tName=(TIERS[p.t][lang]||TIERS[p.t].en);
+    const via=viaOf(p);
+    s+=`<g class="pm-pt${via?' via':''}" data-ax="${p.a}" data-sup="${esc(p.s||'')}" data-name="${esc(p.n)}" data-det="${esc(p.d)}" data-tier="${p.t}" data-tname="${esc(tName)}" tabindex="0" role="listitem">`
+     +   `<title>${esc(p.n)} — ${esc(p.d)}</title>`
+     +   `<circle class="pm-halo" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="14"/>`
+     +   `<circle class="pm-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${(3.4+p.t*0.7).toFixed(1)}"/>`
+     +   `<text class="pm-name" x="${p.x.toFixed(1)}" y="${labY(p).toFixed(1)}">${esc(p.n)}</text>`
+     + `</g>`;
+  });
+
+  svg.innerHTML=s;
+  bindDots();
+  applyFocus();
+}
+
+function renderLegend(){
+  const lang=currentLang(), box=document.getElementById('legend');
+  let s=`<button class="lg-chip${focusAx?'':' on'}" data-ax="">${esc(T['pm-all'][lang]||T['pm-all'].en)}</button>`;
+  AX.forEach(ax=>{
+    const count=CLIENTS.filter(c=>c.a===ax.id).length;
+    const label=(ax.t[lang]||ax.t.en).split('|').join(' ');
+    s+=`<button class="lg-chip${count?'':' void'}${focusAx===ax.id?' on':''}" data-ax="${ax.id}">`
+     + `${esc(label)}<span class="lg-num">${count?String(count).padStart(2,'0'):'—'}</span></button>`;
+  });
+  box.innerHTML=s;
+  box.querySelectorAll('.lg-chip').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.ax;
+      focusAx = (!id || focusAx===id) ? null : id;
+      renderLegend(); applyFocus();
+    };
+  });
+}
+
+/* Second filter row. It only makes sense with more than one supplier on the
+   board: below that it would be a single button saying nothing, so it hides
+   itself and the first row goes back to its own spacing. */
+function renderSupLegend(){
+  const lang=currentLang(), box=document.getElementById('legendSup'), wrap=document.getElementById('supFilter');
+  const show=SUPPLIERS.length>1;
+  wrap.style.display=show?'':'none';
+  document.getElementById('legend').classList.toggle('stacked',show);
+  if(!show){ focusSup=null; return; }
+  const word=T['pm-supplier'][lang]||T['pm-supplier'].en;
+  let s=`<button class="lg-chip${focusSup?'':' on'}" data-sup="">${esc(T['pm-all-sup'][lang]||T['pm-all-sup'].en)}</button>`;
+  SUPPLIERS.forEach(sp=>{
+    s+=`<button class="lg-chip${focusSup===sp.k?' on':''}" data-sup="${sp.k}">`
+     + `${esc(word)} ${sp.k}<span class="lg-num">${String(sp.n).padStart(2,'0')}</span></button>`;
+  });
+  box.innerHTML=s;
+  box.querySelectorAll('.lg-chip').forEach(b=>{
+    b.onclick=()=>{
+      const k=b.dataset.sup;
+      focusSup = (!k || focusSup===k) ? null : k;
+      renderSupLegend(); applyFocus();
+    };
+  });
+}
+
+function renderScale(){
+  const lang=currentLang();
+  document.getElementById('scale').innerHTML=[1,2,3,4,5].map(t=>{
+    const d=(3.4+t*0.7)*2*0.8;
+    return `<div class="sc-step"><span class="sc-dot" style="width:${d.toFixed(1)}px;height:${d.toFixed(1)}px;"></span>`
+         + `<span class="sc-lb">${esc(TIERS[t][lang]||TIERS[t].en)}</span></div>`;
+  }).join('<span class="sc-arrow"></span>');
+  const tr=k=>esc(T[k][lang]||T[k].en);
+  document.getElementById('keys').innerHTML=
+     `<span class="key"><i></i>${tr('pm-direct')}</span>`
+   + `<span class="key grey"><i></i>${tr('pm-via')}</span>`;
+}
+
+function applyFocus(){
+  document.querySelectorAll('.pm-pt').forEach(g=>{
+    const offAx  = !!focusAx  && g.dataset.ax!==focusAx;
+    const offSup = !!focusSup && !(g.dataset.sup||'').includes(focusSup);
+    g.classList.toggle('dim', offAx||offSup);
+  });
+  document.querySelectorAll('.pm-wedge').forEach(w=>{
+    w.classList.toggle('on', w.dataset.wedge===focusAx);
+  });
+  document.querySelectorAll('[data-axlabel]').forEach(t=>{
+    t.classList.toggle('lit', t.dataset.axlabel===focusAx);
+  });
+}
+
+/* ── TOOLTIP ────────────────────────────────────────────────────── */
+function bindDots(){
+  const tip=document.getElementById('pmTip'), wrap=document.getElementById('radarWrap');
+  const show=g=>{
+    const dot=g.querySelector('.pm-dot').getBoundingClientRect();
+    const w=wrap.getBoundingClientRect();
+    tip.querySelector('.pm-tip-name').textContent=g.dataset.name;
+    tip.querySelector('.pm-tip-tier').textContent=g.dataset.tname;
+    tip.querySelector('.pm-tip-det').textContent=g.dataset.det;
+    tip.classList.add('on');
+    const half=tip.offsetWidth/2+8;
+    const left=Math.min(Math.max(dot.left+dot.width/2-w.left,half),w.width-half);
+    tip.style.left=left+'px';
+    tip.style.top=(dot.top-w.top)+'px';
+  };
+  const hide=()=>tip.classList.remove('on');
+  document.querySelectorAll('.pm-pt').forEach(g=>{
+    g.addEventListener('mouseenter',()=>show(g));
+    g.addEventListener('mouseleave',hide);
+    g.addEventListener('focus',()=>show(g));
+    g.addEventListener('blur',hide);
+    g.addEventListener('click',e=>{
+      e.stopPropagation();
+      const was=g.classList.contains('on');
+      document.querySelectorAll('.pm-pt.on').forEach(o=>o.classList.remove('on'));
+      if(was){hide();} else {g.classList.add('on');show(g);}
+    });
+  });
+  document.addEventListener('click',()=>{
+    document.querySelectorAll('.pm-pt.on').forEach(o=>o.classList.remove('on'));
+    hide();
+  });
+  window.addEventListener('scroll',hide,{passive:true});
+  window.addEventListener('resize',hide);
+}
+
+/* ── CLIENT LIST BY AREA ────────────────────────────────────────── */
+function renderList(){
+  const lang=currentLang(), box=document.getElementById('areaList');
+  let s='';
+  AX.forEach(ax=>{
+    const items=CLIENTS.filter(c=>c.a===ax.id).sort((a,b)=>a.n.localeCompare(b.n));
+    const label=(ax.t[lang]||ax.t.en).split('|').join(' ');
+    s+=`<div class="area-block${items.length?'':' area-void'}">`
+     + `<div class="area-title">${esc(label)}<span class="area-count">${items.length?String(items.length).padStart(2,'0'):'—'}</span></div>`;
+    if(items.length){
+      s+='<div class="cgrid-alpha">';
+      items.forEach(it=>{
+        const tn=TIERS[it.t][lang]||TIERS[it.t].en;
+        s+=`<div class="cc-alpha" data-detail="${esc(it.d)}">`
+         + `<span class="cc-alpha-name"><i class="cc-dot${viaOf(it)?' grey':''}"></i>${esc(it.n)}</span>`
+         + `<span class="cc-alpha-tier">${esc(tn)}</span></div>`;
+      });
+      s+='</div>';
+    } else {
+      s+=`<div class="area-empty">${esc(T['pm-empty'][lang]||T['pm-empty'].en)}</div>`;
+    }
+    s+='</div>';
+  });
+  box.innerHTML=s;
+  const cards=box.querySelectorAll('.cc-alpha');
+  cards.forEach(card=>{
+    card.addEventListener('click',e=>{
+      const was=card.classList.contains('touch-active');
+      cards.forEach(c=>c.classList.remove('touch-active'));
+      if(!was) card.classList.add('touch-active');
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener('click',()=>cards.forEach(c=>c.classList.remove('touch-active')));
+}
+
+/* ── LANGUAGE ───────────────────────────────────────────────────── */
+function detectLang(){
+  const urlLang=new URLSearchParams(window.location.search).get('lang');
+  if(urlLang&&LANGS.includes(urlLang)) return urlLang;
+  const saved=localStorage.getItem('pot-lang');
+  if(saved&&LANGS.includes(saved)) return saved;
+  const nav=(navigator.language||'en').toLowerCase();
+  if(nav.startsWith('it')) return 'it';
+  if(nav.startsWith('zh')) return 'zh';
+  if(nav.startsWith('ru')) return 'ru';
+  if(nav.startsWith('ar')) return 'ar';
+  return 'en';
+}
+function applyLang(lang){
+  localStorage.setItem('pot-lang',lang);
+  const isRTL=lang==='ar';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=isRTL?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;
+    if(T[k]&&T[k][lang]) el.innerHTML=T[k][lang];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.lang===lang);
+  });
+  document.querySelectorAll('.arabic-only').forEach(el=>el.style.display=isRTL?'':'none');
+  document.querySelectorAll('.latin-only').forEach(el=>el.style.display=isRTL?'none':'');
+  renderLegend(); renderSupLegend(); renderScale(); renderRadar(); renderList();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const sw=document.getElementById('lang-switcher');
+  LANGS.forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='lang-btn';btn.dataset.lang=l;btn.textContent=LANG_LABELS[l];
+    btn.onclick=()=>applyLang(l);
+    sw.appendChild(btn);
+  });
+  applyLang(detectLang());
+});
+</script>
+</body>
+</html>
