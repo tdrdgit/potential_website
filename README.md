@@ -10,7 +10,7 @@ incorporati nell'HTML (base64 / SVG inline), quindi ogni pagina funziona da sola
 | `index.html` | Landing. Header con **loop push-up** di 16 frame campagna (5s/frame, perpetuo). Multilingua EN/IT/中文/РУС/عربي. Area Riservata (password → portfolio map). |
 | `potential-privacy-policy.html` | Privacy Policy (EN). Link di ritorno → `index.html`. |
 | `404.html` | Pagina di errore. `noindex, follow`, due sole azioni: home e `mailto:` a info@potential.contractors. |
-| `portfolio/potential-portfolio-map.html` | **La pagina dell'area riservata.** I clienti su un radar a 7 assi (i 6 ambiti della home più Office & Corporate). Raggio = fascia luxury del cliente, pallino grigio se il lavoro è passato da un contractor. `noindex`, back → `../index.html`. |
+| `portfolio/potential-portfolio-map.html` | **La pagina dell'area riservata.** I clienti su un radar a 7 assi (i 6 ambiti della home più Office & Corporate). Distanza dal centro = fascia luxury del cliente (i pallini hanno tutti la stessa dimensione), pallino grigio se il lavoro è passato da un contractor. `noindex`, back → `../index.html`. |
 | `costellazione/costellazione.html` | La mappa delle competenze della rete. Generata, vedi sotto. |
 
 La pagina dell'area riservata sta in **`portfolio/`**, la costellazione in **`costellazione/`**:
@@ -71,8 +71,9 @@ market → 5 ultra luxury) e vale il posizionamento del *marchio del cliente*, n
 commessa. Quando l'Excel porta un cliente nuovo, il build **si ferma e lo elenca**: la fascia va
 assegnata a mano, e solo dopo la pagina si rigenera.
 
-Il colore del pallino invece è automatico: la colonna `CONTRACTOR` diventa il `· for …` in coda al
-dettaglio, e quel `for` è ciò che rende il pallino grigio invece che rosso.
+Il colore del pallino invece è automatico: la colonna `CONTRACTOR` diventa il flag `v:1`, e quel
+flag è ciò che rende il pallino grigio invece che rosso. **Il nome del contractor non esce dal
+file Excel** — fino all'11.08.2026 finiva in coda al dettaglio come `· for …`.
 
 ## La costellazione (`costellazione/`)
 
@@ -108,6 +109,43 @@ sh "suppliers database/scripts/publish.sh"         # commit e push su questo rep
 
 Lingue della mappa: **italiano e inglese**, con l'inglese come ripiego per le altre lingue del
 sito. Islandese e arabo restano tradotti nei sorgenti ma non escono più nel file pubblico.
+
+## Il modulo "prenota una call" si accende e si spegne
+
+Sta in fondo alla sezione Profile di `index.html`, sopra il pulsante Access Reserved. Il pulsante
+apre una finestra Potential che contiene **l'agenda di Google incorporata**: il visitatore prenota
+senza uscire dal sito.
+
+```html
+<div class="book-cta" data-cta="on">     <!-- "on" acceso · "off" spento -->
+```
+
+È l'unica cosa da toccare. A `off` il blocco sparisce dal flusso, il markup resta in pagina e
+**l'iframe non viene montato**: a modulo spento la home non chiama `calendar.google.com` e nessun
+cookie Google parte.
+
+| Cosa | Dove |
+|---|---|
+| Interruttore acceso/spento | attributo `data-cta` su `.book-cta` |
+| Durata dichiarata nei testi | `window.CALL_MIN` (in fondo a `index.html`), segnaposto `{min}` nelle traduzioni |
+| Agenda incorporata | `data-src` dell'iframe `#bkFrame` |
+| Link di scorta, si apre su Google | `href` di `.bk-alt` — `https://calendar.app.google/mrsYTpu4XFsmfZCm7` |
+
+⚠️ **`window.CALL_MIN` non cambia lo slot su Google.** La durata vera si imposta in Google Calendar
+→ Programmazione appuntamenti; quel numero serve solo ai testi. Se le due cifre divergono, il
+visitatore legge una durata e ne prenota un'altra.
+
+⚠️ **L'URL incorporato non è quello che si condivide.** Il link corto `calendar.app.google/…`
+risponde `X-Frame-Options: SAMEORIGIN` e dentro una cornice resta bianco. Nell'iframe ci va la forma
+lunga `calendar.google.com/calendar/appointments/schedules/<id>?gv=true` — è `?gv=true` che rende la
+pagina incorporabile. Il link corto resta buono per il pulsante di scorta e per le mail.
+
+⚠️ **Il contorno bianco dell'iframe è deliberato.** `#ffffff` è lo sfondo della pagina di Google
+(verificato l'11.08.2026): l'avorio del sito (`--w`, `#f4f3ef`) a fianco si leggerebbe come una
+cornice grigia. Se Google passa a un grigio Material, quel bianco va rifatto combaciare.
+
+I nove testi nuovi (`stag-book`, `bk-*`) sono tradotti in tutte e cinque le lingue dentro `const T`,
+ma **non sono ancora passati dal revisore** in `tools/revisore_traduzioni/`.
 
 ## Anteprima locale
 
