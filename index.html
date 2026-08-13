@@ -283,9 +283,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
   font-weight:300;font-size:clamp(14px,1.15vw,17px);line-height:1.7;
   color:rgba(244,243,239,.62);max-width:620px;margin-bottom:56px;
 }
+/* Niente bordo: il grafo galleggia sul nero della sezione invece di stare in
+   una teca. Lo sfondo resta identico a quello della sezione (--k), quindi
+   l'iframe non lascia nessuna cucitura visibile — ed e' l'unica ragione per
+   cui si puo' togliere il bordo senza che si veda dove finisce la pagina e
+   dove comincia la costellazione. */
 .net-stage{
   position:relative;width:100%;aspect-ratio:16/9;
-  border:1px solid var(--bd);overflow:hidden;background:var(--k);
+  overflow:hidden;background:var(--k);
 }
 @media (max-width:860px){ .net-stage{aspect-ratio:4/5;} }
 .net-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
@@ -303,7 +308,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
 }
 .net-hit{
   position:absolute;left:0;bottom:0;max-width:100%;z-index:2;
-  padding:clamp(20px,3vw,40px);text-decoration:none;
+  /* Il rientro a sinistra serviva a staccare la CTA dal bordo della teca.
+     Tolta la teca, quel rientro non ha piu' niente da cui staccarsi e si vede
+     solo come una riga fuori colonna rispetto a eyebrow e titolo: va a zero. */
+  padding:clamp(20px,3vw,40px);padding-left:0;text-decoration:none;
 }
 /* La riga porta anche la nota d'accesso, e con questa spaziatura su schermo
    stretto non ci sta: si manda a capo invece di sfondare la stage. */
@@ -316,7 +324,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
   transition:width .45s var(--ease);
 }
 .net-hit:hover .net-cta::after{width:52px;}
-html[dir="rtl"] .net-hit{left:auto;right:0;}
+html[dir="rtl"] .net-hit{left:auto;right:0;padding-left:clamp(20px,3vw,40px);padding-right:0;}
 
 /* ══ PROBLEM — white ══ */
 .s-problem{background:#fff;color:var(--k);padding:clamp(90px,14vh,150px) var(--px);border-top:1px solid var(--bdl);}
