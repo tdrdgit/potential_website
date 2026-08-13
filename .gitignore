@@ -29,3 +29,7 @@ tools/editor-costellazione/
 # "git add -A" del backup automatico lo mette online.
 costellazione/*.xlsx
 costellazione/~$*.xlsx
+
+# Impostazioni locali di Claude Code: contengono percorsi di questo Mac e non
+# servono a chi clona il sito. Vive solo qui e su Dropbox.
+.claude/settings.local.json

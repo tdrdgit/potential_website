@@ -114,6 +114,10 @@ sh "suppliers database/scripts/publish.sh"          # rigenera network.json, com
 git pull                                            # ⚠️ il repo resta indietro di un commit
 ```
 
+`--status` dice dove si è fermata la catena. Non serve lanciarlo: un hook `SessionStart` lo
+esegue a ogni apertura di Claude Code in questa cartella e **parla solo se qualcosa è
+disallineato** — una modifica in Excel mai pubblicata non dà errore, dà un sito fermo.
+
 ⚠️ **L'Excel non decide la dimensione dei nodi**: il peso viene dal conteggio delle cartelle
 dell'archivio fornitori, compresso in cinque gradini perché non sia leggibile a ritroso. E
 **l'ordine delle righe è l'ordine dei nodi sul grafo** — la colonna `ord` serve a rimettere il

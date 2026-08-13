@@ -693,6 +693,94 @@ def backup(paths: list[Path]) -> Path:
     return folder
 
 
+def status(hook_mode: bool) -> int:
+    """Dove si e' fermata la catena: Excel -> json -> network.json -> sito.
+
+    Tre domande in tre righe, piu' una quarta che e' la piu' importante.
+
+    ⚠️ Il caso pericoloso non e' quello che si rompe, e' quello che tace: una
+    modifica fatta in Excel e mai pubblicata non da' nessun errore, da' un sito
+    fermo a due settimane fa, e ci si accorge guardando una data. Per questo
+    esiste --hook, che parla solo quando c'e' qualcosa da dire e sta zitto il
+    resto del tempo: un avviso che compare sempre viene ignorato sempre.
+    """
+    notes: list[str] = []
+
+    if not XLSX.exists():
+        if hook_mode:
+            return 0  # nessun Excel, nessuna catena da sorvegliare
+        print(f"manca {XLSX}")
+        return 1
+
+    published = BRAIN / "public" / "network.json"
+    on_site = REPO / "costellazione" / "network.json"
+    sources = [TREE, I18N, SCOPE]
+
+    # 1. L'Excel e' avanti rispetto ai tre json?
+    pending: list[str] = []
+    unreadable = None
+    try:
+        data = read_workbook()
+        payloads = build_payloads(data)
+        pending = [
+            path.name for path, content in payloads.items()
+            if not path.exists() or path.read_text(encoding="utf-8") != content
+        ]
+    except SystemExit as exc:
+        unreadable = str(exc).split("\n")[0]
+
+    if unreadable:
+        notes.append(f"l'Excel della costellazione non si legge: {unreadable}")
+    elif pending:
+        # 4. Chi ha scritto per ultimo? Se i json sono piu' recenti dell'Excel e
+        # divergono, la modifica NON e' arrivata dall'Excel: e' l'editor visuale,
+        # che scrive sugli stessi file. Rigenerare da qui la cancellerebbe.
+        xlsx_time = XLSX.stat().st_mtime
+        newer = [p.name for p in sources if p.exists() and p.stat().st_mtime > xlsx_time]
+        if newer:
+            notes.append(
+                "⚠️  i sorgenti della costellazione divergono dall'Excel, e sono "
+                f"stati scritti DOPO di lui ({', '.join(newer)}): probabile che "
+                "qualcuno abbia usato l'editor visuale. Rigenerare dall'Excel "
+                "cancellerebbe quelle modifiche — prima capire quale delle due "
+                "versioni e' quella buona."
+            )
+        else:
+            notes.append(
+                "la costellazione ha modifiche in Excel non ancora portate nei "
+                f"sorgenti ({', '.join(pending)}). "
+                "python3 tools/costellazione-data/build.py --check"
+            )
+
+    # 2. I json sono avanti rispetto al file pubblico?
+    if published.exists():
+        newest = max((p.stat().st_mtime for p in sources if p.exists()), default=0)
+        if newest > published.stat().st_mtime:
+            notes.append(
+                "i sorgenti della costellazione sono piu' recenti di "
+                "public/network.json: va rigenerato (lo fa publish.sh da solo)"
+            )
+
+    # 3. Quello che sta sul sito e' quello che abbiamo?
+    if published.exists() and on_site.exists():
+        if published.read_bytes() != on_site.read_bytes():
+            notes.append(
+                "la costellazione del sito e' diversa da quella generata: "
+                "c'e' una pubblicazione in sospeso.  sh \""
+                f"{BRAIN / 'scripts' / 'publish.sh'}\"  poi  git pull"
+            )
+
+    if not notes:
+        if not hook_mode:
+            print("costellazione allineata: Excel, sorgenti e sito dicono la stessa cosa.")
+        return 0
+
+    print("Costellazione:")
+    for note in notes:
+        print(f"  {note}")
+    return 0
+
+
 def reoutline() -> int:
     """Rimette la struttura a livelli su un Excel gia' in uso.
 
@@ -726,7 +814,16 @@ def main() -> int:
                         help="non tocca niente, dice cosa cambierebbe")
     parser.add_argument("--outline", action="store_true",
                         help="riapplica il raggruppamento a righe e colonne dell'Excel")
+    parser.add_argument("--status", action="store_true",
+                        help="dove si e' fermata la catena: Excel -> json -> sito")
+    parser.add_argument("--hook", action="store_true",
+                        help="con --status: parla solo se qualcosa e' disallineato")
     args = parser.parse_args()
+
+    if args.status or args.hook:
+        if not TAX.exists():
+            return 0  # Drive non montato: tacere, non allarmare
+        return status(args.hook)
 
     if args.outline:
         return reoutline()

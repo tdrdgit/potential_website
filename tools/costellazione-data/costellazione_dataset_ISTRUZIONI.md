@@ -25,11 +25,29 @@ sh "…/suppliers database/scripts/publish.sh"        # rigenera network.json e 
 git pull                                            # ⚠️ il repo resta indietro di un commit
 ```
 
-Più un quarto che serve di rado:
+Più due che servono di rado:
 
 ```bash
+python3 tools/costellazione-data/build.py --status   # dove si è fermata la catena
 python3 tools/costellazione-data/build.py --outline  # rimette la struttura a livelli
 ```
+
+## Chi si ricorda di pubblicare
+
+`--status` risponde a tre domande: l'Excel è avanti sui json? i json sono avanti su
+`network.json`? quello che sta sul sito è quello che abbiamo generato?
+
+Non serve ricordarsi di lanciarlo. Un hook `SessionStart` in `.claude/settings.local.json` lo
+esegue con `--hook` a ogni apertura di Claude Code in questa cartella, e in quella modalità
+**parla solo se qualcosa è disallineato**. Il resto del tempo tace di proposito: un avviso che
+compare sempre viene ignorato sempre.
+
+⚠️ Il caso pericoloso non è quello che si rompe, è quello che tace. Una modifica fatta in Excel e
+mai pubblicata non dà nessun errore: dà un sito fermo a due settimane fa, e ci si accorge
+guardando una data.
+
+⚠️ `settings.local.json` è in `.gitignore` — vive su questo Mac e su Dropbox, non su GitHub. Su un
+computer nuovo si recupera da Dropbox insieme al resto del repo, non con un `git clone`.
 
 Il quarto comando non è opzionale: `publish.sh` committa e pusha da una copia di lavoro sua,
 quindi il repo locale resta indietro e il push successivo va in conflitto.
