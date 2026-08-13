@@ -7,6 +7,7 @@
 <meta name="description" content="Potential manages FF&amp;E procurement end to end: one single point of contact between owner, designer, contractor and a vetted supplier network. Hospitality to yachting.">
 <link rel="canonical" href="https://potential.contractors/">
 <link rel="preload" as="image" href="assets/header/CAMP_00.svg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Thin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Light.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Medium.woff2" crossorigin>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -231,10 +232,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
   background:radial-gradient(ellipse 60% 50% at 50% 110%,rgba(199,22,23,.08),transparent 70%);
 }
 .intro-hl{
-  font-weight:500;font-size:clamp(50px,9vw,116px);line-height:.92;
+  font-weight:100;font-size:clamp(50px,9vw,116px);line-height:.92;
   letter-spacing:-.03em;max-width:1000px;position:relative;z-index:1;
 }
-.intro-hl em{color:var(--r);}
+.intro-hl em{color:var(--r);font-weight:500;}
 
 /* MARQUEE */
 .mwrap{overflow:hidden;padding:16px 0;background:var(--r);}
@@ -248,10 +249,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
 .s-sectors{background:#fff;color:var(--k);padding:clamp(90px,14vh,150px) var(--px);}
 .s-sectors .stag,.s-problem .stag,.s-profile .stag{color:var(--r);}
 .sectors-hero{
-  font-weight:500;font-size:clamp(40px,6vw,84px);line-height:.95;
+  font-weight:100;font-size:clamp(40px,6vw,84px);line-height:.95;
   letter-spacing:-.03em;margin-bottom:72px;
 }
-.sectors-hero em{color:var(--r);}
+.sectors-hero em{color:var(--r);font-weight:500;}
 .sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#d8d5cf;border:1px solid #d8d5cf;}
 .sec-card{background:#fff;padding:46px 32px;position:relative;overflow:hidden;transition:background .3s;}
 .sec-card:hover{background:var(--w);}
@@ -274,10 +275,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
    la stacca invece di farla sembrare un riquadro appoggiato sul foglio. */
 .s-network{background:var(--k);color:var(--w);padding:clamp(90px,14vh,150px) var(--px);}
 .net-hero{
-  font-weight:500;font-size:clamp(40px,6vw,84px);line-height:.95;
+  font-weight:100;font-size:clamp(40px,6vw,84px);line-height:.95;
   letter-spacing:-.03em;margin-bottom:28px;
 }
-.net-hero em{color:var(--r);}
+.net-hero em{color:var(--r);font-weight:500;}
 .net-lead{
   font-weight:300;font-size:clamp(14px,1.15vw,17px);line-height:1.7;
   color:rgba(244,243,239,.62);max-width:620px;margin-bottom:56px;
@@ -320,10 +321,10 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 /* ══ PROBLEM — white ══ */
 .s-problem{background:#fff;color:var(--k);padding:clamp(90px,14vh,150px) var(--px);border-top:1px solid var(--bdl);}
 .problem-big{
-  font-weight:500;font-size:clamp(30px,4vw,56px);line-height:1.06;
+  font-weight:100;font-size:clamp(30px,4vw,56px);line-height:1.06;
   letter-spacing:-.02em;max-width:760px;margin-bottom:80px;
 }
-.problem-big span{color:var(--r);}
+.problem-big span{color:var(--r);font-weight:500;}
 .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#d8d5cf;border:1px solid #d8d5cf;}
 .impact-cell{background:#fff;padding:48px 36px;position:relative;}
 .ic-num{
@@ -342,10 +343,10 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 .s-numbers .stag{color:rgba(255,255,255,.5);}
 .s-numbers .stag::before{background:rgba(255,255,255,.4);}
 .num-hero{
-  font-weight:500;font-size:clamp(34px,4.5vw,62px);line-height:1.02;
+  font-weight:100;font-size:clamp(34px,4.5vw,62px);line-height:1.02;
   letter-spacing:-.025em;max-width:680px;margin-bottom:72px;position:relative;z-index:1;
 }
-.num-hero em{color:rgba(255,255,255,.5);}
+.num-hero em{color:rgba(255,255,255,.5);font-weight:500;}
 .num-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.22);position:relative;z-index:1;}
 .nc{background:var(--r);padding:50px 32px 42px;position:relative;}
 .nc::after{
@@ -391,8 +392,8 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 }
 .sol-l{padding:100px var(--px);border-right:1px solid var(--bd);display:flex;flex-direction:column;justify-content:center;}
 .sol-l .stag{margin-bottom:0;}
-.sol-hl{font-weight:500;font-size:clamp(38px,5vw,68px);line-height:.95;letter-spacing:-.03em;margin-top:30px;}
-.sol-hl em{color:var(--r);}
+.sol-hl{font-weight:100;font-size:clamp(38px,5vw,68px);line-height:.95;letter-spacing:-.03em;margin-top:30px;}
+.sol-hl em{color:var(--r);font-weight:500;}
 .sol-r{padding:100px var(--px);display:flex;flex-direction:column;justify-content:center;}
 .sol-list{list-style:none;display:flex;flex-direction:column;gap:1px;background:var(--bd);}
 .sol-list li{
@@ -427,8 +428,8 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 
 /* ══ PROFILE — white ══ */
 .s-profile{background:#fff;color:var(--k);padding:clamp(80px,12vh,130px) var(--px) clamp(90px,14vh,150px);}
-.pname{font-weight:500;font-size:clamp(44px,7vw,88px);line-height:.92;letter-spacing:-.035em;margin:26px 0 30px;}
-.pname span{color:var(--r);}
+.pname{font-weight:100;font-size:clamp(44px,7vw,88px);line-height:.92;letter-spacing:-.035em;margin:26px 0 30px;}
+.pname span{color:var(--r);font-weight:500;}
 .prof-bio{max-width:800px;}
 .prof-bio,.prof-bio p{font-weight:300;font-size:13px;line-height:1.75;color:#26261f;letter-spacing:.01em;}
 .bio-red{color:var(--r);font-weight:500;}
@@ -459,10 +460,10 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 }
 .book-cta .stag{margin-bottom:24px;justify-content:center;}
 .bk-hl{
-  font-weight:500;font-size:clamp(30px,4.6vw,54px);line-height:.98;
+  font-weight:100;font-size:clamp(30px,4.6vw,54px);line-height:.98;
   letter-spacing:-.03em;margin-bottom:20px;
 }
-.bk-hl em{color:var(--r);font-style:normal;}
+.bk-hl em{color:var(--r);font-weight:500;font-style:normal;}
 .bk-sub{
   font-weight:300;font-size:13px;line-height:1.75;color:#26261f;
   letter-spacing:.01em;max-width:530px;margin-bottom:36px;
@@ -507,10 +508,10 @@ html[dir="rtl"] .net-hit{left:auto;right:0;}
 }
 @keyframes gp{0%,100%{opacity:1;}50%{opacity:.45;}}
 .cta-hl{
-  font-weight:500;font-size:clamp(54px,9vw,120px);line-height:.92;
+  font-weight:100;font-size:clamp(54px,9vw,120px);line-height:.92;
   letter-spacing:-.035em;position:relative;z-index:2;margin-bottom:48px;
 }
-.cta-hl em{color:var(--r);}
+.cta-hl em{color:var(--r);font-weight:500;}
 .cta-email{
   font-weight:300;font-size:clamp(16px,2.4vw,21px);color:var(--w);text-decoration:none;
   border-bottom:1px solid var(--r);padding-bottom:3px;position:relative;z-index:2;
@@ -548,7 +549,7 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 .modal-box{background:#fff;color:var(--k);padding:56px 48px;max-width:400px;width:90%;position:relative;}
 .modal-close{
   position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;
-  font-size:18px;color:var(--k);opacity:.4;font-family:'Plain',Arial,sans-serif;transition:opacity .2s;
+  font-size:18px;color:var(--k);opacity:.4;font-family:'Plain',Arial,sans-serif;font-weight:300;transition:opacity .2s;
 }
 .modal-close:hover{opacity:1;}
 .modal-title{font-weight:500;font-size:22px;letter-spacing:-.01em;margin-bottom:32px;}
@@ -600,7 +601,7 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 .bk-close{
   position:absolute;top:16px;right:16px;z-index:3;
   background:none;border:none;cursor:pointer;font-size:18px;color:var(--k);opacity:.4;
-  font-family:'Plain',Arial,sans-serif;transition:opacity .2s;
+  font-family:'Plain',Arial,sans-serif;font-weight:300;transition:opacity .2s;
   min-width:44px;min-height:44px;
 }
 .bk-close:hover{opacity:1;}
@@ -609,8 +610,8 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   display:flex;flex-direction:column;align-items:flex-start;gap:16px;
 }
 .bk-logo{width:112px;height:auto;display:block;}
-.bk-title{font-weight:500;font-size:clamp(24px,3.2vw,36px);line-height:1;letter-spacing:-.03em;}
-.bk-title em{color:var(--r);font-style:normal;}
+.bk-title{font-weight:100;font-size:clamp(24px,3.2vw,36px);line-height:1;letter-spacing:-.03em;}
+.bk-title em{color:var(--r);font-weight:500;font-style:normal;}
 .bk-msub{font-weight:300;font-size:12px;line-height:1.7;color:#26261f;max-width:560px;}
 /* La testata di Google — avatar, "Meeting with Carlo Casagrande", durata,
    nota su Meet — ripete parola per parola quello che la nostra intestazione
