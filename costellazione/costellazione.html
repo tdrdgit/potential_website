@@ -215,6 +215,9 @@ header{
   display:block;font-size:.66rem;font-weight:300;color:var(--ink-faint);
   line-height:1.45;padding:1px 0;
 }
+.tw-sup .tw-sup-n{display:block;color:var(--pt-red);font-style:normal;
+  font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.6rem;
+  padding:1px 0}
 
 html[dir="rtl"] .tw-macro,html[dir="rtl"] .tw-leaf{text-align:right}
 html[dir="rtl"] .tw-sup{margin:2px 12px 6px 0;border-left:0;border-right:1px solid var(--pt-hairline);padding:0 9px 0 0;text-align:right}
@@ -228,6 +231,22 @@ html[dir="rtl"] .tw-macro[aria-expanded="true"] .tw-mark{transform:rotate(-90deg
 #t-stamp{
   display:block;margin-top:7px;color:var(--pt-red);
   font-size:.58rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;
+}
+/* L'interruttore dei nomi, accanto al timbro. Premuto e' rosso pieno: quando i
+   nomi sono nascosti si deve vedere a colpo d'occhio che la pagina non sta
+   mostrando tutto — o si finisce per credere che l'archivio sia vuoto. */
+#t-names{
+  margin-top:8px;align-self:flex-start;cursor:pointer;
+  font-family:var(--font);font-size:.58rem;font-weight:500;
+  letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-dim);background:none;
+  border:1px solid var(--pt-hairline);border-radius:2px;padding:4px 8px;
+  transition:.18s;
+}
+#t-names:hover{color:var(--pt-white);border-color:var(--ink-dim)}
+#t-names[aria-pressed="true"]{
+  color:var(--pt-white);border-color:var(--pt-red);
+  background:color-mix(in srgb,var(--pt-red) 26%,transparent);
 }
 
 footer{
@@ -393,7 +412,7 @@ canvas#capc.dragging{cursor:grabbing}
     <span class="cap-key"><i class="k-mid"></i>Referred or already used</span>
     <span class="cap-key"><i class="k-dot"></i>Mapped</span>
     <span class="cap-key cap-key-r">Rating grows outward — the rim is the proven end of the network</span>
-    <span class="cap-hint" id="cap-hint">Pinch or ⌘-scroll to zoom · drag to pan · hover a dot</span>
+    <span class="cap-hint" id="cap-hint">Pinch to zoom · drag to pan · hover a dot</span>
   </div>
 </section>
 
@@ -886,6 +905,10 @@ function draw() {
       || ((activeSectors.size || query) && isLive(n));
     if (!showLabel || n.alpha < 0.18) continue;
     if (focused && !inFocus(n)) continue;
+    // A nomi nascosti il pallino del fornitore resta, la scritta no: si vede
+    // quanti sono e dove stanno, non chi sono. Vale anche sotto il cursore, o
+    // basterebbe passarci sopra per svuotare l'interruttore di senso.
+    if (n.supplier && NAMES_HIDDEN) continue;
 
     const size = TXT / view.k;
     ctx.font = `${n.depth >= 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
@@ -1114,15 +1137,16 @@ window.addEventListener("mouseup", e => {
   drag = null; canvas.classList.remove("dragging");
 });
 canvas.addEventListener("wheel", e => {
-  /* In embed la rotella nuda deve restare della pagina. Se la prendesse il
-     grafo, chi arriva scrollando dall'alto smetterebbe di scendere appena il
-     cursore entra nell'iframe, e resterebbe incastrato a meta' sito senza
-     capire perche'.
-     Lo zoom c'e' lo stesso, ma chiede ctrl o cmd: e' la convenzione delle
-     mappe incorporate, e il gesto che si fa per sbaglio non e' mai quello con
-     il tasto premuto. Sulla pagina intera non serve nulla di tutto questo,
-     perche' li' sotto non c'e' pagina da scorrere. */
-  if (EMBED && !e.ctrlKey && !e.metaKey) return;
+  /* LA ROTELLA NUDA E' SEMPRE DELLA PAGINA, anche a pagina piena. Se la
+     prendesse il grafo, chi arriva scrollando dall'alto smetterebbe di scendere
+     appena il cursore entra nel canvas e resterebbe incastrato senza capire
+     perche' — e da quando sotto la costellazione c'e' il radar, quel canvas
+     copre una schermata intera di strada da fare.
+     Lo zoom si fa col PINCH a due dita, che macOS consegna come wheel con
+     `ctrlKey`: il gesto naturale funziona, e lo scorrimento resta scorrimento.
+     ⚠️ `metaKey` e' stato togliere di proposito: cmd+rotella non e' un pinch, e
+     tenerlo dentro rendeva ambiguo quale gesto fa cosa. */
+  if (!e.ctrlKey) return;
   e.preventDefault();
   camTarget = null;
   const k = Math.min(2.8, Math.max(0.45, view.k * (e.deltaY < 0 ? 1.09 : 0.917)));
@@ -1196,9 +1220,15 @@ function renderTree() {
       // duemiladuecento righe: l'elenco serve a scorrere, non a contenere.
       const sup = DATA.suppliers && selected === k.id ? DATA.suppliers[k.id] : null;
       if (sup && sup.length) {
-        html += '<div class="tw-sup">' +
-                sup.map(s => `<span>${esc(s)}</span>`).join("") +
-                "</div>";
+        // A nomi nascosti resta il CONTEGGIO: l'interfaccia si spiega da sola —
+        // si vede che dietro quel ramo c'e' qualcosa e quanto — senza dire chi.
+        // ⚠️ Il conteggio e' un <em>, NON uno <span>: il pop-up dei dossier
+        // marca come cliccabile ogni `.tw-sup span` e finirebbe per aprire una
+        // scheda intestata "23 fornitori". Cambiare tag e' bastato, senza
+        // toccare quel modulo.
+        html += '<div class="tw-sup">' + (NAMES_HIDDEN
+          ? `<em class="tw-sup-n">${sup.length} fornitori</em>`
+          : sup.map(s => `<span>${esc(s)}</span>`).join("")) + "</div>";
       }
     }
     html += "</div>";
@@ -1568,7 +1598,7 @@ function capDraw() {
   // 3. i nomi dei fornitori — solo nella copia interna, dove il payload li
   //    porta. In ordine di rilevanza, che e' l'ordine in cui `dots` arriva gia'
   //    dal build: i migliori si leggono subito, gli altri emergono zoomando.
-  if (cap.names) {
+  if (cap.names && !NAMES_HIDDEN) {
     ctx.font = `300 9.5px ${FONT}`;
     let drawn = 0;
     for (const d of cap.dots) {
@@ -1616,7 +1646,7 @@ function capTip(index, px, py) {
   const d = cap.dots[index];
   const axis = cap.axes[d.a], sub = axis.subs[d.s];
   const TIER_WORD = ["Mapped", "Referred or already used", "Top rated"];
-  tip.innerHTML = (cap.names ? `<b>${esc(d.name)}</b>` : "")
+  tip.innerHTML = (cap.names && !NAMES_HIDDEN ? `<b>${esc(d.name)}</b>` : "")
     + `<span>${esc(sub.label)}</span>`
     + `<em>${esc(axis.label)}</em>`
     + `<span>${TIER_WORD[d.q] || ""}</span>`;
@@ -1761,12 +1791,12 @@ function mountCapabilities() {
     capZoom(1 / 1.55, e.clientX - r.left, e.clientY - r.top, true);
   });
 
-  /* La rotella nuda resta della pagina: qui sotto c'e' una sezione da scorrere,
-     e prendersela vorrebbe dire incastrare chi passa. Lo zoom chiede ctrl o cmd
-     — che e' anche cio' che il trackpad manda quando si fa pinch a due dita,
-     quindi il gesto naturale funziona senza tasti. */
+  /* La rotella nuda e' della pagina, sempre: la tavola sta in mezzo a un
+     documento che si scorre, e prendersi lo scorrimento vorrebbe dire fermare
+     chi passa. Lo zoom si fa col pinch a due dita, che arriva qui come wheel
+     con `ctrlKey`. */
   canvas.addEventListener("wheel", e => {
-    if (!e.ctrlKey && !e.metaKey) return;
+    if (!e.ctrlKey) return;
     e.preventDefault();
     const r = canvas.getBoundingClientRect();
     capZoom(e.deltaY < 0 ? 1.14 : 1 / 1.14, e.clientX - r.left, e.clientY - r.top);
@@ -1817,8 +1847,8 @@ function mountCapabilities() {
   // Il testo del suggerimento dice la verita' sui nomi solo dove i nomi ci sono.
   const hint = document.getElementById("cap-hint");
   if (hint) hint.textContent = cap.names
-    ? "Pinch or ⌘-scroll to zoom — more names appear as you go in · drag to pan"
-    : "Pinch or ⌘-scroll to zoom · drag to pan · hover a dot";
+    ? "Pinch to zoom, or click an empty spot — more names appear as you go in · double-click to pull back"
+    : "Pinch to zoom, or click an empty spot · double-click to pull back · drag to pan";
 
   window.addEventListener("resize", () => { capGeometry(); capDraw(); });
 }
@@ -1911,14 +1941,40 @@ if (document.getElementById("gate")) {
    silenzioso.
    La riga dice anche che il file e' interno: e' l'unico avviso che viaggia
    insieme al file se qualcuno se lo ritrova aperto davanti. */
+/* L'interruttore dei nomi. Serve a mostrare l'interfaccia a qualcuno senza
+   rivelare l'archivio: la mappa, gli assi, i colori e i conteggi restano: se ne
+   vanno solo i nomi propri.
+   ⚠️ Nasconde il DISEGNO, non il dato: i nomi sono nel file e chi apre il
+   devtools li trova. E' un coperchio per una conversazione, non una protezione —
+   quella e' che questo file non esce da qui. Sta accanto al timbro rosso di
+   proposito, perche' e' li' che la pagina dice cosa sta rivelando. */
+let NAMES_HIDDEN = false;
+
 function mountStamp() {
   if (!DATA.generated) return;
+  const brand = document.querySelector(".brand");
+  if (!brand) return;
   const el = document.createElement("span");
   el.id = "t-stamp";
   el.textContent = "Copia interna · non inoltrare · dati al " + DATA.generated
     + (DATA.archive_scan ? " · archivio letto il " + DATA.archive_scan : "");
-  const brand = document.querySelector(".brand");
-  if (brand) brand.appendChild(el);
+  brand.appendChild(el);
+
+  if (!DATA.suppliers) return;
+  const b = document.createElement("button");
+  b.id = "t-names";
+  const paint = () => {
+    b.textContent = NAMES_HIDDEN ? "Mostra i nomi" : "Nascondi i nomi";
+    b.setAttribute("aria-pressed", String(NAMES_HIDDEN));
+  };
+  b.onclick = () => {
+    NAMES_HIDDEN = !NAMES_HIDDEN;
+    paint();
+    renderTree();
+    capDraw();
+  };
+  paint();
+  brand.appendChild(b);
 }
 
 function loadData() {
