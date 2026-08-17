@@ -53,13 +53,19 @@
   --txt:.68rem;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:var(--pt-near-black)}
+/* La pagina scorre, perche' sotto la costellazione c'e' il radar. In embed no:
+   l'iframe della home mostra solo la costellazione, e una barra di scorrimento
+   la' dentro sarebbe un errore visibile su tutte le pagine del sito. */
+html{height:100%}
 body{
+  min-height:100%;background:var(--pt-near-black);
   font-family:var(--font);font-weight:300;color:var(--ink);
   -webkit-font-smoothing:antialiased;
 }
-canvas{display:block;position:fixed;inset:0;cursor:grab}
-canvas.dragging{cursor:grabbing}
+body.embed{height:100%;overflow:hidden}
+#stage{position:relative;height:100vh;overflow:hidden}
+canvas#c{display:block;position:absolute;inset:0;cursor:grab}
+canvas#c.dragging{cursor:grabbing}
 
 /* ---------- gate ---------- */
 #gate{
@@ -95,7 +101,11 @@ canvas.dragging{cursor:grabbing}
 #gate-err.on{opacity:1}
 
 /* ---------- chrome ---------- */
-#ui{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .9s ease .25s}
+/* `absolute` e non `fixed`: dentro lo stage, che e' alto una schermata e taglia
+   quello che sborda. Da `fixed` la colonna dei filtri restava incollata al
+   vetro e continuava a galleggiare sopra il radar mentre si scorreva — con
+   l'elenco degli ambiti scritto in grigio sopra il fondo bianco. */
+#ui{position:absolute;inset:0;z-index:20;pointer-events:none;opacity:0;transition:opacity .9s ease .25s}
 #ui.on{opacity:1}
 #ui > *{pointer-events:auto}
 
@@ -238,9 +248,87 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
   #panel{width:calc(100% - 32px);top:96px}
   footer{display:none}
 }
+
+/* ---------- radar delle capacita' produttive ---------- */
+/* Fondo bianco: e' una tavola, non una scenografia. Il nero della costellazione
+   serve a far brillare i nodi, qui serve leggere duemila nomi.
+   ⚠️ La pagina carica solo i pesi 300 e 500 del Plain: il Thin che il corporate
+   vorrebbe sul testo grande qui non c'e', e chiederlo lo farebbe sintetizzare
+   dal browser — si vede sulle aste. Titolo in 300, enfasi in 500. */
+#cap{
+  background:var(--pt-white);color:#111;
+  padding:clamp(40px,6vw,88px) clamp(16px,3.2vw,40px) clamp(32px,4vw,56px);
+}
+.cap-head{max-width:62ch;margin:0 auto clamp(24px,3vw,40px)}
+.cap-eyebrow{
+  display:block;font-size:.62rem;font-weight:500;letter-spacing:var(--tracking);
+  text-transform:uppercase;color:var(--pt-red);margin-bottom:10px;
+}
+.cap-eyebrow::before{content:"— "}
+.cap-title{font-size:clamp(1.5rem,3.4vw,2.4rem);font-weight:300;line-height:1.12;letter-spacing:-.01em}
+.cap-lead{margin-top:14px;font-size:.82rem;font-weight:300;line-height:1.62;color:#5A5A5A;max-width:56ch}
+
+/* Altezza legata alla finestra e non al lato: la tavola deve stare TUTTA in una
+   schermata, perche' viene mostrata a qualcuno che la guarda una volta. Con un
+   quadrato da 1180px il cerchio finiva sotto la piega e in riunione bisognava
+   scorrere per vedere gli assi in basso. */
+.cap-stage{
+  position:relative;width:100%;max-width:1180px;margin:0 auto;
+  height:min(78vh,1040px);min-height:420px;touch-action:none;
+}
+@media (max-width:900px){.cap-stage{height:min(72vh,720px)}}
+canvas#capc{display:block;width:100%;height:100%;cursor:grab;border-radius:2px}
+canvas#capc.dragging{cursor:grabbing}
+
+/* Tooltip: sta sopra il punto, non attraverso lo schermo. Stessa scelta della
+   costellazione, dove il dettaglio si apre sotto al nodo. */
+.cap-tip{
+  position:absolute;z-index:4;pointer-events:none;transform:translate(-50%,-100%);
+  background:var(--pt-near-black);color:var(--pt-white);padding:7px 10px;
+  border-radius:2px;max-width:280px;
+}
+.cap-tip b{display:block;font-size:.72rem;font-weight:500;line-height:1.28}
+.cap-tip span{display:block;font-size:.6rem;font-weight:300;letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:3px}
+.cap-tip em{display:block;font-size:.6rem;font-style:normal;color:var(--pt-red);
+  letter-spacing:.08em;text-transform:uppercase;margin-top:4px;font-weight:500}
+
+.cap-zoom{position:absolute;right:0;top:0;display:flex;gap:6px;z-index:3}
+.cap-zoom button{
+  font-family:var(--font);font-size:.62rem;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:#8A8A8A;background:none;cursor:pointer;
+  border:1px solid #E2E2E2;border-radius:2px;padding:5px 9px;transition:.18s;
+}
+.cap-zoom button:hover{color:var(--pt-red);border-color:var(--pt-red)}
+
+.cap-foot{
+  max-width:1180px;margin:22px auto 0;display:flex;flex-wrap:wrap;
+  gap:8px 22px;align-items:center;
+}
+.cap-key{display:flex;align-items:center;gap:7px;font-size:.62rem;font-weight:300;
+  letter-spacing:.08em;text-transform:uppercase;color:#6E6E6E}
+/* Stessa misura per tutti e tre, come sulla tavola: distingue il colore. */
+.cap-key i{display:block;width:7px;height:7px;border-radius:50%}
+.cap-key i.k-top{background:var(--pt-red)}
+.cap-key i.k-mid{background:#767676}
+.cap-key i.k-dot{background:#CFCFCF}
+.cap-key-r{text-transform:none;letter-spacing:.02em;color:#9A9A9A;font-size:.6rem}
+.cap-hint{margin-left:auto;font-size:.6rem;font-weight:300;letter-spacing:.14em;
+  text-transform:uppercase;color:#A8A8A8}
+@media (max-width:760px){.cap-hint{margin-left:0}}
 </style>
 </head>
 <body>
+
+<!-- La costellazione sta dentro uno "stage" alto una schermata, e non piu'
+     direttamente nel body: sotto di lei c'e' ora una seconda sezione, e la
+     pagina deve poter scorrere. Lo stage e' `position:relative`, quindi header,
+     colonna e footer — che sono `absolute` — continuano a posizionarsi rispetto
+     alla schermata come prima, invece di seguire l'altezza del documento.
+     ⚠️ In `?embed=1` lo stage e' tutta la pagina e non cambia niente: il radar
+     viene tolto dal DOM, perche' l'iframe della home e' alto quanto la
+     costellazione e una sezione in piu' ci comparirebbe tagliata a meta'. -->
+<div id="stage">
 
 <canvas id="c"></canvas>
 
@@ -269,6 +357,45 @@ html[dir="rtl"] .chip,html[dir="rtl"] #card p,html[dir="rtl"] .brand span{text-a
   <footer id="t-hint"></footer>
   <div id="err" hidden></div>
 </div>
+
+</div><!-- /#stage -->
+
+<!-- ── Radar delle capacita' produttive ──────────────────────────────────────
+     Risponde a una domanda diversa dalla costellazione. Quella dice per quali
+     ambiti la rete lavora; questo dice COSA sa produrre, che e' la domanda di un
+     partner o di un cliente che deve capire se la rete sa fare la sua cosa.
+     Per questo gli assi non sono hotel/retail/yachting ma materiali,
+     lavorazioni, sistemi.
+     Fondo bianco di proposito: e' una tavola da leggere, non una scenografia,
+     e stacca dalla costellazione invece di sembrarne la continuazione.
+     Sempre in inglese, anche quando la costellazione parla italiano. -->
+<section id="cap" hidden>
+  <div class="cap-head">
+    <span class="cap-eyebrow">Production capabilities</span>
+    <h2 class="cap-title">What the network can make</h2>
+    <p class="cap-lead">
+      Every dot is one supplier in the Potential network, placed by what it
+      produces — not by the market it serves. Nine capability areas, each split
+      into the trades behind it.
+    </p>
+  </div>
+  <div class="cap-stage">
+    <canvas id="capc"></canvas>
+    <div class="cap-tip" id="capTip" hidden></div>
+    <div class="cap-zoom">
+      <button id="cap-in" title="Zoom in">+</button>
+      <button id="cap-out" title="Zoom out">−</button>
+      <button id="cap-fit" title="Reset">Reset</button>
+    </div>
+  </div>
+  <div class="cap-foot">
+    <span class="cap-key"><i class="k-top"></i>Top rated</span>
+    <span class="cap-key"><i class="k-mid"></i>Referred or already used</span>
+    <span class="cap-key"><i class="k-dot"></i>Mapped</span>
+    <span class="cap-key cap-key-r">Rating grows outward — the rim is the proven end of the network</span>
+    <span class="cap-hint" id="cap-hint">Pinch or ⌘-scroll to zoom · drag to pan · hover a dot</span>
+  </div>
+</section>
 
 <div id="gate">
   <div class="gate-box">
@@ -311,6 +438,12 @@ if (EMBED) {
   document.body.classList.add("embed");
   const g = document.getElementById("gate");
   if (g) g.remove();
+  /* Il radar esce dal DOM, non si nasconde: l'iframe della home e' alto quanto
+     la costellazione, e una seconda sezione la' dentro comparirebbe tagliata a
+     meta' in fondo a ogni pagina del sito. Tolto di mezzo, l'altezza torna
+     quella di prima e la home non si accorge di niente. */
+  const r = document.getElementById("cap");
+  if (r) r.remove();
 }
 
 /* La pagina si carica in due modi, e li distingue il DATO, non un flag. Sul
@@ -1153,6 +1286,475 @@ function applyLang(l) {
   });
 }
 
+/* ------------------------------------------- radar delle capacita' produttive */
+/* Una tavola polare, non una seconda costellazione. La costellazione e' viva e
+   si esplora; questa si legge, e deve reggere duemiladuecento punti su fondo
+   bianco restando chiara a chi la vede per dieci secondi in una riunione.
+   Tre scelte di impianto, tutte e tre discusse con Carlo il 17.08.2026:
+
+   1. NOVE SETTORI AD ANGOLO UGUALE, uno per capacita'. Angoli uguali perche' il
+      confronto fra assi deve essere immediato: se l'angolo dipendesse dal
+      numero di fornitori, "Materials" da sola si prenderebbe un terzo del giro
+      e le capacita' piccole diventerebbero fessure illeggibili.
+   2. DENTRO OGNI SETTORE, le sottocategorie si dividono l'angolo IN PROPORZIONE
+      al numero di fornitori. Cosi' lo spazio per l'etichetta arriva dove ci sono
+      i dati: "Metal & metal mesh" con 101 aziende ha la sua riga, e le
+      sottocategorie da due fornitori non pretendono lo stesso spazio.
+   3. LA DISTANZA DAL CENTRO NON SIGNIFICA NIENTE. Decisione esplicita di Carlo:
+      serve solo a distribuire. I punti si spargono in densita' uniforme dentro
+      il proprio spicchio — uniforme per AREA, non per raggio, o si
+      addenserebbero verso il centro dove la circonferenza e' corta.
+
+   ⚠️ Niente Math.random: la posizione di ogni punto si ricava dal suo indice con
+   una sequenza a bassa discrepanza. Un radar che si ridisegna diverso a ogni
+   apertura non e' una mappa, e due schermate della stessa cosa in una riunione
+   non coinciderebbero. */
+
+/* Numero fra 0 e 1 ricavato da un indice: fa da scostamento casuale-a-vedersi
+   senza essere casuale. Serve perche' la tavola dev'essere IDENTICA a ogni
+   apertura e a ogni rigenerazione — due schermate della stessa cosa mostrate in
+   una riunione non possono avere i punti in posti diversi — e `Math.random()`
+   lo renderebbe impossibile. */
+function hash01(i, salt) {
+  let h = (Math.imul(i + 1, 2654435761) + Math.imul(salt + 1, 40503)) >>> 0;
+  h ^= h >>> 15; h = Math.imul(h, 2246822519) >>> 0;
+  h ^= h >>> 13; h = Math.imul(h, 3266489917) >>> 0;
+  h ^= h >>> 16;
+  return h / 4294967296;
+}
+
+/* Il moltiplicatore di Knuth: dispari e primo, quindi `(k * P) % n` percorre
+   tutti gli indici da 0 a n-1 una volta sola, in ordine sparso. E' cosi' che si
+   stacca la posizione dall'ordine di arrivo. */
+const PERM = 2654435761;
+
+const cap = {
+  ready: false, dots: [], axes: [], names: false,
+  view: { k: 1, x: 0, y: 0 }, drag: null, hover: -1,
+  W: 0, H: 0, R: 0, RIN: 0, cx: 0, cy: 0,
+};
+
+function capGeometry() {
+  const canvas = document.getElementById("capc");
+  const rect = canvas.getBoundingClientRect();
+  cap.W = rect.width; cap.H = rect.height;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = cap.W * dpr; canvas.height = cap.H * dpr;
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cap.cx = cap.W / 2; cap.cy = cap.H / 2;
+  // Il raggio lascia fuori una fascia per i nomi dei nove assi, che stanno
+  // all'esterno: dentro sarebbero finiti in mezzo ai punti. Il 36% e' misurato
+  // sull'etichetta piu' lunga ("Temporary & Experiential Build") mandata a capo:
+  // piu' grande, quella tocca il bordo del canvas.
+  cap.R = Math.min(cap.W, cap.H) * 0.36;
+  cap.RIN = cap.R * 0.17;
+  capPlace();
+}
+
+/* Posizione di ogni punto e di ogni etichetta di spicchio. Si ricalcola solo al
+   ridimensionamento: e' geometria, non animazione. */
+function capPlace() {
+  const axes = cap.axes;
+  if (!axes.length) return;
+  const FULL = Math.PI * 2, GAP = FULL / axes.length * 0.055;
+  const span = FULL / axes.length - GAP;
+  const perSub = [];
+
+  axes.forEach((axis, i) => {
+    const start = -Math.PI / 2 + i * (FULL / axes.length) + GAP / 2;
+    axis.a0 = start; axis.a1 = start + span;
+    axis.mid = start + span / 2;
+    // Le sottocategorie vuote non esistono nell'archivio, ma se un giorno
+    // esistessero prenderebbero angolo zero e sparirebbero senza rumore:
+    // il minimo garantito le tiene visibili come fessura.
+    const total = Math.max(1, axis.n);
+    let a = start;
+    axis.subs.forEach((sub, j) => {
+      const share = Math.max(0.004, sub.n / total) * span;
+      sub.a0 = a; sub.a1 = a + share; sub.mid = a + share / 2;
+      sub.seq = 0;
+      perSub[i + "," + j] = sub;
+      a += share;
+    });
+  });
+
+  cap.dots.forEach((d, gi) => {
+    const sub = perSub[d.a + "," + d.s];
+    if (!sub) return;
+    const k = sub.seq++;
+
+    /* IL RAGGIO DICE IL RATING: piu' alto, piu' fuori. I fornitori "ottimo"
+       finiscono sull'orlo, quelli senza nessuna indicazione stanno raccolti
+       attorno al marchio. Decisione di Carlo del 17.08.2026 — la prima versione
+       lo teneva muto, questa lo fa parlare, ed e' la lettura che serve a lui:
+       il bordo del cerchio e' la parte buona dell'archivio.
+       ⚠️ Si usa il RANGO e non il punteggio grezzo. Con il punteggio, 533
+       fornitori a zero si sovrapporrebbero tutti sulla stessa circonferenza e
+       il centro diventerebbe una macchia; il rango li distribuisce sulla fascia
+       che gli spetta mantenendo l'ordine. `cap.dots` arriva dal build gia'
+       ordinato per rilevanza, quindi l'indice E' il rango. */
+    const v = 1 - gi / Math.max(1, cap.dots.length - 1);
+    d.rad = cap.RIN + (cap.R - cap.RIN) * v;
+    /* L'ANGOLO invece non dice niente: serve solo a non far sovrapporre due
+       punti che hanno lo stesso rating. Lo spicchio si divide in tante fasce
+       quanti sono i suoi fornitori, e ognuno ne prende una — ma NON in ordine
+       di arrivo: la fascia si assegna con la permutazione, o l'angolo
+       seguirebbe il rating come il raggio e i punti si metterebbero in fila su
+       una spirale. Dentro la fascia, uno scostamento fisso ricavato dall'indice
+       rompe l'allineamento senza introdurre casualita'. */
+    const slot = sub.n > 1 ? (Math.imul(k, PERM) >>> 0) % sub.n : 0;
+    const u = (slot + 0.18 + 0.64 * hash01(k, sub.a0 * 1000)) / sub.n;
+    // Un margine interno allo spicchio, o i punti sembrano sbordare nel vicino.
+    const pad = Math.min(0.16, 0.5 - 0.5 / (1 + sub.n * 0.35));
+    d.ang = sub.a0 + (pad + u * (1 - 2 * pad)) * (sub.a1 - sub.a0);
+    d.x = Math.cos(d.ang) * d.rad;
+    d.y = Math.sin(d.ang) * d.rad;
+  });
+}
+
+function capToScreen(x, y) {
+  return [cap.cx + cap.view.x + x * cap.view.k,
+          cap.cy + cap.view.y + y * cap.view.k];
+}
+
+/* La griglia di occupazione: tiene il conto delle celle di schermo gia' scritte.
+   E' il pezzo che fa la differenza fra una tavola e una macchia — le etichette
+   si chiedono lo spazio in ordine di importanza, e chi arriva dopo lo trova
+   occupato e rinuncia. Nessuna sovrapposizione, e la gerarchia si vede.
+   ⚠️ L'ordine di richiesta E' la gerarchia: nomi degli assi, poi ambiti dal piu'
+   grande, poi fornitori dal piu' rilevante. Cambiarlo cambia cosa si capisce. */
+function capGrid(cellW, cellH) {
+  const used = new Set();
+  const cols = Math.ceil(cap.W / cellW) + 2;
+  return function claim(x, y, w, h) {
+    if (x < -40 || y < -20 || x > cap.W + 40 || y > cap.H + 20) return false;
+    const c0 = Math.floor((x - w / 2) / cellW), c1 = Math.floor((x + w / 2) / cellW);
+    const r0 = Math.floor((y - h / 2) / cellH), r1 = Math.floor((y + h / 2) / cellH);
+    for (let r = r0; r <= r1; r++)
+      for (let c = c0; c <= c1; c++)
+        if (used.has(r * cols + c)) return false;
+    for (let r = r0; r <= r1; r++)
+      for (let c = c0; c <= c1; c++) used.add(r * cols + c);
+    return true;
+  };
+}
+
+function capDraw() {
+  const canvas = document.getElementById("capc");
+  if (!canvas || !cap.ready) return;
+  const ctx = canvas.getContext("2d");
+  const k = cap.view.k;
+  ctx.clearRect(0, 0, cap.W, cap.H);
+
+  const FONT = '"Plain","Helvetica Neue",system-ui,Arial,sans-serif';
+  const cx = cap.cx + cap.view.x, cy = cap.cy + cap.view.y;
+
+  /* --- cerchi di riferimento e divisori --- */
+  ctx.strokeStyle = "rgba(17,17,17,.07)";
+  ctx.lineWidth = 1;
+  for (const f of [0.34, 0.62, 0.86, 1]) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, cap.R * f * k, 0, 7);
+    ctx.stroke();
+  }
+  // Divisori fra sottocategorie: piu' chiari di quelli fra assi, o l'occhio
+  // legge ottantuno settori invece di nove.
+  for (const axis of cap.axes) {
+    for (const sub of axis.subs) {
+      ctx.strokeStyle = "rgba(17,17,17,.05)";
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(sub.a0) * cap.RIN * k, cy + Math.sin(sub.a0) * cap.RIN * k);
+      ctx.lineTo(cx + Math.cos(sub.a0) * cap.R * k, cy + Math.sin(sub.a0) * cap.R * k);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(17,17,17,.16)";
+    for (const a of [axis.a0, axis.a1]) {
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * cap.RIN * k, cy + Math.sin(a) * cap.RIN * k);
+      ctx.lineTo(cx + Math.cos(a) * cap.R * k, cy + Math.sin(a) * cap.R * k);
+      ctx.stroke();
+    }
+  }
+
+  /* --- i punti --- */
+  /* Tutti della stessa misura: quello che distingue e' il COLORE, non il corpo.
+     Grigio chiaro chi non ha nessuna indicazione, grigio scuro chi e' arrivato
+     da una segnalazione o e' stato usato, rosso chi nel nome della cartella ha
+     scritto "ottimo".
+     ⚠️ Si disegnano dal grigio chiaro al rosso, in quest'ordine: sono
+     duemiladuecento su un cerchio, e i 274 rossi disegnati per primi
+     finirebbero sotto i millecinquecento grigi. L'ordine di disegno E' la
+     gerarchia, come per le etichette. */
+  const rDot = Math.max(1.6, 2.3 * Math.sqrt(k));
+  const TIER_FILL = ["#CFCFCF", "#767676", "#C71617"];
+  for (let tier = 0; tier <= 2; tier++) {
+    ctx.fillStyle = TIER_FILL[tier];
+    for (const d of cap.dots) {
+      if (d.q !== tier) continue;
+      const [x, y] = capToScreen(d.x, d.y);
+      if (x < -8 || y < -8 || x > cap.W + 8 || y > cap.H + 8) continue;
+      ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
+    }
+  }
+  const rTop = rDot;
+
+  /* --- etichette, in ordine di gerarchia dentro una sola griglia --- */
+  const claim = capGrid(8, 12);
+  ctx.textBaseline = "middle";
+
+  // 1. i nove assi, fuori dal cerchio. Non passano dalla griglia: sono l'unica
+  //    cosa che non deve poter mancare, e stanno in una fascia loro.
+  //    ⚠️ Vanno mandati a capo sulla "&" e poi ricacciati dentro il bordo:
+  //    "Temporary & Experiential Build" su una riga sola, agganciato al lato
+  //    sinistro del cerchio, uscira' dal canvas e si leggera' a meta'.
+  ctx.font = `500 11px ${FONT}`;
+  for (const axis of cap.axes) {
+    const rr = cap.R * k + 18;
+    let x = cx + Math.cos(axis.mid) * rr;
+    const y = cy + Math.sin(axis.mid) * rr;
+    const c = Math.cos(axis.mid);
+    const align = Math.abs(c) < 0.28 ? "center" : (c > 0 ? "left" : "right");
+    ctx.textAlign = align;
+
+    const upper = axis.label.toUpperCase();
+    const lines = upper.includes(" & ") && upper.length > 17
+      ? [upper.slice(0, upper.indexOf(" & ") + 2), upper.slice(upper.indexOf(" & ") + 3)]
+      : [upper];
+    const wide = Math.max(...lines.map(t => ctx.measureText(t).width));
+
+    // Rientro forzato: meglio un'etichetta che scivola di qualche pixel verso
+    // il centro che una tagliata dal bordo.
+    if (align === "left") x = Math.min(x, cap.W - wide - 4);
+    if (align === "right") x = Math.max(x, wide + 4);
+    if (align === "center") x = Math.min(cap.W - wide / 2 - 4, Math.max(wide / 2 + 4, x));
+
+    const y0 = y - (lines.length - 1) * 6.5;
+    ctx.fillStyle = "#111";
+    lines.forEach((t, i) => ctx.fillText(t, x, y0 + i * 13));
+
+    ctx.font = `300 9.5px ${FONT}`;
+    ctx.fillStyle = "#A0A0A0";
+    ctx.fillText(String(axis.n), x + (align === "right" ? -wide - 7
+                 : align === "left" ? wide + 7 : 0), y0 + (lines.length - 1) * 13);
+    ctx.font = `500 11px ${FONT}`;
+    claim(x, y, wide + 18, 16 + lines.length * 13);
+  }
+
+  // 2. gli ambiti, dal piu' popolato: chi non trova posto ricompare zoomando.
+  ctx.font = `500 9.5px ${FONT}`;
+  ctx.textAlign = "center";
+  const subs = [];
+  for (const axis of cap.axes)
+    axis.subs.forEach((sub, j) => { sub.tier = j % 3; subs.push(sub); });
+  subs.sort((a, b) => b.n - a.n);
+  // ⚠️ Tre raggi alternati e non uno. Con tutte le etichette allineate sullo
+  // stesso anello, due ambiti vicini si contendono la stessa cella e il secondo
+  // spariva: si perdevano voci grosse — "Hardware & technical components" con
+  // 146 aziende non compariva — mentre restavano le piccole che avevano
+  // chiesto prima. Sfalsandole, ne entrano molte piu' senza sovrapporsi.
+  const TIERS = [0.82, 0.63, 0.72];
+  for (const sub of subs) {
+    const rr = cap.R * TIERS[sub.tier] * k;
+    const x = cx + Math.cos(sub.mid) * rr, y = cy + Math.sin(sub.mid) * rr;
+    const w = ctx.measureText(sub.label).width;
+    if (!claim(x, y, w + 12, 15)) continue;
+    ctx.fillStyle = "rgba(255,255,255,.86)";
+    ctx.fillRect(x - w / 2 - 4, y - 7, w + 8, 14);
+    ctx.fillStyle = "#3C3C3C";
+    ctx.fillText(sub.label, x, y);
+  }
+
+  // 3. i nomi dei fornitori — solo nella copia interna, dove il payload li
+  //    porta. In ordine di rilevanza, che e' l'ordine in cui `dots` arriva gia'
+  //    dal build: i migliori si leggono subito, gli altri emergono zoomando.
+  if (cap.names) {
+    ctx.font = `300 9.5px ${FONT}`;
+    let drawn = 0;
+    for (const d of cap.dots) {
+      if (drawn > 400) break;
+      const [x, y] = capToScreen(d.x, d.y);
+      if (x < 0 || y < 0 || x > cap.W || y > cap.H) continue;
+      const w = ctx.measureText(d.short).width;
+      const yy = y - rDot - 7;
+      if (!claim(x, yy, w + 8, 13)) continue;
+      ctx.fillStyle = "rgba(255,255,255,.9)";
+      ctx.fillRect(x - w / 2 - 3, yy - 6.5, w + 6, 13);
+      // Il nome prende il colore del suo punto: chi legge non deve tornare al
+      // pallino per sapere di che fornitore si tratta.
+      ctx.fillStyle = d.q === 2 ? "#C71617" : d.q === 1 ? "#454545" : "#8A8A8A";
+      ctx.fillText(d.short, x, yy);
+      drawn++;
+    }
+  }
+
+  /* --- il marchio al centro, come nella costellazione --- */
+  ctx.fillStyle = "#fff";
+  ctx.beginPath(); ctx.arc(cx, cy, cap.RIN * k * 0.98, 0, 7); ctx.fill();
+  if (MONOGRAM.complete && MONOGRAM.naturalWidth) {
+    const mh = Math.min(cap.RIN * k * 1.1, 40), mw = mh * (70.18 / 97.05);
+    ctx.drawImage(MONOGRAM, cx - mw / 2, cy - mh / 2, mw, mh);
+  }
+}
+
+function capPick(px, py) {
+  let best = -1, bestD = 13;
+  for (let i = 0; i < cap.dots.length; i++) {
+    const d = cap.dots[i];
+    const [x, y] = capToScreen(d.x, d.y);
+    const dist = Math.hypot(x - px, y - py);
+    // I "top" vincono a pari distanza: sono i piu' grandi e i piu' cercati.
+    const reach = d.q ? 9 : 6;
+    if (dist < Math.min(bestD, reach)) { best = i; bestD = dist; }
+  }
+  return best;
+}
+
+function capTip(index, px, py) {
+  const tip = document.getElementById("capTip");
+  if (index < 0) { tip.hidden = true; return; }
+  const d = cap.dots[index];
+  const axis = cap.axes[d.a], sub = axis.subs[d.s];
+  const TIER_WORD = ["Mapped", "Referred or already used", "Top rated"];
+  tip.innerHTML = (cap.names ? `<b>${esc(d.name)}</b>` : "")
+    + `<span>${esc(sub.label)}</span>`
+    + `<em>${esc(axis.label)}</em>`
+    + `<span>${TIER_WORD[d.q] || ""}</span>`;
+  tip.hidden = false;
+  tip.style.left = px + "px";
+  tip.style.top = (py - 12) + "px";
+}
+
+function capZoom(factor, ox, oy) {
+  const k = Math.min(14, Math.max(1, cap.view.k * factor));
+  const f = k / cap.view.k;
+  // Lo zoom tiene fermo il punto sotto le dita, o si perde il posto in cui si
+  // stava guardando proprio mentre ci si avvicina per leggerlo.
+  cap.view.x = ox - cap.cx - (ox - cap.cx - cap.view.x) * f;
+  cap.view.y = oy - cap.cy - (oy - cap.cy - cap.view.y) * f;
+  cap.view.k = k;
+  if (k === 1) { cap.view.x = 0; cap.view.y = 0; }
+  capDraw();
+}
+
+function mountCapabilities() {
+  const section = document.getElementById("cap");
+  if (!section || !DATA.capabilities) return;
+  const spec = DATA.capabilities;
+  cap.axes = spec.axes.map(a => ({
+    id: a.id, label: a.label, blurb: a.blurb, n: a.n, top: a.top,
+    subs: a.subs.map(s => ({ id: s.id, label: s.label, n: s.n })),
+  }));
+  // Quinta casella = il nome. C'e' solo nella copia interna: e' lo stesso
+  // cancello del terzo livello della costellazione — il dato, non un flag.
+  cap.names = spec.dots.length > 0 && spec.dots[0].length > 4;
+  /* Il nome per il disegno si accorcia, quello intero resta nel tooltip.
+     ⚠️ Non e' vezzo tipografico. Parecchie cartelle dell'archivio non usano il
+     separatore " - " previsto, quindi `scan_folders.py` non riesce a staccare la
+     descrizione e il campo `name` si porta dietro tutto: "SCHOTT NEXTREMA- Glass
+     ceramic opachi con texture", "CORAME applicazione cuoio e pelle per aziende
+     big". Su una tavola che Carlo apre davanti a un cliente quelle righe sono
+     disordine, e in italiano dentro una pagina inglese. Si taglia alla prima
+     parola intera dopo il limite: il dato non si tocca, si tocca il disegno. */
+  const shorten = (s) => {
+    if (s.length <= 26) return s;
+    const cut = s.slice(0, 26);
+    const space = cut.lastIndexOf(" ");
+    return (space > 14 ? cut.slice(0, space) : cut).replace(/[\s\-–—.,]+$/, "") + "…";
+  };
+  cap.dots = spec.dots.map(p => ({
+    a: p[0], s: p[1], q: p[2], rel: p[3],
+    name: p[4] || "", short: shorten(p[4] || ""),
+    x: 0, y: 0, ang: 0, rad: 0,
+  }));
+  section.hidden = false;
+  cap.ready = true;
+  capGeometry();
+  capDraw();
+
+  const canvas = document.getElementById("capc");
+  canvas.addEventListener("mousemove", e => {
+    const r = canvas.getBoundingClientRect();
+    const px = e.clientX - r.left, py = e.clientY - r.top;
+    if (cap.drag) {
+      cap.view.x = cap.drag.vx + (px - cap.drag.x);
+      cap.view.y = cap.drag.vy + (py - cap.drag.y);
+      capDraw();
+      return;
+    }
+    const hit = capPick(px, py);
+    if (hit !== cap.hover) { cap.hover = hit; capTip(hit, px, py); }
+    else if (hit >= 0) capTip(hit, px, py);
+  });
+  canvas.addEventListener("mouseleave", () => { cap.hover = -1; capTip(-1); });
+  canvas.addEventListener("mousedown", e => {
+    const r = canvas.getBoundingClientRect();
+    cap.drag = { x: e.clientX - r.left, y: e.clientY - r.top,
+                 vx: cap.view.x, vy: cap.view.y };
+    canvas.classList.add("dragging");
+  });
+  window.addEventListener("mouseup", () => {
+    cap.drag = null; canvas.classList.remove("dragging");
+  });
+
+  /* La rotella nuda resta della pagina: qui sotto c'e' una sezione da scorrere,
+     e prendersela vorrebbe dire incastrare chi passa. Lo zoom chiede ctrl o cmd
+     — che e' anche cio' che il trackpad manda quando si fa pinch a due dita,
+     quindi il gesto naturale funziona senza tasti. */
+  canvas.addEventListener("wheel", e => {
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    const r = canvas.getBoundingClientRect();
+    capZoom(e.deltaY < 0 ? 1.14 : 1 / 1.14, e.clientX - r.left, e.clientY - r.top);
+  }, { passive: false });
+
+  /* Pinch col dito, su tablet e telefono. Due dita zoomano, una trascina. */
+  let pinch = null;
+  canvas.addEventListener("touchstart", e => {
+    const r = canvas.getBoundingClientRect();
+    if (e.touches.length === 2) {
+      const [a, b] = e.touches;
+      pinch = { d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+                x: (a.clientX + b.clientX) / 2 - r.left,
+                y: (a.clientY + b.clientY) / 2 - r.top };
+      cap.drag = null;
+    } else if (e.touches.length === 1) {
+      cap.drag = { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top,
+                   vx: cap.view.x, vy: cap.view.y };
+    }
+  }, { passive: true });
+  canvas.addEventListener("touchmove", e => {
+    const r = canvas.getBoundingClientRect();
+    if (e.touches.length === 2 && pinch) {
+      e.preventDefault();
+      const [a, b] = e.touches;
+      const d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      capZoom(d / pinch.d, pinch.x, pinch.y);
+      pinch.d = d;
+    } else if (cap.drag && e.touches.length === 1) {
+      e.preventDefault();
+      cap.view.x = cap.drag.vx + (e.touches[0].clientX - r.left - cap.drag.x);
+      cap.view.y = cap.drag.vy + (e.touches[0].clientY - r.top - cap.drag.y);
+      capDraw();
+    }
+  }, { passive: false });
+  canvas.addEventListener("touchend", () => { pinch = null; cap.drag = null; }, { passive: true });
+
+  document.getElementById("cap-in").onclick = () => capZoom(1.5, cap.cx, cap.cy);
+  document.getElementById("cap-out").onclick = () => capZoom(1 / 1.5, cap.cx, cap.cy);
+  document.getElementById("cap-fit").onclick = () => {
+    cap.view = { k: 1, x: 0, y: 0 }; capDraw();
+  };
+
+  // Il testo del suggerimento dice la verita' sui nomi solo dove i nomi ci sono.
+  const hint = document.getElementById("cap-hint");
+  if (hint) hint.textContent = cap.names
+    ? "Pinch or ⌘-scroll to zoom — more names appear as you go in · drag to pan"
+    : "Pinch or ⌘-scroll to zoom · drag to pan · hover a dot";
+
+  window.addEventListener("resize", () => { capGeometry(); capDraw(); });
+}
+
 /* --------------------------------------------------------------------- boot */
 function mountChrome() {
   const langs = document.getElementById("langs");
@@ -1264,6 +1866,7 @@ loadData()
     buildGraph(payload);
     mountChrome();
     mountStamp();
+    if (!EMBED) mountCapabilities();
     renderTree();
     const want = EMBED
       ? (PARAMS.get("lang") || "").slice(0, 2)
