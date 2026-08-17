@@ -1,9 +1,15 @@
 # Potential — website
 
 Sito Potential (*Every space. Delivered.*). Pagine HTML senza build e senza framework: nessuna
-dipendenza da CDN, librerie o servizi esterni. **Autonome però non lo sono:** i loghi sì, sono SVG
-inline, ma il font Plain e i frame dell'header vengono caricati da `assets/`, e una pagina separata
-da quella cartella — o con il path scritto male — perde il font.
+libreria, nessun bundler. **Autonome però non lo sono:** i loghi sì, sono SVG inline, ma il font
+Plain e i frame dell'header vengono caricati da `assets/`, e una pagina separata da quella cartella
+— o con il path scritto male — perde il font.
+
+⚠️ **E dal 17.08.2026 non è più vero che non ci sono servizi esterni**, come diceva questa riga
+fino a quel giorno: ogni pagina pubblica carica il beacon di **Cloudflare Web Analytics** da
+`static.cloudflareinsights.com`. È una dipendenza sola, cookieless e asincrona, ma è una
+dipendenza: chi progetta una pagina nuova non può più dare per scontato che il sito funzioni
+offline o a CDN spento.
 
 ⚠️ **Il ripiego su Arial è silenzioso, e su un Mac che ha Plain installato nel sistema non si vede
 proprio:** il browser pesca il font locale e la pagina sembra giusta a chi la pubblica. I path dei
