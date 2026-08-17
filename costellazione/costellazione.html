@@ -1625,16 +1625,54 @@ function capTip(index, px, py) {
   tip.style.top = (py - 12) + "px";
 }
 
-function capZoom(factor, ox, oy) {
-  const k = Math.min(14, Math.max(1, cap.view.k * factor));
-  const f = k / cap.view.k;
+/* Lo zoom animato. Il pinch e la rotella restano immediati — li' la mano
+   comanda e un ritardo si sentirebbe come lentezza — mentre il clic e i pulsanti
+   ci arrivano interpolati: sono comandi discreti, e un salto secco fa perdere il
+   filo di dove si era. E' la stessa ragione per cui la costellazione ha
+   `easeCamera()` invece di spostare la vista di colpo. */
+let capAnim = null;
+
+function capAnimStep() {
+  if (!capAnim) return;
+  const t = Math.min(1, (performance.now() - capAnim.t0) / capAnim.dur);
+  // ease-out cubica: parte deciso e si posa, che e' come si legge un
+  // avvicinamento. Una lineare sembra un carrello meccanico.
+  const e = 1 - Math.pow(1 - t, 3);
+  cap.view.k = capAnim.k0 + (capAnim.k1 - capAnim.k0) * e;
+  cap.view.x = capAnim.x0 + (capAnim.x1 - capAnim.x0) * e;
+  cap.view.y = capAnim.y0 + (capAnim.y1 - capAnim.y0) * e;
+  capDraw();
+  if (t < 1) requestAnimationFrame(capAnimStep);
+  else capAnim = null;
+}
+
+function capZoom(factor, ox, oy, animate) {
+  // Si compone sempre dal BERSAGLIO, non da dove la vista si trova adesso: due
+  // clic ravvicinati devono sommarsi, non ripartire da meta' strada del primo.
+  const base = capAnim
+    ? { k: capAnim.k1, x: capAnim.x1, y: capAnim.y1 }
+    : { k: cap.view.k, x: cap.view.x, y: cap.view.y };
+  const k = Math.min(14, Math.max(1, base.k * factor));
+  const f = k / base.k;
   // Lo zoom tiene fermo il punto sotto le dita, o si perde il posto in cui si
   // stava guardando proprio mentre ci si avvicina per leggerlo.
-  cap.view.x = ox - cap.cx - (ox - cap.cx - cap.view.x) * f;
-  cap.view.y = oy - cap.cy - (oy - cap.cy - cap.view.y) * f;
-  cap.view.k = k;
-  if (k === 1) { cap.view.x = 0; cap.view.y = 0; }
-  capDraw();
+  let x = ox - cap.cx - (ox - cap.cx - base.x) * f;
+  let y = oy - cap.cy - (oy - cap.cy - base.y) * f;
+  if (k === 1) { x = 0; y = 0; }
+
+  if (!animate) {
+    capAnim = null;
+    cap.view.k = k; cap.view.x = x; cap.view.y = y;
+    capDraw();
+    return;
+  }
+  // Il tooltip si chiude: era agganciato a un punto che si sta spostando, e
+  // resterebbe appeso a indicare il posto sbagliato per mezzo secondo.
+  cap.hover = -1; capTip(-1);
+  const running = !!capAnim;
+  capAnim = { k0: cap.view.k, x0: cap.view.x, y0: cap.view.y,
+              k1: k, x1: x, y1: y, t0: performance.now(), dur: 520 };
+  if (!running) requestAnimationFrame(capAnimStep);
 }
 
 function mountCapabilities() {
@@ -1677,6 +1715,7 @@ function mountCapabilities() {
     const r = canvas.getBoundingClientRect();
     const px = e.clientX - r.left, py = e.clientY - r.top;
     if (cap.drag) {
+      if (Math.hypot(px - cap.drag.x, py - cap.drag.y) > 6) cap.drag.moved = true;
       cap.view.x = cap.drag.vx + (px - cap.drag.x);
       cap.view.y = cap.drag.vy + (py - cap.drag.y);
       capDraw();
@@ -1689,12 +1728,37 @@ function mountCapabilities() {
   canvas.addEventListener("mouseleave", () => { cap.hover = -1; capTip(-1); });
   canvas.addEventListener("mousedown", e => {
     const r = canvas.getBoundingClientRect();
+    capAnim = null;   // trascinare interrompe un avvicinamento in corso
     cap.drag = { x: e.clientX - r.left, y: e.clientY - r.top,
-                 vx: cap.view.x, vy: cap.view.y };
+                 vx: cap.view.x, vy: cap.view.y, moved: false };
     canvas.classList.add("dragging");
   });
-  window.addEventListener("mouseup", () => {
-    cap.drag = null; canvas.classList.remove("dragging");
+
+  /* Clic a vuoto = avanti, doppio clic = indietro.
+     ⚠️ Un doppio clic emette prima DUE `click`, e senza attesa il secondo
+     avvicinamento partirebbe prima che `dblclick` arrivi ad annullarlo: si
+     vedrebbe entrare e poi uscire. Il singolo clic aspetta percio' 260 ms, e il
+     doppio gli annulla il turno. E' l'unica soluzione senza tenere un timer
+     visibile all'utente. */
+  let clickTimer = null;
+  window.addEventListener("mouseup", e => {
+    const wasDrag = cap.drag && cap.drag.moved;
+    cap.drag = null;
+    canvas.classList.remove("dragging");
+    if (wasDrag || e.target !== canvas) return;
+    const r = canvas.getBoundingClientRect();
+    const px = e.clientX - r.left, py = e.clientY - r.top;
+    // Sopra un punto il clic non zooma: quello e' un bersaglio, non spazio
+    // vuoto, e il tooltip sta gia' dicendo la sua.
+    if (capPick(px, py) >= 0) return;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => capZoom(1.55, px, py, true), 260);
+  });
+  canvas.addEventListener("dblclick", e => {
+    e.preventDefault();
+    clearTimeout(clickTimer);
+    const r = canvas.getBoundingClientRect();
+    capZoom(1 / 1.55, e.clientX - r.left, e.clientY - r.top, true);
   });
 
   /* La rotella nuda resta della pagina: qui sotto c'e' una sezione da scorrere,
@@ -1740,11 +1804,15 @@ function mountCapabilities() {
   }, { passive: false });
   canvas.addEventListener("touchend", () => { pinch = null; cap.drag = null; }, { passive: true });
 
-  document.getElementById("cap-in").onclick = () => capZoom(1.5, cap.cx, cap.cy);
-  document.getElementById("cap-out").onclick = () => capZoom(1 / 1.5, cap.cx, cap.cy);
-  document.getElementById("cap-fit").onclick = () => {
-    cap.view = { k: 1, x: 0, y: 0 }; capDraw();
-  };
+  // I pulsanti passano dalla stessa interpolazione del clic: sono comandi
+  // discreti, e uno scatto secco fa perdere il punto in cui si stava guardando.
+  document.getElementById("cap-in").onclick = () => capZoom(1.55, cap.cx, cap.cy, true);
+  document.getElementById("cap-out").onclick = () => capZoom(1 / 1.55, cap.cx, cap.cy, true);
+  // Il fattore si calcola sul bersaglio, non sulla vista corrente: premuto
+  // mentre un avvicinamento e' a meta', altrimenti tornerebbe a un ingrandimento
+  // intermedio invece che alla vista intera.
+  document.getElementById("cap-fit").onclick = () =>
+    capZoom(1 / (capAnim ? capAnim.k1 : cap.view.k), cap.cx, cap.cy, true);
 
   // Il testo del suggerimento dice la verita' sui nomi solo dove i nomi ci sono.
   const hint = document.getElementById("cap-hint");
