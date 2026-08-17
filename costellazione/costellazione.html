@@ -197,10 +197,28 @@ header{
 .tw-leaf:hover{color:var(--ink)}
 .tw-leaf[aria-current="true"],.tw-macro[aria-current="true"]{color:var(--pt-red)}
 
+/* Il terzo livello — i nomi dei fornitori — esiste solo nella copia interna.
+   Sul sito il payload non ha la chiave `suppliers` e questo blocco non trova
+   mai niente da vestire. */
+.tw-sup{margin:2px 0 6px 12px;border-left:1px solid var(--pt-hairline);padding-left:9px}
+.tw-sup span{
+  display:block;font-size:.66rem;font-weight:300;color:var(--ink-faint);
+  line-height:1.45;padding:1px 0;
+}
+
 html[dir="rtl"] .tw-macro,html[dir="rtl"] .tw-leaf{text-align:right}
+html[dir="rtl"] .tw-sup{margin:2px 12px 6px 0;border-left:0;border-right:1px solid var(--pt-hairline);padding:0 9px 0 0;text-align:right}
 html[dir="rtl"] .tw-kids{margin:1px 13px 6px 0;border-left:0;border-right:1px solid var(--pt-hairline);padding:0 9px 0 0}
 html[dir="rtl"] .tw-macro[aria-expanded="true"] .tw-mark{transform:rotate(-90deg)}
 
+
+/* Il timbro della copia interna: dice cos'e' questo file e a che data sono i
+   dati. Sul sito non compare, perche' il payload pubblico non porta le due
+   date che lo popolano. */
+#t-stamp{
+  display:block;margin-top:7px;color:var(--pt-red);
+  font-size:.58rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;
+}
 
 footer{
   position:absolute;left:clamp(16px,3.2vw,40px);bottom:clamp(16px,3.2vw,40px);
@@ -291,6 +309,31 @@ const EMBED = PARAMS.get("embed") === "1";
    i gestori di credenziali continuano a trovare a ogni ridisegno. */
 if (EMBED) {
   document.body.classList.add("embed");
+  const g = document.getElementById("gate");
+  if (g) g.remove();
+}
+
+/* La pagina si carica in due modi, e li distingue il DATO, non un flag. Sul
+   sito legge network.json accanto a se'. La copia interna con i fornitori ha il
+   payload cucito dentro, in un blocco che build_private.py inserisce appena
+   sopra questo script.
+   I dati stanno dentro il file perche' quella copia si apre col doppio clic, e
+   un HTML su file:// non puo' fare fetch di un file che gli sta di fianco: il
+   browser lo blocca. Un gemello che pretende un server per aprirsi non lo apre
+   nessuno.
+   ⚠️ Quel blocco NON esiste nel file pubblicato, e non esiste nemmeno un
+   interruttore che lo evochi: un flag qui dentro lo leggerebbe chiunque apra il
+   devtools, ed e' esattamente il motivo per cui i nomi dei fornitori non
+   entrano mai in questo file. E' build_public.py a garantirlo, fallendo. */
+const INLINE = document.getElementById("dataset");
+
+/* Dati cuciti dentro, porta via. Una password davanti a un file che si porta
+   gia' dietro tutto quello che dovrebbe proteggere non protegge niente: e'
+   teatro, e costa un passaggio in piu' ogni volta che si apre. Quel file lo
+   difende dove sta — fuori da git, fuori dal sito — non un campo di testo.
+   Si toglie subito e non a dati caricati, o il pannello nero lampeggerebbe per
+   tutto il caricamento. */
+if (INLINE) {
   const g = document.getElementById("gate");
   if (g) g.remove();
 }
@@ -403,6 +446,74 @@ function buildGraph(payload) {
   });
 }
 
+/* --------------------------------------------------- terzo livello (interno) */
+/* I fornitori non stanno nel file pubblico e non ci staranno mai: `suppliers`
+   e' una chiave che il payload del sito non ha, e tutto quello che segue non
+   viene percio' mai eseguito online. Il cancello e' il DATO, non un flag qui
+   dentro — un interruttore nel codice lo legge chiunque apra il devtools.
+
+   Si creano al volo attorno al solo sotto-ambito scelto e si tolgono quando si
+   sceglie altro: duemiladuecento pallini nella simulazione la fermerebbero, e
+   sarebbero comunque illeggibili tutti insieme. In campo non ce n'e' mai piu'
+   di un centinaio e mezzo. */
+let spawnedFor = null;
+
+function spawnSuppliers(leafId) {
+  despawnSuppliers();
+  const list = (DATA.suppliers || {})[leafId];
+  const parent = byId.get(leafId);
+  if (!list || !list.length || !parent) return;
+
+  // Il raggio cresce col numero: a distanza fissa, centoquarantasei nomi
+  // nascono uno dentro l'altro e la repulsione impiega dieci secondi a
+  // districarli davanti agli occhi di chi guarda.
+  const R = 55 + list.length * 1.1;
+  const born = [];
+  list.forEach((name, i) => {
+    const a = parent.angle + ((i - (list.length - 1) / 2) / Math.max(list.length, 1)) * 2.1;
+    // L'etichetta si scrive in tutte le lingue con lo stesso testo: il nome di
+    // un'azienda non si traduce, e cosi' il disegno e la ricerca continuano a
+    // leggere `label[LANG]` senza sapere che questo nodo e' diverso.
+    const label = {};
+    for (const l of DATA.languages) label[l] = name;
+    const node = {
+      id: "__sup:" + leafId + ":" + i, parent: leafId,
+      supplier: true, depth: 3, hub: false, open: false, alpha: 0,
+      label, blurb: {}, scope: {}, sectors: parent.sectors, w: 1,
+      x: parent.x + Math.cos(a) * R, y: parent.y + Math.sin(a) * R,
+      vx: 0, vy: 0, r: 2.1, angle: a
+    };
+    nodes.push(node); byId.set(node.id, node);
+    links.push({ a: parent, b: node, rest: R * 0.82 });
+    born.push(node);
+  });
+  spawnedFor = leafId;
+  // Aprire un nodo vuol dire guardarci dentro: la vista si allarga su di lui e
+  // sui suoi, non resta sull'inquadratura del ramo.
+  fitTo([parent, ...born], 120);
+}
+
+function despawnSuppliers() {
+  if (!spawnedFor) return;
+  for (const n of nodes) if (n.supplier) byId.delete(n.id);
+  nodes = nodes.filter(n => !n.supplier);
+  links = links.filter(l => !l.b.supplier);
+  spawnedFor = null;
+}
+
+/* Un solo posto decide chi ha i fornitori in campo, e lo ricontrolla a ogni
+   fotogramma. La selezione cambia da cinque punti diversi — clic sul grafo,
+   voce dell'elenco, tocco, tasto azzera, clic nel vuoto — e agganciarsi a
+   ognuno vorrebbe dire dimenticarne uno: quello dimenticato lascerebbe in
+   campo i fornitori di un nodo che non e' piu' selezionato. */
+function syncSuppliers() {
+  if (!DATA || !DATA.suppliers) return;
+  const n = selected ? byId.get(selected) : null;
+  const want = (n && n.depth === 2) ? n.id : null;
+  if (want === spawnedFor) return;
+  if (want) spawnSuppliers(want); else despawnSuppliers();
+}
+
 /* Un nodo "risponde" a un settore se lo serve. Un macro-ambito risponde se
    almeno un suo sotto-ambito risponde: e' l'unione, calcolata a monte. */
 function matchesSectors(n) {
@@ -426,6 +537,8 @@ function matchesBranch(n) {
   if (n.hub) return true;
   const b = byId.get(branch);
   if (!b) return true;
+  // Un fornitore tiene se il ramo scelto e' il sotto-ambito da cui esce.
+  if (n.supplier) return n.parent === b.id;
   // Un capitolo tiene se stesso e i suoi paragrafi; una voce tiene se stessa e
   // il capitolo da cui esce, o si vedrebbe un nodo appeso al nulla.
   return b.depth === 1
@@ -445,12 +558,17 @@ function isHot(n) {
 function inFocus(n) {
   if (!focused) return true;
   if (n.hub) return true;
+  // I fornitori stanno due gradini sotto il nodo inquadrato e nessuna delle tre
+  // condizioni qui sotto li terrebbe accesi. Non serve controllare di chi sono
+  // figli: ne esiste in campo un gruppo solo, quello del sotto-ambito scelto.
+  if (n.supplier) return true;
   return n.id === focused || n.parent === focused || n.id === byId.get(focused).parent;
 }
 
 /* ------------------------------------------------------------------ physics */
 function step() {
   const cx = W / 2, cy = H / 2;
+  syncSuppliers();
 
   for (const n of nodes) {
     const live = isLive(n), foc = inFocus(n);
@@ -628,28 +746,30 @@ function draw() {
     // Le etichette dei sotto-ambiti compaiono con lo zoom o col filtro: alla
     // prima apertura si vede la costellazione, non ottantuno scritte.
     n.hit = null;
-    const showLabel = n.depth === 1 || hov || hot || view.k > 1.55
+    // Un fornitore e' in campo solo perche' qualcuno ha aperto il suo
+    // sotto-ambito: il nome si legge sempre, o il pallino non direbbe niente.
+    const showLabel = n.depth === 1 || n.supplier || hov || hot || view.k > 1.55
       || (focused && n.parent === focused)
       || ((activeSectors.size || query) && isLive(n));
     if (!showLabel || n.alpha < 0.18) continue;
     if (focused && !inFocus(n)) continue;
 
     const size = TXT / view.k;
-    ctx.font = `${n.depth === 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
+    ctx.font = `${n.depth >= 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     const text = n.label[LANG] || n.label.en || n.id;
     const y = n.y + r + 6 / view.k;
 
     const wpx = ctx.measureText(text).width;
-    if (n.depth === 2 || hov) {
+    if (n.depth >= 2 || hov) {
       ctx.fillStyle = `rgba(10,10,10,${0.62 * n.alpha})`;
       ctx.fillRect(n.x - wpx / 2 - 3 / view.k, y - 1.5 / view.k, wpx + 6 / view.k, size * 1.32);
     }
 
     ctx.fillStyle = (hot || hov)
       ? `rgba(255,255,255,${n.alpha})`
-      : n.depth === 2
+      : n.depth >= 2
         ? `rgba(217,217,217,${0.62 * n.alpha})`
         : `rgba(255,255,255,${0.92 * n.alpha})`;
     ctx.fillText(text, n.x, y);
@@ -831,6 +951,9 @@ window.addEventListener("mouseup", e => {
       selected = null; focused = null; branch = null;
       openMacros.clear();
       fitAll();
+    } else if (n.supplier) {
+      // Un fornitore e' una foglia vera: non apre niente, e cliccarlo non deve
+      // ne' cambiare selezione ne' far sparire il gruppo di cui fa parte.
     } else if (selected === n.id) {
       selected = null; branch = null;
       if (n.depth === 1) focused = null;
@@ -894,7 +1017,9 @@ canvas.addEventListener("touchend", e => {
   const t = e.changedTouches[0];
   if (touch && Math.hypot(t.clientX - touch.x, t.clientY - touch.y) < 6) {
     const n = pick(t.clientX, t.clientY);
-    if (n) {
+    if (n && n.supplier) {
+      // come sul clic: un fornitore e' una foglia vera e non apre niente
+    } else if (n) {
       if (branch && !matchesBranch(n)) branch = null;
       hovered = n.id; selected = n.id;
       const kids = nodes.filter(m => m.parent === n.id);
@@ -932,6 +1057,16 @@ function renderTree() {
     for (const k of DATA.nodes.filter(n => n.parent === m.id)) {
       html += `<button class="tw-leaf" data-id="${k.id}"` +
               ` aria-current="${selected === k.id}">${esc(lbl(k))}</button>`;
+      // Terzo livello: i nomi si aprono sotto la voce scelta, e solo sotto
+      // quella. Sul sito `DATA.suppliers` non esiste e questo blocco non
+      // produce mai una riga. Novantuno voci con i nomi tutti aperti sarebbero
+      // duemiladuecento righe: l'elenco serve a scorrere, non a contenere.
+      const sup = DATA.suppliers && selected === k.id ? DATA.suppliers[k.id] : null;
+      if (sup && sup.length) {
+        html += '<div class="tw-sup">' +
+                sup.map(s => `<span>${esc(s)}</span>`).join("") +
+                "</div>";
+      }
     }
     html += "</div>";
   }
@@ -1005,7 +1140,10 @@ function applyLang(l) {
   }
   document.getElementById("b-expand").textContent = t("all_sectors");
   document.getElementById("b-reset").textContent = t("reset");
-  document.title = "Potential — " + t("title");
+  // Le due copie si aprono spesso in due schede accanto: senza il suffisso si
+  // chiamano uguale e si finisce per cercare i fornitori in quella del sito.
+  document.title = "Potential — " + t("title")
+    + (DATA.suppliers ? " (con fornitori)" : "");
 
   document.querySelectorAll("#langs button").forEach(b =>
     b.setAttribute("aria-pressed", String(b.dataset.l === l)));
@@ -1094,13 +1232,38 @@ if (document.getElementById("gate")) {
   });
 }
 
+/* La copia interna dichiara sempre cos'e' e a che data sta.
+   E' la difesa contro il modo di fallire piu' silenzioso di tutti: una pagina
+   che mostra l'archivio di tre settimane fa e non lo dice. Il rilevatore
+   d'archivio tace di proposito sui cambiamenti che non spostano un peso della
+   mappa pubblica — il 15.08 erano otto su otto — ma qui ogni fornitore aggiunto
+   conta, e una pagina vecchia che si dichiara vecchia non e' un fallimento
+   silenzioso.
+   La riga dice anche che il file e' interno: e' l'unico avviso che viaggia
+   insieme al file se qualcuno se lo ritrova aperto davanti. */
+function mountStamp() {
+  if (!DATA.generated) return;
+  const el = document.createElement("span");
+  el.id = "t-stamp";
+  el.textContent = "Copia interna · non inoltrare · dati al " + DATA.generated
+    + (DATA.archive_scan ? " · archivio letto il " + DATA.archive_scan : "");
+  const brand = document.querySelector(".brand");
+  if (brand) brand.appendChild(el);
+}
+
+function loadData() {
+  if (INLINE) return Promise.resolve().then(() => JSON.parse(INLINE.textContent));
+  return fetch(DATA_URL, { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+}
+
 resize();
-fetch(DATA_URL, { cache: "no-cache" })
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+loadData()
   .then(payload => {
     DATA = payload;
     buildGraph(payload);
     mountChrome();
+    mountStamp();
     renderTree();
     const want = EMBED
       ? (PARAMS.get("lang") || "").slice(0, 2)
@@ -1110,6 +1273,13 @@ fetch(DATA_URL, { cache: "no-cache" })
       // Niente gate da aprire e niente chrome da accendere: si mostra solo il
       // grafo, inquadrato subito su tutto perche' nessuno potra' allargarlo.
       fitAll();
+    } else if (INLINE) {
+      // La porta non c'e' piu': si accende la colonna e si inquadra tutto.
+      // Senza openGate() il pannello resterebbe spento, perche' e' quella
+      // funzione ad accendere #ui — e non c'e' nessun campo su cui mettere il
+      // fuoco, quindi il ramo del sito qui sotto alzerebbe un TypeError.
+      openGate();
+      fitAll();
     } else {
       document.getElementById("pw").focus();
     }
@@ -1118,7 +1288,10 @@ fetch(DATA_URL, { cache: "no-cache" })
   .catch(err => {
     const e = document.getElementById("err");
     e.hidden = false;
-    e.textContent = "network.json non raggiungibile (" + err.message + ")";
+    e.textContent = INLINE
+      ? "i dati cuciti in questa copia sono illeggibili (" + err.message
+        + ") — rigenerala con build_private.py"
+      : "network.json non raggiungibile (" + err.message + ")";
     // La porta si apre da sola: dietro non c'e' piu' niente da proteggere, e a
     // porta chiusa l'errore resterebbe invisibile sotto il pannello nero.
     openGate();
