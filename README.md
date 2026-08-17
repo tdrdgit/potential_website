@@ -54,7 +54,8 @@ cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER
 ## L'elenco clienti si rigenera, non si scrive a mano
 
 > Procedura per esteso, con i casi in cui lo script si ferma e cosa vuole:
-> [`portfolio/potential-portfolio-map_ISTRUZIONI.md`](portfolio/potential-portfolio-map_ISTRUZIONI.md).
+> `portfolio/potential-portfolio-map_ISTRUZIONI.md` — **sul Mac, non nel repo**
+> (vedi «Cosa non sta su GitHub» in fondo).
 
 I clienti della portfolio map vengono da **un solo file**:
 
@@ -87,7 +88,8 @@ file Excel** — fino all'11.08.2026 finiva in coda al dettaglio come `· for �
 ## La costellazione (`costellazione/`)
 
 > Procedura per esteso, con i casi in cui il build si ferma e cosa vuole:
-> [`tools/costellazione-data/costellazione_dataset_ISTRUZIONI.md`](tools/costellazione-data/costellazione_dataset_ISTRUZIONI.md).
+> `tools/costellazione-data/costellazione_dataset_ISTRUZIONI.md` — **sul Mac, non nel repo**
+> (vedi «Cosa non sta su GitHub» in fondo).
 
 `costellazione/costellazione.html` è la mappa delle competenze della rete di fornitura, quella che
 si vede a https://potential.contractors/costellazione/costellazione.html e, in iframe, nella
@@ -204,6 +206,47 @@ sono verdi: un concetto nuovo può rendere sbagliate le forzature fatte a mano.
 python3 -m http.server 8080
 # apri http://localhost:8080/index.html
 ```
+
+## Cosa non sta su GitHub
+
+⚠️ **Un clone di questo repository non basta a rigenerare il sito.** Dal 17.08.2026 tutto `tools/`
+è in `.gitignore`: gli script di build vivono **solo sul Mac**, in Dropbox, con una copia di
+sicurezza nel Brain in `POTENTIAL BRAIN/website-sources/`.
+
+Il motivo non è l'ordine. Questo repository è **pubblico** e GitHub Pages serve **tutto ciò che sta
+nel repository**: fino a quel giorno `tools/portfolio-data/tiers.json` — la classificazione luxury
+1-5 dei clienti — era scaricabile da chiunque su `potential.contractors`, insieme agli script di
+build e alle procedure interne. Verificato con `curl`: HTTP 200 su sei file.
+
+E il buco era doppio, perché `robots.txt` conteneva sette gruppi `User-agent` nominati (GPTBot,
+ClaudeBot, PerplexityBot…) con solo `Allow: /`. Per la specifica REP un crawler applica **un solo
+gruppo e ignora `*` interamente**: quei sette non vedevano `Disallow: /tools/` ed erano
+formalmente autorizzati a ingerire i tier dei clienti. Il perché per esteso è dentro `robots.txt`,
+scritto lì così chi lo riapre non li rimette.
+
+**Cosa vive solo sul Mac:**
+
+| Cartella | Cosa contiene |
+|---|---|
+| `tools/portfolio-data/` | build della portfolio map + `tiers.json` (fasce luxury dei clienti) |
+| `tools/costellazione-data/` | build della costellazione + procedura |
+| `tools/revisore_traduzioni/` | Excel delle traduzioni, regole, `sync_traduzioni.py` |
+| `tools/editor-costellazione/` | editor visuale della costellazione |
+| `tools/seo_optimization/` | audit SEO |
+| `tools/build-header-frames.py` | build dei frame dell'header |
+| `portfolio/…_ISTRUZIONI.md` | procedura dell'area riservata |
+
+⚠️ **`portfolio/` non si può difendere con `robots.txt`**: la pagina dell'area riservata deve
+restare scansionabile perché il suo `noindex` venga letto. Lì l'unica difesa è **non pubblicare il
+file**, non vietarne la lettura.
+
+⚠️ **La difesa vera è `.gitignore`, e regge solo finché resta lì.** Il backup automatico fa
+`git add -A`: chi togliesse quelle righe rimetterebbe online i tier dei clienti al primo push,
+senza che nessuno abbia deciso niente.
+
+📌 **Resta aperto:** i file rimossi sono ancora nella **storia dei commit** di un repository
+pubblico. Toglierli dal presente non li toglie dal passato — scelta deliberata del 17.08.2026,
+perché l'alternativa (`git filter-repo`) riscrive commit già pubblicati.
 
 ## Deploy
 

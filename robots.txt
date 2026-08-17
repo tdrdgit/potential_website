@@ -12,28 +12,29 @@ Disallow: /_review/
 # puo' comunque mostrare l'URL nudo se qualcuno lo linka — e in piu' questo
 # file e' pubblico, quindi elencarle qui e' un indice di cosa nascondiamo.
 
-# Crawler AI: consentiti. Potential e' un'azienda B2B che vuole essere trovata
-# e citata nelle risposte generate dai motori AI, non un editore che monetizza
-# pageview: bloccarli toglie visibilita' senza proteggere alcun ricavo.
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: CCBot
-Allow: /
+# Crawler AI: consentiti, e sono gia' consentiti dal gruppo "*" qui sopra.
+# Potential e' un'azienda B2B che vuole essere trovata e citata nelle risposte
+# generate dai motori AI, non un editore che monetizza pageview: bloccarli
+# toglie visibilita' senza proteggere alcun ricavo.
+#
+# ⚠️ NON aggiungere gruppi "User-agent: GPTBot" (o ClaudeBot, PerplexityBot,
+# Applebot-Extended, Bytespider...) con solo "Allow: /". Sembra una
+# dichiarazione d'intenti innocua e invece apre un buco.
+#
+# Per la specifica del Robots Exclusion Protocol un crawler applica UN SOLO
+# gruppo — il piu' specifico che lo nomina — e ignora "*" INTERAMENTE. Quindi un
+# gruppo nominato con solo "Allow: /":
+#   • non aggiunge nessun permesso, perche' "*" e' gia' "Allow: /";
+#   • ma DISATTIVA per quel bot i due Disallow qui sopra.
+#
+# Fino al 17.08.2026 questo file conteneva sette gruppi nominati — GPTBot,
+# OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, CCBot.
+# Effetto reale: quei sette erano formalmente autorizzati a leggere /tools/,
+# cioe' la classificazione luxury dei clienti in tiers.json, e a ingerirla in un
+# dataset di addestramento. Nessuno se n'era accorto perche' il file "sembrava"
+# piu' permissivo, non meno.
+#
+# Regola operativa: i permessi si esprimono nel gruppo "*". Un gruppo nominato
+# si crea solo per NEGARE qualcosa a un bot specifico, mai per concedere.
 
 Sitemap: https://potential.contractors/sitemap.xml

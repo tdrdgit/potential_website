@@ -12,13 +12,29 @@ revisore_traduzioni/
 _review/
 seo_optimization/
 
-# Editor della costellazione: strumento interno, apre i sorgenti che vivono nel
-# Brain e non ha niente da fare online. Il sito pubblica network.json, non
-# lo strumento che lo scrive.
+# TUTTO tools/, non solo l'editor. Dal 17.08.2026: sono gli script che
+# GENERANO il sito, non pezzi del sito. Il repository e' pubblico e Pages serve
+# tutto cio' che sta nel repository, quindi fino a quel giorno erano scaricabili
+# in chiaro — verificato con curl, tutti HTTP 200:
 #
-# ⚠️ Qui il path e' ancorato alla cartella: se l'editor trasloca, questa riga va
-# spostata con lui, o il primo "git add -A" lo mette online.
-tools/editor-costellazione/
+#   tools/portfolio-data/tiers.json   → la classificazione luxury 1-5 dei clienti
+#   tools/portfolio-data/build.py     → il path dell'Excel clienti e i filtri
+#   tools/costellazione-data/build.py → la pipeline della costellazione
+#   tools/build-header-frames.py      → lo script di build dell'header
+#
+# ⚠️ Il moltiplicatore stava in robots.txt: "Disallow: /tools/" viveva solo nel
+# gruppo "*", mentre sette bot AI avevano un gruppo proprio con solo "Allow: /".
+# Per la specifica REP un crawler applica UN SOLO gruppo e ignora "*", quindi
+# quei sette erano autorizzati a ingerire i tier dei clienti. Vedi robots.txt.
+#
+# ⚠️ Questa riga e' l'unica difesa contro il backup automatico che fa
+# "git add -A": togliendola, al primo push i tier dei clienti tornano online
+# senza che nessuno abbia deciso niente.
+#
+# Gli script continuano a funzionare in locale e sono copiati nel Brain, in
+# POTENTIAL BRAIN/website-sources/ — quella copia e' una fotografia, non si
+# aggiorna da sola.
+tools/
 
 # L'Excel che governa la costellazione. Sta accanto ai file che genera, ma non
 # e' uno di quelli: e' la fonte, e la fonte non si pubblica. Dentro ci sono i
@@ -44,6 +60,25 @@ costellazione/~$*.xlsx
 # uscire niente, fa fallire la generazione — che e' il modo giusto di
 # accorgersene.
 costellazione-con-fornitori/
+
+# Le procedure interne: spiegano come si rigenerano le pagine, e stavano dentro
+# cartelle che il sito pubblica. Dal 17.08.2026 fuori dal repository — la copia
+# sta nel Brain, in POTENTIAL BRAIN/website-sources/.
+#
+# ⚠️ portfolio/ NON si puo' difendere con robots.txt: la pagina dell'area
+# riservata deve restare scansionabile perche' il suo <meta name="robots"
+# content="noindex"> funzioni. Quindi qui l'unica difesa e' non pubblicare il
+# file, non vietarne la lettura.
+portfolio/*_ISTRUZIONI.md
+*_ISTRUZIONI.md
+
+# Gli Excel di revisione delle traduzioni, in qualsiasi punto del repository.
+# La cartella revisore_traduzioni/ e' gia' ignorata qui sopra, ma il 17.08.2026
+# una copia era finita in RADICE — raccolta dal "git add -A" del backup
+# automatico — ed era scaricabile da chiunque. Questa riga copre il file per
+# nome, a qualsiasi profondita', cosi' non dipende da dove si trova.
+Potential_Revisione_*.xlsx
+~$*.xlsx
 
 # Impostazioni locali di Claude Code: contengono percorsi di questo Mac e non
 # servono a chi clona il sito. Vive solo qui e su Dropbox.
