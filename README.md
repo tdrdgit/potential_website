@@ -207,6 +207,33 @@ python3 -m http.server 8080
 # apri http://localhost:8080/index.html
 ```
 
+## ⚠️ `3f8ab961aeb54413a83faefa431e7f17.txt` — non cancellare
+
+Sembra spazzatura e non lo è: è la **chiave IndexNow**, il protocollo con cui si notifica a Bing
+(e quindi a **ChatGPT Search, Copilot, DuckDuckGo, Ecosia**, che condividono quell'indice) che un
+URL è nuovo o è cambiato, invece di aspettare settimane che il crawler passi da solo.
+
+Funziona così: il file contiene la chiave, il suo nome **è** la chiave, e la sua presenza in
+radice è ciò che prova a Bing che chi notifica possiede il dominio. **Se il file scompare, le
+notifiche vengono rifiutate** — silenziosamente, come sempre.
+
+⚠️ **Deve stare in radice e deve essere raggiungibile pubblicamente.** Non è un segreto: è un
+token di proprietà, e chiunque lo legga può al massimo notificare URL *di questo dominio*, che è
+esattamente ciò che vogliamo. Per la specifica IndexNow la **cartella** in cui vive il file
+delimita gli URL notificabili: in radice copre tutto il sito, in una sottocartella coprirebbe solo
+quella. Per questo è l'unica eccezione alla regola «in radice solo `CLAUDE.md`, `INDEX.md`,
+`README.md`».
+
+**Non va in `.gitignore`.** Attivata il 17.08.2026.
+
+```bash
+# notificare un URL
+curl -s "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fpotential.contractors%2F&key=3f8ab961aeb54413a83faefa431e7f17"
+```
+
+📌 Da usare **quando si pubblica o si modifica una pagina**, non a ripetizione: un `429 Too Many
+Requests` significa che siamo stati marcati come spam.
+
 ## Cosa non sta su GitHub
 
 ⚠️ **Un clone di questo repository non basta a rigenerare il sito.** Dal 17.08.2026 tutto `tools/`
