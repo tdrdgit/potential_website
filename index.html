@@ -790,6 +790,16 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   min-height:44px;padding:0 4px;
 }
 </style>
+
+<!-- Cloudflare Web Analytics — conta le visite senza cookie e senza dati
+     personali, quindi non fa scattare nessun banner di consenso. Il token
+     non e' un segreto: e' un identificativo pubblico del sito.
+     ⚠️ Va su OGNI pagina pubblica. Una pagina senza questa riga non viene
+     contata e non lo segnala nessuno: il dato manca e basta.
+     ⚠️ La costellazione ne e' fuori di proposito — index.html la carica in
+     un iframe (?embed=1), quindi il beacon si conterebbe due volte per ogni
+     apertura della home. Il sorgente vive nel Brain, non qui. -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d5799f537adc4124a3adf3441392f6a2"}'></script>
 </head>
 <body>
 
