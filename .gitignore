@@ -30,6 +30,21 @@ tools/editor-costellazione/
 costellazione/*.xlsx
 costellazione/~$*.xlsx
 
+# Vista interna della costellazione: la stessa mappa, con un livello in piu' che
+# viene dall'archivio fornitori. Materiale di lavoro, come le tre righe qui
+# sopra: non ha niente da fare online.
+#
+# ⚠️ E' ignorata la CARTELLA e non un nome di file, cosi' resta coperto anche
+# quello che ci finira' dentro domani. Il sito serve tutto cio' che sta nel
+# repository, e il backup automatico fa "git add -A": senza questa riga il primo
+# push lo pubblicherebbe, senza che nessuno abbia lanciato niente.
+#
+# ⚠️ Non e' l'unica difesa, ed e' quella debole: chi genera quel file si rifiuta
+# di scrivere se "git check-ignore" non conferma questa riga. Toglierla non fa
+# uscire niente, fa fallire la generazione — che e' il modo giusto di
+# accorgersene.
+costellazione-con-fornitori/
+
 # Impostazioni locali di Claude Code: contengono percorsi di questo Mac e non
 # servono a chi clona il sito. Vive solo qui e su Dropbox.
 .claude/settings.local.json
