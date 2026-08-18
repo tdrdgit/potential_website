@@ -83,3 +83,18 @@ Potential_Revisione_*.xlsx
 # Impostazioni locali di Claude Code: contengono percorsi di questo Mac e non
 # servono a chi clona il sito. Vive solo qui e su Dropbox.
 .claude/settings.local.json
+
+# La sezione FAQ, dal 18.08.2026. NON e' pronta: le risposte affermano cose sul
+# metodo di Carlo che lui non ha ancora validato una per una, e finche' non lo
+# fa non devono essere leggibili da nessuno.
+#
+# Sono finite online da sole il 17.08.2026 alle 18:57, senza che nessuno lo
+# decidesse: il backup automatico fa "git add -A" e se le e' portate dentro
+# insieme al resto. /faq/ e /it/faq/ hanno risposto 200 per una notte.
+# Questa e' la riga che impedisce che risucceda.
+#
+# ⚠️ I due file RESTANO sul disco e si continua a lavorarci: si aprono in
+# locale con "python3 -m http.server". Quando Carlo avra' validato i contenuti
+# queste due righe si tolgono, e in quel momento le FAQ vanno anche in home.
+faq/
+it/faq/
