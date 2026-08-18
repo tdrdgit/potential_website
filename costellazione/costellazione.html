@@ -543,6 +543,47 @@ const HUB_H = 34;
 const HUB_MASK = HUB_H * 1.25;
 const HUB_CLEAR = HUB_MASK - 5;
 
+/* Un ovale pieno dietro a un'etichetta: nome di categoria nella costellazione,
+   polo del radar. Deciso da Carlo il 18.08.2026 — nero con la scritta bianca —
+   e vale nelle DUE tavole, che e' il punto: le stesse nove parole tornano
+   nell'una e nell'altra, e con due forme diverse non si riconoscono come la
+   stessa cosa.
+
+   ⚠️ Non si usa `ctx.roundRect`: c'e' in Chrome recente ma non ovunque, e quando
+   manca non da' errore — smette solo di disegnare il fondo, lasciando la scritta
+   bianca su bianco nel radar. Un arco a mano non ha versioni.
+
+   ⚠️ Il filo di bordo NON e' decorazione. Nella costellazione il fondo e'
+   `#0A0A0A` e un ovale nero e' invisibile come forma: senza il filo si vedrebbe
+   solo la scritta piu' chiara, cioe' non si vedrebbe l'ovale. Nel radar il fondo
+   e' bianco e il nero si stacca da solo, quindi la' il filo si spegne. */
+/* ⚠️ Il contesto si passa, non si prende da fuori: `capDraw()` ha un `ctx` suo
+   (`const ctx = canvas.getContext("2d")`, riga ~1535) che copre quello globale.
+   Una funzione che scrivesse su `ctx` per nome disegnerebbe gli ovali dei poli
+   sulla tavola della costellazione — cioe' da nessuna parte di visibile — e non
+   darebbe nessun errore. */
+function ovale(c, x, y, w, h, riempi, filo, spessore) {
+  const r = Math.min(h / 2, w / 2);
+  c.beginPath();
+  c.moveTo(x + r, y);
+  c.lineTo(x + w - r, y);
+  c.arcTo(x + w, y, x + w, y + r, r);
+  c.lineTo(x + w, y + h - r);
+  c.arcTo(x + w, y + h, x + w - r, y + h, r);
+  c.lineTo(x + r, y + h);
+  c.arcTo(x, y + h, x, y + h - r, r);
+  c.lineTo(x, y + r);
+  c.arcTo(x, y, x + r, y, r);
+  c.closePath();
+  c.fillStyle = riempi;
+  c.fill();
+  if (filo) {
+    c.lineWidth = spessore || 1;
+    c.strokeStyle = filo;
+    c.stroke();
+  }
+}
+
 let activeSectors = new Set(), query = "";
 let W = 0, H = 0, DPR = 1;
 
@@ -918,22 +959,45 @@ function draw() {
     const y = n.y + r + 6 / view.k;
 
     const wpx = ctx.measureText(text).width;
-    if (n.depth >= 2 || hov) {
+    // Un nome di CATEGORIA — macro-ambito o sotto-ambito — sta in un ovale nero
+    // con la scritta bianca. Un nome di FORNITORE no, e la differenza e' voluta:
+    // le categorie sono ottantuno e sono la struttura, i fornitori sono
+    // duemiladuecento e sono il contenuto. Dando l'ovale anche a loro la mappa
+    // diventa un campo di macchie nere e la struttura si perde.
+    const cat = !n.supplier;
+    let padX = 3 / view.k;
+    if (cat) {
+      padX = 6.5 / view.k;
+      const alto = size * 1.34 + 4 / view.k;
+      ovale(ctx, n.x - wpx / 2 - padX, y - 2.6 / view.k, wpx + padX * 2, alto,
+            `rgba(0,0,0,${0.93 * n.alpha})`,
+            `rgba(255,255,255,${(hot || hov ? 0.42 : 0.2) * n.alpha})`,
+            0.9 / view.k);
+    } else {
+      // Il fornitore tiene il fondo rettangolare che aveva: senza, il nome cade
+      // sopra i raggi e non si legge piu'. (Prima la condizione era
+      // `n.depth >= 2 || hov`, e per un fornitore — che sta a 3 — era sempre
+      // vera: qui il ramo ci arriva solo lui, quindi la condizione e' sparita
+      // senza cambiare niente.)
       ctx.fillStyle = `rgba(10,10,10,${0.62 * n.alpha})`;
-      ctx.fillRect(n.x - wpx / 2 - 3 / view.k, y - 1.5 / view.k, wpx + 6 / view.k, size * 1.32);
+      ctx.fillRect(n.x - wpx / 2 - padX, y - 1.5 / view.k, wpx + padX * 2, size * 1.32);
     }
 
-    ctx.fillStyle = (hot || hov)
-      ? `rgba(255,255,255,${n.alpha})`
-      : n.depth >= 2
-        ? `rgba(217,217,217,${0.62 * n.alpha})`
-        : `rgba(255,255,255,${0.92 * n.alpha})`;
+    ctx.fillStyle = cat
+      ? `rgba(255,255,255,${(hot || hov ? 1 : 0.94) * n.alpha})`
+      : (hot || hov)
+        ? `rgba(255,255,255,${n.alpha})`
+        : `rgba(217,217,217,${0.62 * n.alpha})`;
     ctx.fillText(text, n.x, y);
     // Il bersaglio del clic parte dal pallino e arriva sotto la scritta, con
     // un margine in unita' di schermo: dimezzando il corpo si dimezzerebbe
     // anche l'area cliccabile, e la scritta e' il punto in cui si mira.
-    n.hit = { x0: n.x - wpx / 2 - 6 / view.k, x1: n.x + wpx / 2 + 6 / view.k,
-              y0: n.y - r - 4 / view.k, y1: y + size * 1.3 + 4 / view.k };
+    // ⚠️ Con l'ovale il bersaglio deve arrivare al suo bordo, non a quello della
+    // scritta: un pixel dentro l'ovale che non risponde al clic si legge come
+    // una pagina che si e' impuntata.
+    n.hit = { x0: n.x - wpx / 2 - padX - 3 / view.k,
+              x1: n.x + wpx / 2 + padX + 3 / view.k,
+              y0: n.y - r - 4 / view.k, y1: y + size * 1.34 + 4 / view.k };
 
     // Il dettaglio del nodo scelto si apre QUI, sotto il suo nome, nella
     // stessa tipografia e in grigio. Niente pannello, niente popup: il
@@ -1560,15 +1624,37 @@ function capDraw() {
     if (align === "center") x = Math.min(cap.W - wide / 2 - 4, Math.max(wide / 2 + 4, x));
 
     const y0 = y - (lines.length - 1) * 6.5;
-    ctx.fillStyle = "#111";
+
+    /* L'ovale nero con la scritta bianca, come nella costellazione: sono le
+       stesse nove parole, e devono somigliarsi. Qui il fondo del radar e'
+       bianco, quindi il nero si stacca da solo e il filo di bordo si spegne.
+
+       ⚠️ Il rettangolo va costruito a partire dall'allineamento, non dalla x:
+       `x` e' il punto d'ancoraggio del testo, e a destra del cerchio quel punto
+       e' il bordo SINISTRO della scritta mentre a sinistra e' il destro. Usando
+       sempre `x - wide/2` gli ovali dei poli laterali risulterebbero spostati di
+       mezza etichetta, e si vedrebbe. */
+    const padX = 8, padY = 5.5;
+    const altoT = (lines.length - 1) * 13 + 11;
+    const sx = align === "left" ? x - padX
+             : align === "right" ? x - wide - padX
+             : x - wide / 2 - padX;
+    ovale(ctx, sx, y0 - 8 - padY, wide + padX * 2, altoT + padY * 2,
+          "rgba(0,0,0,.9)", null, 0);
+
+    ctx.fillStyle = "#fff";
     lines.forEach((t, i) => ctx.fillText(t, x, y0 + i * 13));
 
+    /* Il conteggio resta FUORI dall'ovale, non dentro: e' un dato secondario, e
+       messo dentro competerebbe col nome dell'asse per lo stesso spazio. Lo
+       scarto tiene conto della fascia dell'ovale, o si appoggerebbe sul bordo. */
     ctx.font = `300 9.5px ${FONT}`;
     ctx.fillStyle = "#A0A0A0";
-    ctx.fillText(String(axis.n), x + (align === "right" ? -wide - 7
-                 : align === "left" ? wide + 7 : 0), y0 + (lines.length - 1) * 13);
+    ctx.fillText(String(axis.n), x + (align === "right" ? -wide - padX - 8
+                 : align === "left" ? wide + padX + 8 : 0),
+                 y0 + (lines.length - 1) * 13);
     ctx.font = `500 11px ${FONT}`;
-    claim(x, y, wide + 18, 16 + lines.length * 13);
+    claim(x, y, wide + padX * 2 + 20, 20 + lines.length * 13);
   }
 
   // 2. gli ambiti, dal piu' popolato: chi non trova posto ricompare zoomando.
@@ -1588,10 +1674,14 @@ function capDraw() {
     const rr = cap.R * TIERS[sub.tier] * k;
     const x = cx + Math.cos(sub.mid) * rr, y = cy + Math.sin(sub.mid) * rr;
     const w = ctx.measureText(sub.label).width;
-    if (!claim(x, y, w + 12, 15)) continue;
-    ctx.fillStyle = "rgba(255,255,255,.86)";
-    ctx.fillRect(x - w / 2 - 4, y - 7, w + 8, 14);
-    ctx.fillStyle = "#3C3C3C";
+    if (!claim(x, y, w + 16, 17)) continue;
+    /* Ovale nero anche qui, dal 18.08.2026. ⚠️ Piu' piccolo e meno nero di
+       quello dei poli — 86% invece che 90%, e due pixel di respiro in meno:
+       sono trenta etichette contro nove, e col peso pieno diventerebbero una
+       fila di macchie che copre i puntini, che sono il dato. La gerarchia si
+       tiene con la dimensione, non togliendo l'ovale a meta' della tavola. */
+    ovale(ctx, x - w / 2 - 6, y - 8, w + 12, 16, "rgba(0,0,0,.86)", null, 0);
+    ctx.fillStyle = "#fff";
     ctx.fillText(sub.label, x, y);
   }
 
