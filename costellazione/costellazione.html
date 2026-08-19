@@ -1688,6 +1688,12 @@ function capDraw() {
   // 3. i nomi dei fornitori — solo nella copia interna, dove il payload li
   //    porta. In ordine di rilevanza, che e' l'ordine in cui `dots` arriva gia'
   //    dal build: i migliori si leggono subito, gli altri emergono zoomando.
+  /* ⚠️ Il bersaglio del clic sul radar non può essere il solo pallino: è largo
+     due pixel e mezzo, e quello che si legge — quindi quello che si mira — è il
+     NOME scritto accanto. Qui si tiene traccia di dove ogni nome è finito, e il
+     pop-up delle schede usa questa lista per capire su chi si è cliccato.
+     Si azzera a ogni disegno perché a ogni zoom i nomi cambiano posto. */
+  cap.hitNomi = [];
   if (cap.names && !NAMES_HIDDEN) {
     ctx.font = `300 9.5px ${FONT}`;
     let drawn = 0;
@@ -1704,6 +1710,8 @@ function capDraw() {
       // pallino per sapere di che fornitore si tratta.
       ctx.fillStyle = d.q === 2 ? "#C71617" : d.q === 1 ? "#454545" : "#8A8A8A";
       ctx.fillText(d.short, x, yy);
+      cap.hitNomi.push({ x0: x - w / 2 - 4, x1: x + w / 2 + 4,
+                         y0: yy - 8, y1: yy + 8, nome: d.name });
       drawn++;
     }
   }
