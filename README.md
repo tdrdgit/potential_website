@@ -182,15 +182,19 @@ pagina incorporabile. Il link corto resta buono per il pulsante di scorta e per 
 cornice grigia. Se Google passa a un grigio Material, quel bianco va rifatto combaciare.
 
 I nove testi nuovi (`stag-book`, `bk-*`) sono tradotti in tutte e cinque le lingue dentro `const T`
-e sono **già nell'Excel delle traduzioni**, in grigio: tradotti in automatico, non ancora riletti da
+e sono **già nel foglio delle traduzioni**, in grigio: tradotti in automatico, non ancora riletti da
 un revisore umano.
 
 ## Le traduzioni si tengono allineate, non si ricopiano
 
-`index.html` e `tools/revisore_traduzioni/Potential_Revisione_Traduzioni.xlsx` sono due fonti che
-devono dire la stessa cosa. Chi le allinea è `sync_traduzioni.py`, e **lo stato sta nel colore del
-testo delle celle**: verde = forzatura decisa da Carlo, grigio = traduzione automatica, rosso = da
-riallineare.
+`index.html` e il **Google Sheet `Potential_Revisione_Traduzioni`** sono due fonti che devono dire
+la stessa cosa. Chi le allinea è `sync_traduzioni.py`, e **lo stato sta nel colore del testo delle
+celle**: verde = forzatura decisa da Carlo, grigio = traduzione automatica, rosso = da riallineare.
+
+Il foglio si apre da `tools/revisore_traduzioni/Potential_Revisione_Traduzioni.gsheet`, che è il
+segnalino che Drive tiene nella cartella. ⚠️ **Dal 20.08.2026 la fonte non è più un file `.xlsx`**:
+l'Excel di prima sta in `tools/revisore_traduzioni/archivio_xlsx/`, congelato al giorno della
+migrazione, e non è più la fonte di niente.
 
 ```bash
 python3 tools/revisore_traduzioni/sync_traduzioni.py --check    # non scrive, elenca
@@ -198,11 +202,12 @@ python3 tools/revisore_traduzioni/sync_traduzioni.py --scrivi   # backup, poi sc
 ```
 
 ⚠️ **Le regole non sono qui**: stanno in `tools/revisore_traduzioni/potential_revisore_traduzioni_rules.md`,
-accanto all'Excel, e vanno lette prima di toccare un testo. Quella cartella è in `.gitignore` — il
-repository è pubblico — quindi né le regole né lo strumento né l'Excel sono in questo repository:
-vivono solo sul Mac di Carlo, in Dropbox.
+accanto al foglio, e vanno lette prima di toccare un testo. Quella cartella è in `.gitignore` — il
+repository è pubblico — quindi né le regole né lo strumento sono in questo repository: vivono nella
+cartella del progetto su Google Drive. **Il contenuto delle traduzioni non vive nemmeno lì**: sta nel
+Google Sheet, e nella cartella c'è solo il segnalino che lo apre.
 
-⚠️ **Dopo ogni modifica di testo sul sito va chiesto a Carlo se aggiornare l'Excel.** Sempre, anche
+⚠️ **Dopo ogni modifica di testo sul sito va chiesto a Carlo se aggiornare il foglio.** Sempre, anche
 per una parola. E se una frase cambia di *significato*, va segnalato anche quando le altre lingue
 sono verdi: un concetto nuovo può rendere sbagliate le forzature fatte a mano.
 
@@ -263,7 +268,7 @@ scritto lì così chi lo riapre non li rimette.
 |---|---|
 | `tools/portfolio-data/` | build della portfolio map + `tiers.json` (fasce luxury dei clienti) |
 | `tools/costellazione-data/` | build della costellazione + procedura |
-| `tools/revisore_traduzioni/` | Excel delle traduzioni, regole, `sync_traduzioni.py` |
+| `tools/revisore_traduzioni/` | segnalino del Google Sheet delle traduzioni, regole, `sync_traduzioni.py`, `archivio_xlsx/` con l'Excel di prima |
 | `tools/editor-costellazione/` | editor visuale della costellazione |
 | `tools/seo_optimization/` | audit SEO |
 | `tools/build-header-frames.py` | build dei frame dell'header |
