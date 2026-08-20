@@ -66,7 +66,7 @@ cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER
 I clienti della portfolio map vengono da **un solo file**:
 
 ```
-~/Dropbox/CARLO DOCUMENTI MAC/WORK - SUPPLIERS OFFERING/PT-SUPPLIERS PROJECTS LIST.xlsx
+~/Dropbox/CARLO DOCUMENTI MAC/WORK - PORTFOLIO SUPPLIERS/PT-SUPPLIERS PROJECTS LIST.xlsx
 foglio "SUPPLIERS PROJECTS"
 ```
 
