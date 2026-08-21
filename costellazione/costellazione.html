@@ -177,13 +177,23 @@ header > *{pointer-events:auto}
    grigio chiaro che sul nero si legge, sul bianco sparisce. Da qui in giu' il
    menu si porta dietro il proprio fondo scuro — sul nero e' invisibile perche'
    e' lo stesso colore, sul bianco e' quello che lo tiene leggibile. */
+/* ⚠️ E a schermo pieno vale lo stesso, senza che nessuno abbia scorso: la
+   tavola bianca prende TUTTA la finestra e il menu — che resta apposta — ci
+   galleggia sopra. Senza fondo la lingua attiva, che e' bianca, spariva del
+   tutto, e la colonna dei filtri si leggeva a fatica. Sono lo stesso caso —
+   menu sopra il bianco — quindi stanno nella stessa regola: separandoli, chi
+   domani ritocca il fondo ne ritocca uno solo. */
 body.scrolled .brand,
 body.scrolled .top-right,
-body.scrolled #panel{
+body.scrolled #panel,
+body.full-cap .brand,
+body.full-cap .top-right,
+body.full-cap #panel{
   background:rgba(10,10,10,.94);border:1px solid var(--pt-hairline);
   border-radius:2px;padding:11px 13px;
 }
-body.scrolled #panel{padding-top:9px}
+body.scrolled #panel,
+body.full-cap #panel{padding-top:9px}
 .panel-label{font-size:.62rem;letter-spacing:var(--tracking);text-transform:uppercase;color:var(--ink-faint)}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{
@@ -271,7 +281,7 @@ html[dir="rtl"] .tw-macro[aria-expanded="true"] .tw-mark{transform:rotate(-90deg
 /* L'interruttore dei nomi, accanto al timbro. Premuto e' rosso pieno: quando i
    nomi sono nascosti si deve vedere a colpo d'occhio che la pagina non sta
    mostrando tutto — o si finisce per credere che l'archivio sia vuoto. */
-#t-names{
+#t-names,#t-rubrica{
   margin-top:8px;align-self:flex-start;cursor:pointer;
   font-family:var(--font);font-size:.58rem;font-weight:500;
   letter-spacing:.11em;text-transform:uppercase;
@@ -279,11 +289,13 @@ html[dir="rtl"] .tw-macro[aria-expanded="true"] .tw-mark{transform:rotate(-90deg
   border:1px solid var(--pt-hairline);border-radius:2px;padding:4px 8px;
   transition:.18s;
 }
-#t-names:hover{color:var(--pt-white);border-color:var(--ink-dim)}
-#t-names[aria-pressed="true"]{
+#t-names:hover,#t-rubrica:hover{color:var(--pt-white);border-color:var(--ink-dim)}
+#t-names[aria-pressed="true"],#t-rubrica[aria-pressed="true"]{
   color:var(--pt-white);border-color:var(--pt-red);
   background:color-mix(in srgb,var(--pt-red) 26%,transparent);
 }
+/* Nella colonna il distanziatore lo mette gia' il `gap` del pannello. */
+#t-rubrica{margin-top:0}
 
 footer{
   position:absolute;left:clamp(16px,3.2vw,40px);bottom:clamp(16px,3.2vw,40px);
@@ -307,7 +319,15 @@ body.full-cap #cap{padding:0;min-height:100vh}
    pagina, non per chi vuole la tavola piu' grande possibile. */
 body.full-cap .cap-head,body.full-cap .cap-foot{display:none}
 body.full-cap .cap-stage{height:100vh;max-width:none;margin:0}
-body.full-cap .cap-zoom{right:clamp(16px,3.2vw,40px);top:22px}
+/* ⚠️ Non `top:22px`: li' ci sono gia' i pulsanti dell'intestazione, che a
+   schermo pieno restano fissi sopra la tavola. I due gruppi finivano uno
+   sull'altro e «Reset» si stampava sopra «⤢ Esci dal radar». L'altezza da
+   scavalcare la misura `layoutPanel()`, che l'intestazione la sta gia'
+   misurando per un'altra ragione. */
+body.full-cap .cap-zoom{
+  right:clamp(16px,3.2vw,40px);
+  top:calc(22px + var(--chrome-r,34px) + 12px);
+}
 body.full-stage #cap{display:none}
 body.full-stage footer{display:none}
 
@@ -435,6 +455,14 @@ canvas#capc.dragging{cursor:grabbing}
       <div class="chips" id="chips" style="margin-top:8px"></div>
     </div>
     <input id="q" type="search" autocomplete="off" placeholder="Cerca un ambito">
+    <!-- Filtro «di questo fornitore ho qualcuno da chiamare». Nasce nascosto e
+         si accende solo se il payload porta la chiave `rubrica`: e' lo stesso
+         cancello del terzo livello — il DATO, non un interruttore nel codice —
+         quindi sul sito questo pulsante non compare mai.
+         ⚠️ Sta dopo #q di proposito: il modulo delle schede infila li' in mezzo
+         il suo campo «Cerca un fornitore», e i due comandi che parlano di
+         fornitori restano vicini. -->
+    <button id="t-rubrica" hidden></button>
     <div class="acts">
       <button id="b-expand"></button>
       <button id="b-reset"></button>
@@ -510,7 +538,7 @@ const DATA_URL = "network.json";
    coincidono: chi guarda la home in cinese o in russo vede il grafo in
    inglese. Meglio dell'italiano, che sarebbe il default di questa pagina.
    ⚠️ Questo blocco vive nel sorgente in Brain e non nel repository del sito:
-   publish.sh sovrascrive costellazione/costellazione.html a ogni pubblicazione,
+   publish.sh sovrascrive costellazione/costellazione.html sul sito a ogni pubblicazione,
    quindi una modifica fatta la' sparirebbe senza lasciare traccia. */
 const PARAMS = new URLSearchParams(location.search);
 const EMBED = PARAMS.get("embed") === "1";
@@ -654,6 +682,16 @@ function ovale(c, x, y, w, h, riempi, filo, spessore) {
 }
 
 let activeSectors = new Set(), query = "";
+/* I fornitori di cui in rubrica c'e' qualcuno da chiamare, e l'interruttore che
+   tiene in campo solo loro. Come per `suppliers`, il cancello e' il DATO: il
+   payload del sito non porta la chiave `rubrica`, l'insieme resta vuoto e il
+   pulsante non compare. Un flag nel codice lo leggerebbe chiunque apra il
+   devtools; una chiave che non c'e' no.
+   ⚠️ Il filtro vale per FORNITORE, non per sotto-ambito: dentro la stessa
+   cartella d'archivio uno ce l'ha e il suo vicino no. E' la ragione per cui sul
+   radar non passa da `sub.live` come fanno i settori, ma punto per punto. */
+let RUBRICA = new Set(), SOLO_RUBRICA = false, RUBRICA_PAINT = null;
+const RUBRICA_LABEL = { it: "Con contatto in rubrica", en: "With a contact on file" };
 /* Quale grafico e' a schermo pieno: null · "stage" · "cap". Sta qui in alto e non
    accanto alla funzione che lo cambia, perche' lo leggono anche i due gestori
    della rotella, che sono definiti molto prima. */
@@ -686,6 +724,14 @@ function layoutPanel() {
   const top = Math.round(h.getBoundingClientRect().height) + 10;
   pan.style.top = top + "px";
   pan.style.maxHeight = "calc(100vh - " + (top + 58) + "px)";
+  /* Quanto e' alto il blocco dei pulsanti in alto a destra. Serve al radar a
+     schermo pieno, che ci mette i propri comandi sotto invece che addosso.
+     Si misura QUI e non la': l'intestazione cresce a lingua cambiata, a timbro
+     aggiunto e a fondo scuro acceso, e questa e' gia' la funzione che se ne
+     accorge. Un valore scritto a mano tornerebbe sbagliato al primo di quei tre. */
+  const tr = document.querySelector(".top-right");
+  if (tr) document.documentElement.style.setProperty(
+    "--chrome-r", Math.round(tr.getBoundingClientRect().height) + "px");
 }
 window.addEventListener("resize", layoutPanel);
 /* ⚠️ Non basta chiamarla dopo il montaggio: l'intestazione cresce ANCHE DOPO.
@@ -754,11 +800,17 @@ function buildGraph(payload) {
    sceglie altro: duemiladuecento pallini nella simulazione la fermerebbero, e
    sarebbero comunque illeggibili tutti insieme. In campo non ce n'e' mai piu'
    di un centinaio e mezzo. */
-let spawnedFor = null;
+let spawnedFor = null, spawnedRub = false;
 
 function spawnSuppliers(leafId) {
   despawnSuppliers();
-  const list = (DATA.suppliers || {})[leafId];
+  /* Si segna SUBITO chi si sta servendo, anche quando non nascera' nessun
+     pallino: col filtro della rubrica un sotto-ambito senza contatti resta
+     legittimamente vuoto, e senza questa riga `syncSuppliers()` lo ricomincerebbe
+     da capo a ogni fotogramma senza mai riuscirci. */
+  spawnedFor = leafId; spawnedRub = SOLO_RUBRICA;
+  let list = (DATA.suppliers || {})[leafId];
+  if (list && SOLO_RUBRICA) list = list.filter(n => RUBRICA.has(n));
   const parent = byId.get(leafId);
   if (!list || !list.length || !parent) return;
 
@@ -785,7 +837,6 @@ function spawnSuppliers(leafId) {
     links.push({ a: parent, b: node, rest: R * 0.82 });
     born.push(node);
   });
-  spawnedFor = leafId;
   // Aprire un nodo vuol dire guardarci dentro: la vista si allarga su di lui e
   // sui suoi, non resta sull'inquadratura del ramo.
   fitTo([parent, ...born], 120);
@@ -808,7 +859,10 @@ function syncSuppliers() {
   if (!DATA || !DATA.suppliers) return;
   const n = selected ? byId.get(selected) : null;
   const want = (n && n.depth === 2) ? n.id : null;
-  if (want === spawnedFor) return;
+  // Il filtro della rubrica entra nel confronto: cambiandolo cambia CHI sta in
+  // campo, non quale sotto-ambito — e senza questa meta' i pallini resterebbero
+  // quelli di prima.
+  if (want === spawnedFor && SOLO_RUBRICA === spawnedRub) return;
   if (want) spawnSuppliers(want); else despawnSuppliers();
 }
 
@@ -1209,7 +1263,8 @@ function driftPointer() {
 let filtroVisto = null;
 function sincronizzaRadar() {
   if (!cap.ready) return;
-  const ora = [...activeSectors].sort().join(",") + "|" + query + "|" + (branch || "");
+  const ora = [...activeSectors].sort().join(",") + "|" + query + "|" + (branch || "")
+            + "|" + (SOLO_RUBRICA ? "rubrica" : "");
   if (ora === filtroVisto) return;
   filtroVisto = ora;
   capDraw();
@@ -1409,7 +1464,8 @@ function renderTree() {
       // quella. Sul sito `DATA.suppliers` non esiste e questo blocco non
       // produce mai una riga. Novantuno voci con i nomi tutti aperti sarebbero
       // duemiladuecento righe: l'elenco serve a scorrere, non a contenere.
-      const sup = DATA.suppliers && selected === k.id ? DATA.suppliers[k.id] : null;
+      let sup = DATA.suppliers && selected === k.id ? DATA.suppliers[k.id] : null;
+      if (sup && SOLO_RUBRICA) sup = sup.filter(s => RUBRICA.has(s));
       if (sup && sup.length) {
         // A nomi nascosti resta il CONTEGGIO: l'interfaccia si spiega da sola —
         // si vede che dietro quel ramo c'e' qualcosa e quanto — senza dire chi.
@@ -1494,6 +1550,9 @@ function applyLang(l) {
   }
   document.getElementById("b-expand").textContent = t("all_sectors");
   document.getElementById("b-reset").textContent = t("reset");
+  // L'etichetta del filtro rubrica non viene dalla tassonomia — e' un comando
+  // che esiste solo nella copia interna — ma la lingua la deve seguire lo stesso.
+  if (RUBRICA_PAINT) RUBRICA_PAINT();
   // Le due copie si aprono spesso in due schede accanto: senza il suffisso si
   // chiamano uguale e si finisce per cercare i fornitori in quella del sito.
   document.title = "Potential — " + t("title")
@@ -1649,20 +1708,54 @@ function capToScreen(x, y) {
    occupato e rinuncia. Nessuna sovrapposizione, e la gerarchia si vede.
    ⚠️ L'ordine di richiesta E' la gerarchia: nomi degli assi, poi ambiti dal piu'
    grande, poi fornitori dal piu' rilevante. Cambiarlo cambia cosa si capisce. */
+/* ⚠️ Le celle si contano nel sistema del CONTENUTO, non in quello dello schermo:
+   lo scostamento del trascinamento si sottrae PRIMA di dividere. Ancorata allo
+   schermo, la griglia restava ferma mentre la tavola le scorreva sotto: a ogni
+   pixel di trascinamento i confini cadevano in un punto diverso delle etichette,
+   le stesse etichette vincevano e perdevano lo spazio decine di volte al
+   secondo, e i nomi lampeggiavano — segnalato da Carlo il 20.08.2026.
+   Ancorata al contenuto, la spartizione dipende SOLO dallo zoom, che e' l'unico
+   momento in cui ha senso che cambi: si trascina e i nomi restano quelli.
+
+   ⚠️ La chiave della cella non puo' piu' essere `r * cols + c`: fuori dallo
+   schermo `c` esce dall'intervallo che `cols` presuppone e due celle diverse
+   ottengono lo stesso numero — occupato risulta anche cio' che nessuno ha
+   preso, e le etichette sparirebbero a caso invece di lampeggiare. I quindici
+   bit per lato coprono 262.000 pixel di tavola per verso. */
+const CELL_MASK = 32767;
 function capGrid(cellW, cellH) {
   const used = new Set();
-  const cols = Math.ceil(cap.W / cellW) + 2;
-  return function claim(x, y, w, h) {
-    if (x < -40 || y < -20 || x > cap.W + 40 || y > cap.H + 20) return false;
-    const c0 = Math.floor((x - w / 2) / cellW), c1 = Math.floor((x + w / 2) / cellW);
-    const r0 = Math.floor((y - h / 2) / cellH), r1 = Math.floor((y + h / 2) / cellH);
+  /* ⚠️ I nomi dei nove assi fanno eccezione e vanno tenuti a parte, in
+     coordinate SCHERMO. Quando cadrebbero fuori dalla tela vengono rientrati a
+     forza contro il bordo (vedi il «rientro forzato» piu' sotto): restano
+     inchiodati li' mentre la tavola scorre, quindi in coordinate contenuto
+     attraversano una cella diversa a ogni fotogramma e falciavano i nomi che si
+     trovavano a passare sotto — 46 scomparse su 40 fotogrammi, misurate il
+     21.08.2026, dopo che la griglia era gia' stata ancorata al contenuto.
+     Riservato dov'e' davvero disegnato, il divieto sta fermo e i nomi anche. */
+  const fissi = [];
+  // Il bordo largo NON e' un dettaglio di prestazione: un'etichetta che entra in
+  // gioco solo attraversando il bordo dello schermo ruberebbe la cella a una gia'
+  // disegnata, e il baratto si vedrebbe. Cosi' avviene fuori campo.
+  const FUORI = 150;
+  const ox = cap.view.x, oy = cap.view.y;
+  function claim(x, y, w, h) {
+    if (x < -FUORI || y < -FUORI || x > cap.W + FUORI || y > cap.H + FUORI) return false;
+    for (const f of fissi)
+      if (Math.abs(x - f.x) * 2 < w + f.w && Math.abs(y - f.y) * 2 < h + f.h) return false;
+    const gx = x - ox, gy = y - oy;
+    const c0 = Math.floor((gx - w / 2) / cellW), c1 = Math.floor((gx + w / 2) / cellW);
+    const r0 = Math.floor((gy - h / 2) / cellH), r1 = Math.floor((gy + h / 2) / cellH);
     for (let r = r0; r <= r1; r++)
       for (let c = c0; c <= c1; c++)
-        if (used.has(r * cols + c)) return false;
+        if (used.has((r & CELL_MASK) * 32768 + (c & CELL_MASK))) return false;
     for (let r = r0; r <= r1; r++)
-      for (let c = c0; c <= c1; c++) used.add(r * cols + c);
+      for (let c = c0; c <= c1; c++) used.add((r & CELL_MASK) * 32768 + (c & CELL_MASK));
     return true;
-  };
+  }
+  // Riserva un rettangolo dove sta sullo SCHERMO, e non lo cede a nessuno.
+  claim.fisso = (x, y, w, h) => { fissi.push({ x, y, w, h }); };
+  return claim;
 }
 
 /* Il filtro della colonna vale anche per la tavola (richiesta di Carlo,
@@ -1674,16 +1767,23 @@ function capGrid(cellW, cellH) {
    `subs[].id` e' l'id della foglia della tassonomia, lo stesso che sta nel
    grafo. */
 function capFiltra() {
-  const attivo = activeSectors.size > 0 || !!query || !!branch;
+  const colonna = activeSectors.size > 0 || !!query || !!branch;
   for (const axis of cap.axes) {
     axis.live = false; axis.nLive = 0;
     for (const sub of axis.subs) {
-      const n = attivo ? byId.get(sub.id) : null;
-      sub.live = attivo ? (n ? isLive(n) : true) : true;
-      if (sub.live) { axis.live = true; axis.nLive += sub.n; }
+      const n = colonna ? byId.get(sub.id) : null;
+      sub.live = colonna ? (n ? isLive(n) : true) : true;
+      /* Il filtro della rubrica non e' un filtro di spicchio — dentro la stessa
+         cartella uno ha un contatto e il suo vicino no — quindi allo spicchio
+         resta una sola domanda: ne rimane almeno uno? Se no si spegne anche
+         l'etichetta, o resterebbe accesa sopra il vuoto.
+         ⚠️ E il conteggio segue: un numero che non torna con i puntini disegnati
+         e' peggio di nessun numero, si crede che la tavola sia incompleta. */
+      if (SOLO_RUBRICA && !sub.nRub) sub.live = false;
+      if (sub.live) { axis.live = true; axis.nLive += SOLO_RUBRICA ? sub.nRub : sub.n; }
     }
   }
-  return attivo;
+  return colonna || SOLO_RUBRICA;
 }
 
 function capDraw() {
@@ -1740,11 +1840,20 @@ function capDraw() {
      colpo d'occhio quanta parte della rete risponde a quel settore. E' la stessa
      scelta della costellazione, dove il filtro lavora per sottrazione di luce. */
   const dotSub = (d) => (cap.axes[d.a] || {subs:[]}).subs[d.s];
+  /* Acceso = il suo spicchio ha passato il filtro della colonna E, se si stanno
+     guardando solo i fornitori raggiungibili, di lui abbiamo qualcuno da
+     chiamare. Un posto solo a deciderlo: puntini, nomi e bersagli del clic
+     devono dire la stessa cosa, o si legge il nome di un fornitore che la
+     tavola sta spegnendo. */
+  const dotOn = (d) => {
+    const s = dotSub(d);
+    if (!s || !s.live) return false;
+    return !SOLO_RUBRICA || d.rub;
+  };
   if (filtro) {
     ctx.fillStyle = "#F0F0F0";
     for (const d of cap.dots) {
-      const s = dotSub(d);
-      if (s && s.live) continue;
+      if (dotOn(d)) continue;
       const [x, y] = capToScreen(d.x, d.y);
       if (x < -8 || y < -8 || x > cap.W + 8 || y > cap.H + 8) continue;
       ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
@@ -1754,7 +1863,7 @@ function capDraw() {
     ctx.fillStyle = TIER_FILL[tier];
     for (const d of cap.dots) {
       if (d.q !== tier) continue;
-      if (filtro) { const s = dotSub(d); if (!s || !s.live) continue; }
+      if (filtro && !dotOn(d)) continue;
       const [x, y] = capToScreen(d.x, d.y);
       if (x < -8 || y < -8 || x > cap.W + 8 || y > cap.H + 8) continue;
       ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
@@ -1826,7 +1935,8 @@ function capDraw() {
                  : align === "left" ? wide + padX + 8 : 0),
                  y0 + (lines.length - 1) * 13);
     ctx.font = `500 11px ${FONT}`;
-    claim(x, y, wide + padX * 2 + 20, 20 + lines.length * 13);
+    claim.fisso(x - (align === "left" ? -wide / 2 : align === "right" ? wide / 2 : 0),
+                y, wide + padX * 2 + 20, 20 + lines.length * 13);
   }
 
   // 2. gli ambiti, dal piu' popolato: chi non trova posto ricompare zoomando.
@@ -1877,12 +1987,25 @@ function capDraw() {
   if (cap.names && !NAMES_HIDDEN) {
     ctx.font = `300 9.5px ${FONT}`;
     let drawn = 0;
+    /* ⚠️ Il margine e' lo stesso della griglia, e per la stessa ragione: un nome
+       che comincia a chiedere spazio solo quando entra in campo lo strappa a uno
+       gia' scritto, e si vede. Chiedendolo gia' da fuori, il baratto avviene
+       dove nessuno guarda. Quel che si disegna oltre il bordo lo taglia la
+       tela, senza costare niente. */
+    const FUORI = 150;
     for (const d of cap.dots) {
-      if (drawn > 400) break;
-      if (filtro) { const s = dotSub(d); if (!s || !s.live) continue; }
+      // Tetto di sicurezza, non una scelta grafica: quanti nomi stanno su una
+      // schermata lo decide la griglia, che a questo numero non ci arriva.
+      if (drawn > 1100) break;
+      if (filtro && !dotOn(d)) continue;
       const [x, y] = capToScreen(d.x, d.y);
-      if (x < 0 || y < 0 || x > cap.W || y > cap.H) continue;
-      const w = ctx.measureText(d.short).width;
+      if (x < -FUORI || y < -FUORI || x > cap.W + FUORI || y > cap.H + FUORI) continue;
+      /* La larghezza si misura UNA volta per nome. Misurarla a ogni fotogramma
+         costava duemiladuecento `measureText` per ogni pixel di trascinamento,
+         ed e' il pezzo caro di questo giro. Il corpo del testo qui non cambia
+         mai; cambia solo il giorno in cui il Plain finisce di caricarsi, e
+         quel giorno `mountCapabilities()` azzera la cache. */
+      const w = d.w !== undefined ? d.w : (d.w = ctx.measureText(d.short).width);
       const yy = y - rDot - 7;
       if (!claim(x, yy, w + 8, 13)) continue;
       ctx.fillStyle = "rgba(255,255,255,.9)";
@@ -1911,12 +2034,13 @@ function capPick(px, py) {
   // ⚠️ Un punto spento dal filtro non e' un bersaglio: se restasse pescabile, il
   // suggerimento mostrerebbe il nome di un fornitore che la tavola sta dicendo
   // di non considerare — e il pop-up della copia interna ne aprirebbe la scheda.
-  const attivo = activeSectors.size > 0 || !!query || !!branch;
+  const attivo = activeSectors.size > 0 || !!query || !!branch || SOLO_RUBRICA;
   for (let i = 0; i < cap.dots.length; i++) {
     const d = cap.dots[i];
     if (attivo) {
       const s = (cap.axes[d.a] || {subs:[]}).subs[d.s];
       if (!s || s.live === false) continue;
+      if (SOLO_RUBRICA && !d.rub) continue;
     }
     const [x, y] = capToScreen(d.x, d.y);
     const dist = Math.hypot(x - px, y - py);
@@ -1998,7 +2122,7 @@ function mountCapabilities() {
   const spec = DATA.capabilities;
   cap.axes = spec.axes.map(a => ({
     id: a.id, label: a.label, blurb: a.blurb, n: a.n, top: a.top,
-    subs: a.subs.map(s => ({ id: s.id, label: s.label, n: s.n })),
+    subs: a.subs.map(s => ({ id: s.id, label: s.label, n: s.n, nRub: 0 })),
   }));
   // Quinta casella = il nome. C'e' solo nella copia interna: e' lo stesso
   // cancello del terzo livello della costellazione — il dato, non un flag.
@@ -2020,8 +2144,29 @@ function mountCapabilities() {
   cap.dots = spec.dots.map(p => ({
     a: p[0], s: p[1], q: p[2], rel: p[3],
     name: p[4] || "", short: shorten(p[4] || ""),
+    // Di questo fornitore abbiamo qualcuno da chiamare. Si decide UNA volta, qui:
+    // il disegno gira su duemiladuecento punti a ogni fotogramma di trascinamento.
+    rub: RUBRICA.has(p[4] || ""),
     x: 0, y: 0, ang: 0, rad: 0,
   }));
+  // Quanti ne resta per sotto-ambito: e' il conteggio che il radar mostra quando
+  // il filtro e' acceso, e non cambia mai — si fa adesso, non a ogni disegno.
+  for (const d of cap.dots) {
+    if (!d.rub) continue;
+    const s = (cap.axes[d.a] || { subs: [] }).subs[d.s];
+    if (s) s.nRub++;
+  }
+  /* ⚠️ Le larghezze dei nomi si misurano una volta sola e restano in cache. Se
+     il primo disegno capita prima che il Plain sia caricato, quelle misure sono
+     dell'Helvetica di ripiego e resterebbero sbagliate per sempre — le etichette
+     si sovrapporrebbero di qualche pixel e nessuno saprebbe perche'. A font
+     pronto la cache si butta e si ridisegna. */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      for (const d of cap.dots) d.w = undefined;
+      if (cap.ready) capDraw();
+    });
+  }
   section.hidden = false;
   cap.ready = true;
   capGeometry();
@@ -2223,6 +2368,8 @@ function mountChrome() {
     chips.appendChild(b);
   });
 
+  montaRubrica();
+
   document.getElementById("q").addEventListener("input", e => {
     query = e.target.value.trim().toLowerCase();
   });
@@ -2232,11 +2379,40 @@ function mountChrome() {
   };
   document.getElementById("b-reset").onclick = () => {
     activeSectors.clear(); query = ""; focused = null; selected = null; branch = null;
+    SOLO_RUBRICA = false; if (RUBRICA_PAINT) RUBRICA_PAINT();
     openMacros.clear(); renderTree();
     document.getElementById("q").value = "";
     document.querySelectorAll("#chips .chip").forEach(b => b.setAttribute("aria-pressed", "false"));
     fitAll();
   };
+}
+
+/* Il filtro «di questo fornitore ho qualcuno da chiamare».
+   Il numero sta dentro l'etichetta perche' e' la meta' dell'informazione: dice
+   quanto e' grande la parte di archivio su cui si puo' alzare il telefono oggi,
+   ed e' quello che serve sapere prima di premere.
+   ⚠️ Il pulsante non si accende mai sul sito: `DATA.rubrica` la scrive solo
+   build_private.py, e senza quella chiave l'insieme resta vuoto e si esce qui. */
+function montaRubrica() {
+  const b = document.getElementById("t-rubrica");
+  if (!b) return;
+  RUBRICA = new Set(DATA.rubrica || []);
+  if (!RUBRICA.size) return;
+  b.hidden = false;
+  const paint = () => {
+    b.textContent = (RUBRICA_LABEL[LANG] || RUBRICA_LABEL.en) + " · " + RUBRICA.size;
+    b.setAttribute("aria-pressed", String(SOLO_RUBRICA));
+  };
+  b.onclick = () => {
+    SOLO_RUBRICA = !SOLO_RUBRICA;
+    paint();
+    // L'elenco si rifa' qui; il grafo e la tavola se ne accorgono da soli —
+    // `syncSuppliers()` e `sincronizzaRadar()` guardano lo stato a ogni
+    // fotogramma proprio per non dover essere avvisati da ogni pulsante.
+    renderTree();
+  };
+  paint();
+  RUBRICA_PAINT = paint;
 }
 
 /* Apre la porta e accende la colonna dei filtri, che resta spenta finche' la
