@@ -57,6 +57,10 @@ costellazione/~$*.xlsx
 # di scrivere se "git check-ignore" non conferma questa riga. Toglierla non fa
 # uscire niente, fa fallire la generazione — che e' il modo giusto di
 # accorgersene.
+# ⚠️ Dal 21.08.2026 questa cartella non esiste piu' qui: la copia interna con i
+# nomi dei fornitori nasce e vive in POTENTIAL BRAIN, e nel sito non ci mette
+# piu' piede. La riga resta come rete: se qualcuno la ricreasse per sbaglio,
+# non uscirebbe comunque.
 costellazione-con-fornitori/
 
 # Le procedure interne: spiegano come si rigenerano le pagine, e stavano dentro
