@@ -63,12 +63,9 @@ cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER
 > `portfolio/potential-portfolio-map_ISTRUZIONI.md` — **sul Mac, non nel repo**
 > (vedi «Cosa non sta su GitHub» in fondo).
 
-I clienti della portfolio map vengono da **un solo file**:
-
-```
-~/Dropbox/CARLO DOCUMENTI MAC/WORK - PORTFOLIO SUPPLIERS/PT-SUPPLIERS PROJECTS LIST.xlsx
-foglio "SUPPLIERS PROJECTS"
-```
+I clienti della portfolio map vengono da **un solo file**: un Excel che vive **fuori da questo
+repository**, sul Mac. Dove sta esattamente e come è fatto lo dicono le istruzioni della portfolio
+map, che non sono pubblicate — vedi «Cosa non sta su GitHub» in fondo.
 
 Entrano solo le righe con **`WEBSITE = x`**. Le righe **`RISERVATO`** (ville private) non escono da
 quel file: lo script le scarta anche se qualcuno le flagga per sbaglio. Le righe ripetute per località
@@ -82,10 +79,10 @@ python3 tools/portfolio-data/build.py           # riscrive la pagina
 Lo script scrive **solo** dentro il blocco `PORTFOLIO-DATA:START … END`: grafica, traduzioni e
 motore del radar non li tocca.
 
-⚠️ **La fascia luxury non la decide lo script.** Sta in `tools/portfolio-data/tiers.json` (1 mass
-market → 5 ultra luxury) e vale il posizionamento del *marchio del cliente*, non la dimensione della
-commessa. Quando l'Excel porta un cliente nuovo, il build **si ferma e lo elenca**: la fascia va
-assegnata a mano, e solo dopo la pagina si rigenera.
+⚠️ **La posizione di un cliente sul radar non la decide lo script.** Viene da un file di
+configurazione che sta fuori dal repository, e il criterio è documentato nelle istruzioni, sul Mac.
+Quando l'Excel porta un cliente nuovo, il build **si ferma e lo elenca**: il valore va assegnato a
+mano, e solo dopo la pagina si rigenera.
 
 Il colore del pallino invece è automatico: la colonna `CONTRACTOR` diventa il flag `v:1`, e quel
 flag è ciò che rende il pallino grigio invece che rosso. **Il nome del contractor non esce dal
@@ -102,8 +99,8 @@ si vede a https://potential.contractors/costellazione/costellazione.html e, in i
 sezione nera della home. **Una sola pagina per due posti**: la home la incorpora con
 `costellazione/costellazione.html?embed=1`, non ne tiene una copia.
 
-⚠️ **I due file in `costellazione/` sono generati.** I sorgenti vivono nel Brain, in
-`COMPANY BRAIN/POTENTIAL BRAIN/suppliers database/public/`, e `publish.sh` sovrascrive questa
+⚠️ **I due file in `costellazione/` sono generati.** I sorgenti vivono fuori da questo
+repository, e `publish.sh` sovrascrive questa
 cartella a ogni pubblicazione ripartendo da `origin/main`: quello che si edita qui a mano sparisce
 alla prima ripubblicazione, senza lasciare traccia. Vale anche per le favicon — vanno aggiunte al
 sorgente nel Brain, non alla copia pubblicata.
@@ -248,13 +245,12 @@ Requests` significa che siamo stati marcati come spam.
 ## Cosa non sta su GitHub
 
 ⚠️ **Un clone di questo repository non basta a rigenerare il sito.** Dal 17.08.2026 tutto `tools/`
-è in `.gitignore`: gli script di build vivono **solo sul Mac**, in Dropbox, con una copia di
-sicurezza nel Brain in `POTENTIAL BRAIN/website-sources/`.
+è in `.gitignore`: gli script di build vivono **solo sul Mac**, con una copia di sicurezza in una
+cartella interna.
 
 Il motivo non è l'ordine. Questo repository è **pubblico** e GitHub Pages serve **tutto ciò che sta
-nel repository**: fino a quel giorno `tools/portfolio-data/tiers.json` — la classificazione luxury
-1-5 dei clienti — era scaricabile da chiunque su `potential.contractors`, insieme agli script di
-build e alle procedure interne. Verificato con `curl`: HTTP 200 su sei file.
+nel repository**: fino a quel giorno gli script di build, i dati che usano e le procedure interne
+erano scaricabili da chiunque sul dominio. Verificato con `curl`: HTTP 200 su sei file.
 
 E il buco era doppio, perché `robots.txt` conteneva sette gruppi `User-agent` nominati (GPTBot,
 ClaudeBot, PerplexityBot…) con solo `Allow: /`. Per la specifica REP un crawler applica **un solo
@@ -266,7 +262,7 @@ scritto lì così chi lo riapre non li rimette.
 
 | Cartella | Cosa contiene |
 |---|---|
-| `tools/portfolio-data/` | build della portfolio map + `tiers.json` (fasce luxury dei clienti) |
+| `tools/portfolio-data/` | build della portfolio map e la sua configurazione |
 | `tools/costellazione-data/` | build della costellazione + procedura |
 | `tools/revisore_traduzioni/` | segnalino del Google Sheet delle traduzioni, regole, `sync_traduzioni.py`, `archivio_xlsx/` con l'Excel di prima |
 | `tools/editor-costellazione/` | editor visuale della costellazione |
