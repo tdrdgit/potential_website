@@ -72,8 +72,8 @@ quel file: lo script le scarta anche se qualcuno le flagga per sbaglio. Le righe
 — Tiffany, Burberry, Hilton — si fondono in un cliente solo, con le località in fila.
 
 ```bash
-python3 projects/radar/scripts/build.py --check   # dice cosa cambierebbe, non tocca niente
-python3 projects/radar/scripts/build.py           # riscrive la pagina
+python3 projects/suppliers-radar/scripts/build.py --check   # dice cosa cambierebbe, non tocca niente
+python3 projects/suppliers-radar/scripts/build.py           # riscrive la pagina
 ```
 
 Lo script scrive **solo** dentro il blocco `PORTFOLIO-DATA:START … END`: grafica, traduzioni e
@@ -91,7 +91,7 @@ file Excel** — fino all'11.08.2026 finiva in coda al dettaglio come `· for �
 ## La costellazione (`costellazione/`)
 
 > Procedura per esteso, con i casi in cui il build si ferma e cosa vuole:
-> `projects/costellazione/LEGGIMI-dataset.md` — **sul Mac, non nel repo**
+> `projects/suppliers-costellazione/LEGGIMI-dataset.md` — **sul Mac, non nel repo**
 > (vedi «Cosa non sta su GitHub» in fondo).
 
 `costellazione/costellazione.html` è la mappa delle competenze della rete di fornitura, quella che
@@ -109,12 +109,12 @@ Per cambiare i testi, aggiungere o togliere nodi si edita **un Excel**, che dall
 fonte unica dello strato editoriale — struttura, settori, cartelle, testi nelle quattro lingue:
 
 ```
-projects/costellazione/sorgente/costellazione-dataset.xlsx     ← in .gitignore: è la fonte, non esce su GitHub
+projects/suppliers-costellazione/dati/costellazione-dataset.xlsx     ← in .gitignore: è la fonte, non esce su GitHub
 ```
 
 ```bash
-python3 projects/costellazione/scripts/build_dataset.py --check   # dice cosa cambierebbe, non tocca niente
-python3 projects/costellazione/scripts/build_dataset.py           # riscrive i tre json nel Brain
+python3 projects/suppliers-costellazione/scripts/build_dataset.py --check   # dice cosa cambierebbe, non tocca niente
+python3 projects/suppliers-costellazione/scripts/build_dataset.py           # riscrive i tre json nel Brain
 sh "projects/suppliers_database/scripts/publish.sh"          # rigenera network.json, commit e push
 git pull                                            # ⚠️ il repo resta indietro di un commit
 ```
@@ -128,7 +128,7 @@ dell'archivio fornitori, compresso in cinque gradini perché non sia leggibile a
 **l'ordine delle righe è l'ordine dei nodi sul grafo** — la colonna `ord` serve a rimettere il
 foglio com'era dopo averlo riordinato per lavorarci.
 
-L'**editor visuale** in `projects/costellazione/editor/` (gitignored, solo sul Mac) è ancora al suo
+L'**editor visuale** in `projects/suppliers-costellazione/editor/` (gitignored, solo sul Mac) è ancora al suo
 posto e scrive sugli stessi tre file. **Si usa uno solo dei due**: l'ultimo che salva cancella il
 lavoro dell'altro senza dirlo. Finché l'Excel è in prova, la regola è l'Excel.
 
@@ -262,10 +262,10 @@ scritto lì così chi lo riapre non li rimette.
 
 | Cartella | Cosa contiene |
 |---|---|
-| `projects/radar/scripts/` | build della portfolio map e la sua configurazione |
+| `projects/suppliers-radar/scripts/` | build della portfolio map e la sua configurazione |
 | `tools/costellazione-data/` | build della costellazione + procedura |
 | `tools/revisore_traduzioni/` | segnalino del Google Sheet delle traduzioni, regole, `sync_traduzioni.py`, `archivio_xlsx/` con l'Excel di prima |
-| `projects/costellazione/editor/` | editor visuale della costellazione |
+| `projects/suppliers-costellazione/editor/` | editor visuale della costellazione |
 | `tools/seo_optimization/` | audit SEO |
 | `tools/build-header-frames.py` | build dei frame dell'header |
 | `portfolio/…_ISTRUZIONI.md` | procedura dell'area riservata |
