@@ -17,10 +17,8 @@ seo_optimization/
 # tutto cio' che sta nel repository, quindi fino a quel giorno erano scaricabili
 # in chiaro — verificato con curl, tutti HTTP 200:
 #
-#   tools/portfolio-data/tiers.json   → la classificazione luxury 1-5 dei clienti
-#   tools/portfolio-data/build.py     → il path dell'Excel clienti e i filtri
-#   tools/costellazione-data/build.py → la pipeline della costellazione
-#   tools/build-header-frames.py      → lo script di build dell'header
+#   la classificazione interna dei clienti, i percorsi delle fonti che stanno
+#   fuori dal repository, le pipeline di build e le procedure di lavorazione.
 #
 # ⚠️ Il moltiplicatore stava in robots.txt: "Disallow: /tools/" viveva solo nel
 # gruppo "*", mentre sette bot AI avevano un gruppo proprio con solo "Allow: /".
@@ -31,8 +29,8 @@ seo_optimization/
 # "git add -A": togliendola, al primo push i tier dei clienti tornano online
 # senza che nessuno abbia deciso niente.
 #
-# Gli script continuano a funzionare in locale e sono copiati nel Brain, in
-# POTENTIAL BRAIN/website-sources/ — quella copia e' una fotografia, non si
+# Gli script continuano a funzionare in locale e ne esiste una copia di
+# sicurezza in una cartella interna — quella copia e' una fotografia, non si
 # aggiorna da sola.
 tools/
 
@@ -63,7 +61,7 @@ costellazione-con-fornitori/
 
 # Le procedure interne: spiegano come si rigenerano le pagine, e stavano dentro
 # cartelle che il sito pubblica. Dal 17.08.2026 fuori dal repository — la copia
-# sta nel Brain, in POTENTIAL BRAIN/website-sources/.
+# di sicurezza sta in una cartella interna.
 #
 # ⚠️ portfolio/ NON si puo' difendere con robots.txt: la pagina dell'area
 # riservata deve restare scansionabile perche' il suo <meta name="robots"
@@ -81,7 +79,7 @@ Potential_Revisione_*.xlsx
 ~$*.xlsx
 
 # Impostazioni locali di Claude Code: contengono percorsi di questo Mac e non
-# servono a chi clona il sito. Vive solo qui e su Dropbox.
+# servono a chi clona il sito. Vivono solo in locale.
 .claude/settings.local.json
 
 # La sezione FAQ, dal 18.08.2026. NON e' pronta: le risposte affermano cose sul
