@@ -261,6 +261,9 @@ body.full-cap #panel{padding-top:9px}
   display:block;font-size:.66rem;font-weight:300;color:var(--ink-faint);
   line-height:1.45;padding:1px 0;
 }
+/* Il «(ex)» accanto al nome nell'elenco: piu' chiaro del nome, perche' non e'
+   parte del nome — e' un'avvertenza su quanto vale quell'aggancio. */
+.tw-sup i{font-style:normal;color:var(--ink-faint);letter-spacing:.04em}
 .tw-sup .tw-sup-n{display:block;color:var(--pt-red);font-style:normal;
   font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.6rem;
   padding:1px 0}
@@ -691,7 +694,20 @@ let activeSectors = new Set(), query = "";
    cartella d'archivio uno ce l'ha e il suo vicino no. E' la ragione per cui sul
    radar non passa da `sub.live` come fanno i settori, ma punto per punto. */
 let RUBRICA = new Set(), SOLO_RUBRICA = false, RUBRICA_PAINT = null;
+/* ⚠️ Due insiemi e non uno, e la differenza e' la ragione per cui il secondo
+   esiste. In `RUBRICA` ci sono i fornitori dove qualcuno lavora ADESSO: quelli
+   si chiamano. In `RUBRICA_EX` quelli dove l'unica persona che conosciamo se
+   n'e' andata: non e' un aggancio, e' una **porta d'ingresso** — ci ha lavorato
+   dentro e sa a chi passarti. Il filtro li accende tutti e due, ma gli «ex»
+   restano grigi e portano «(ex)» scritto accanto al nome: se si mescolassero,
+   il filtro direbbe «ho un aggancio» davanti a un'azienda dove non risponde
+   nessuno, ed e' l'errore piu' caro dei due. Scelta di Carlo del 22.08.2026. */
+let RUBRICA_EX = new Set();
+const inRubrica = (n) => RUBRICA.has(n) || RUBRICA_EX.has(n);
 const RUBRICA_LABEL = { it: "Con contatto in rubrica", en: "With a contact on file" };
+// Il suffisso non si traduce: e' la stessa abbreviazione in tutte e quattro le
+// lingue della tassonomia, e in arabo una parola in piu' spezzerebbe la riga.
+const TAG_EX = " (ex)";
 /* Quale grafico e' a schermo pieno: null · "stage" · "cap". Sta qui in alto e non
    accanto alla funzione che lo cambia, perche' lo leggono anche i due gestori
    della rotella, che sono definiti molto prima. */
@@ -810,7 +826,7 @@ function spawnSuppliers(leafId) {
      da capo a ogni fotogramma senza mai riuscirci. */
   spawnedFor = leafId; spawnedRub = SOLO_RUBRICA;
   let list = (DATA.suppliers || {})[leafId];
-  if (list && SOLO_RUBRICA) list = list.filter(n => RUBRICA.has(n));
+  if (list && SOLO_RUBRICA) list = list.filter(inRubrica);
   const parent = byId.get(leafId);
   if (!list || !list.length || !parent) return;
 
@@ -1114,7 +1130,11 @@ function draw() {
     ctx.font = `${n.depth >= 2 ? 300 : 500} ${size}px "Plain","Helvetica Neue",system-ui,Arial,sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    const text = n.label[LANG] || n.label.en || n.id;
+    /* Il suffisso si aggiunge al DISEGNO e non a `n.label`: l'etichetta e' il
+       nome con cui il modulo delle schede riconosce il fornitore quando gli si
+       clicca sopra il pallino. */
+    let text = n.label[LANG] || n.label.en || n.id;
+    if (n.supplier && SOLO_RUBRICA && RUBRICA_EX.has(text)) text += TAG_EX;
     const y = n.y + r + 6 / view.k;
 
     const wpx = ctx.measureText(text).width;
@@ -1465,7 +1485,7 @@ function renderTree() {
       // produce mai una riga. Novantuno voci con i nomi tutti aperti sarebbero
       // duemiladuecento righe: l'elenco serve a scorrere, non a contenere.
       let sup = DATA.suppliers && selected === k.id ? DATA.suppliers[k.id] : null;
-      if (sup && SOLO_RUBRICA) sup = sup.filter(s => RUBRICA.has(s));
+      if (sup && SOLO_RUBRICA) sup = sup.filter(inRubrica);
       if (sup && sup.length) {
         // A nomi nascosti resta il CONTEGGIO: l'interfaccia si spiega da sola —
         // si vede che dietro quel ramo c'e' qualcosa e quanto — senza dire chi.
@@ -1475,7 +1495,14 @@ function renderTree() {
         // toccare quel modulo.
         html += '<div class="tw-sup">' + (NAMES_HIDDEN
           ? `<em class="tw-sup-n">${sup.length} fornitori</em>`
-          : sup.map(s => `<span>${esc(s)}</span>`).join("")) + "</div>";
+          /* ⚠️ Il «(ex)» va in un figlio e il nome pulito in `data-nome`, non
+             attaccato al testo: il modulo delle schede legge il fornitore dal
+             testo dello `span` per sapere quale scheda aprire, e un suffisso
+             appiccicato li' gli farebbe cercare un'azienda che non esiste —
+             senza dare errore, semplicemente non aprendo niente. */
+          : sup.map(s => `<span data-nome="${esc(s)}">${esc(s)}`
+              + (SOLO_RUBRICA && RUBRICA_EX.has(s) ? `<i class="tw-ex">${TAG_EX}</i>` : "")
+              + "</span>").join("")) + "</div>";
       }
     }
     html += "</div>";
@@ -1848,7 +1875,7 @@ function capDraw() {
   const dotOn = (d) => {
     const s = dotSub(d);
     if (!s || !s.live) return false;
-    return !SOLO_RUBRICA || d.rub;
+    return !SOLO_RUBRICA || d.rub || d.rubEx;
   };
   if (filtro) {
     ctx.fillStyle = "#F0F0F0";
@@ -1859,10 +1886,25 @@ function capDraw() {
       ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
     }
   }
+  /* ⚠️ Un fornitore raggiungibile solo tramite un ex NON prende il colore del
+     suo giudizio: resta acceso, ma in un grigio a se'. Col rosso addosso
+     direbbe «ottimo e a portata di telefono», mentre la seconda meta' non e'
+     vera — e sulla tavola il colore e' l'unica cosa che si legge da lontano. */
+  const EX_FILL = "#B4B4B4";
+  if (SOLO_RUBRICA) {
+    ctx.fillStyle = EX_FILL;
+    for (const d of cap.dots) {
+      if (!d.rubEx || d.rub || !dotOn(d)) continue;
+      const [x, y] = capToScreen(d.x, d.y);
+      if (x < -8 || y < -8 || x > cap.W + 8 || y > cap.H + 8) continue;
+      ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
+    }
+  }
   for (let tier = 0; tier <= 2; tier++) {
     ctx.fillStyle = TIER_FILL[tier];
     for (const d of cap.dots) {
       if (d.q !== tier) continue;
+      if (SOLO_RUBRICA && d.rubEx && !d.rub) continue;   // gia' disegnato grigio
       if (filtro && !dotOn(d)) continue;
       const [x, y] = capToScreen(d.x, d.y);
       if (x < -8 || y < -8 || x > cap.W + 8 || y > cap.H + 8) continue;
@@ -2005,15 +2047,26 @@ function capDraw() {
          ed e' il pezzo caro di questo giro. Il corpo del testo qui non cambia
          mai; cambia solo il giorno in cui il Plain finisce di caricarsi, e
          quel giorno `mountCapabilities()` azzera la cache. */
-      const w = d.w !== undefined ? d.w : (d.w = ctx.measureText(d.short).width);
+      /* Col filtro acceso, chi si raggiunge solo tramite un ex porta il suffisso
+         scritto accanto: la tavola si guarda da lontano, e il grigio del pallino
+         da solo si confonde con «nessuna indicazione». La larghezza va misurata
+         sul testo che si scrive davvero, o il fondo bianco taglia il suffisso.
+         ⚠️ `cap.hitNomi` continua a registrare il nome PULITO: e' la chiave con
+         cui il modulo delle schede trova il fornitore, e un «(ex)» attaccato li'
+         non aprirebbe niente — senza dare errore. */
+      const ex = SOLO_RUBRICA && d.rubEx && !d.rub;
+      const testo = ex ? d.short + TAG_EX : d.short;
+      const w = ex ? ctx.measureText(testo).width
+                   : (d.w !== undefined ? d.w : (d.w = ctx.measureText(d.short).width));
       const yy = y - rDot - 7;
       if (!claim(x, yy, w + 8, 13)) continue;
       ctx.fillStyle = "rgba(255,255,255,.9)";
       ctx.fillRect(x - w / 2 - 3, yy - 6.5, w + 6, 13);
       // Il nome prende il colore del suo punto: chi legge non deve tornare al
       // pallino per sapere di che fornitore si tratta.
-      ctx.fillStyle = d.q === 2 ? "#C71617" : d.q === 1 ? "#454545" : "#8A8A8A";
-      ctx.fillText(d.short, x, yy);
+      ctx.fillStyle = ex ? "#9A9A9A"
+                    : d.q === 2 ? "#C71617" : d.q === 1 ? "#454545" : "#8A8A8A";
+      ctx.fillText(testo, x, yy);
       cap.hitNomi.push({ x0: x - w / 2 - 4, x1: x + w / 2 + 4,
                          y0: yy - 8, y1: yy + 8, nome: d.name });
       drawn++;
@@ -2040,7 +2093,7 @@ function capPick(px, py) {
     if (attivo) {
       const s = (cap.axes[d.a] || {subs:[]}).subs[d.s];
       if (!s || s.live === false) continue;
-      if (SOLO_RUBRICA && !d.rub) continue;
+      if (SOLO_RUBRICA && !d.rub && !d.rubEx) continue;
     }
     const [x, y] = capToScreen(d.x, d.y);
     const dist = Math.hypot(x - px, y - py);
@@ -2147,12 +2200,17 @@ function mountCapabilities() {
     // Di questo fornitore abbiamo qualcuno da chiamare. Si decide UNA volta, qui:
     // il disegno gira su duemiladuecento punti a ogni fotogramma di trascinamento.
     rub: RUBRICA.has(p[4] || ""),
+    // Raggiungibile solo tramite qualcuno che li' non lavora piu'.
+    rubEx: RUBRICA_EX.has(p[4] || ""),
     x: 0, y: 0, ang: 0, rad: 0,
   }));
   // Quanti ne resta per sotto-ambito: e' il conteggio che il radar mostra quando
   // il filtro e' acceso, e non cambia mai — si fa adesso, non a ogni disegno.
   for (const d of cap.dots) {
-    if (!d.rub) continue;
+    // ⚠️ Il conteggio comprende gli «ex»: e' il numero che la tavola scrive
+    // accanto all'asse quando il filtro e' acceso, e deve tornare con i puntini
+    // che restano accesi — se ne contasse meno, si crede che sia incompleta.
+    if (!d.rub && !d.rubEx) continue;
     const s = (cap.axes[d.a] || { subs: [] }).subs[d.s];
     if (s) s.nRub++;
   }
@@ -2397,10 +2455,15 @@ function montaRubrica() {
   const b = document.getElementById("t-rubrica");
   if (!b) return;
   RUBRICA = new Set(DATA.rubrica || []);
+  RUBRICA_EX = new Set(DATA.rubrica_ex || []);
   if (!RUBRICA.size) return;
   b.hidden = false;
   const paint = () => {
-    b.textContent = (RUBRICA_LABEL[LANG] || RUBRICA_LABEL.en) + " · " + RUBRICA.size;
+    /* Due numeri e non la loro somma: dicono cose diverse — quanti si chiamano
+       e quanti hanno solo una porta d'ingresso — e sommarli farebbe credere di
+       avere piu' agganci di quanti se ne hanno. */
+    b.textContent = (RUBRICA_LABEL[LANG] || RUBRICA_LABEL.en) + " · " + RUBRICA.size
+      + (RUBRICA_EX.size ? " + " + RUBRICA_EX.size + " ex" : "");
     b.setAttribute("aria-pressed", String(SOLO_RUBRICA));
   };
   b.onclick = () => {
