@@ -100,3 +100,16 @@ Potential_Revisione_*.xlsx
 # queste due righe si tolgono, e in quel momento le FAQ vanno anche in home.
 faq/
 it/faq/
+
+# ─────────────────────────────────────────────────────────────────────────
+# Chiavi e password — aggiunto il 22.08.2026
+#
+# 🔴 Questo repository e' PUBBLICO e il backup automatico fa "git add -A":
+# un .env creato qui finirebbe su GitHub, leggibile da chiunque. La riga
+# mancava, e non dava nessun errore — e' lo stesso buco del 18.08.2026 in
+# CONTABILITA' PERSONALE, dove 3,2 MB di movimenti bancari erano tornati
+# committabili in silenzio.
+# Si verifica con "git check-ignore -v .env", mai leggendo questo file a occhio.
+.env
+.env.*
+!.env.example
