@@ -113,3 +113,11 @@ it/faq/
 .env
 .env.*
 !.env.example
+
+# Manuale d'uso del progetto (regola 52): mappa di ogni utenza e di dove stanno
+# le chiavi. Non entra in git, in nessun repository, mai.
+ISTRUZIONI DI UTILIZZO/
+
+# La porta d'ingresso per l'assistente: percorsi interni e rimandi al manuale
+# delle credenziali. Il repository e' PUBBLICO, quindi resta fuori da git.
+CLAUDE.md
