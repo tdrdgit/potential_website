@@ -179,14 +179,16 @@ pagina incorporabile. Il link corto resta buono per il pulsante di scorta e per 
 cornice grigia. Se Google passa a un grigio Material, quel bianco va rifatto combaciare.
 
 I nove testi nuovi (`stag-book`, `bk-*`) sono tradotti in tutte e cinque le lingue dentro `const T`
-e sono **già nel foglio delle traduzioni**, in grigio: tradotti in automatico, non ancora riletti da
+e sono **già nel foglio delle traduzioni**, in marrone: tradotti in automatico, non ancora riletti da
 un revisore umano.
 
 ## Le traduzioni si tengono allineate, non si ricopiano
 
 `index.html` e il **Google Sheet `Potential_Revisione_Traduzioni`** sono due fonti che devono dire
 la stessa cosa. Chi le allinea è `sync_traduzioni.py`, e **lo stato sta nel colore del testo delle
-celle**: verde = forzatura decisa da Carlo, grigio = traduzione automatica, rosso = da riallineare.
+celle**: verde = forzatura decisa da Carlo, marrone = traduzione automatica, rosso = da riallineare.
+⚠️ **Dal 09.09.2026 il colore di Claude è il marrone `#7B3F00`, non più il grigio** — si allinea alla
+regola globale 8, che vale in tutti i progetti. Il grigio si legge ancora, non si scrive più.
 
 Il foglio si apre da `tools/revisore_traduzioni/Potential_Revisione_Traduzioni.gsheet`, che è il
 segnalino che Drive tiene nella cartella. ⚠️ **Dal 20.08.2026 la fonte non è più un file `.xlsx`**:
