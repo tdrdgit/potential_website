@@ -307,7 +307,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.le
 const LANGS=['en','it','zh','ru','ar'];
 const LANG_LABELS={en:'ENG',it:'ITA',zh:'中文',ru:'РУС',ar:'عربي'};
 const T={
-"stag-coverage":{"en":"Coverage Areas","it":"Aree di Copertura","zh":"覆盖领域","ru":"Направления работы","ar":"مجالات العمل"},
+"stag-coverage":{"en":"Coverage Areas","it":"Aree di Copertura","zh":"业务领域","ru":"Направления работы","ar":"مجالات العمل"},
 "pm-title":{"en":"Portfolio Map","it":"Mappa del Portfolio","zh":"业务版图","ru":"Карта портфолио","ar":"خريطة المحفظة"},
 "pm-lead":{"en":"Each dot is a client. Each axis is a coverage area.","it":"Ogni punto è un cliente. Ogni asse è un ambito di copertura.","zh":"每个红点代表一位客户，每条轴线代表一个业务领域。","ru":"Каждая точка — клиент. Каждая ось — направление работы.","ar":"كل نقطة تمثل عميلاً، وكل محور يمثل مجال عمل."},
 "pm-note":{"en":"Distance from the centre is the client's own positioning: the more luxury the brand, the further out the dot sits. Potential's assessment, not a market ranking.","it":"La distanza dal centro è il posizionamento del cliente: più il marchio è luxury, più il punto va verso l'esterno. È una valutazione di Potential, non una classifica di mercato.","zh":"与中心的距离代表客户品牌的定位：品牌越奢侈，红点越靠外。此为 Potential 的评估，并非市场排名。","ru":"Расстояние от центра — позиционирование самого клиента: чем выше класс бренда, тем дальше точка. Это оценка Potential, а не рыночный рейтинг.","ar":"المسافة من المركز تعبّر عن مكانة العميل نفسه: كلما كانت العلامة أكثر فخامة، ابتعدت النقطة عن المركز. هذا تقييم من Potential وليس تصنيفًا سوقيًا."},
@@ -330,10 +330,10 @@ const T={
 /* group in the portfolio, so it gets its own axis.                  */
 const AX=[
  {id:'hospitality',t:{en:'Hospitality|& Spa',it:'Hotel|& Spa',zh:'酒店|与水疗',ru:'Отели|и спа',ar:'الضيافة|والسبا'}},
- {id:'residential',t:{en:'Residential|& Private',it:'Residenziale',zh:'住宅|与私宅',ru:'Жилой|и частный сектор',ar:'القطاع السكني|والخاص'}},
+ {id:'residential',t:{en:'Residential|& Private',it:'Residenziale',zh:'住宅|与私人物业',ru:'Жильё|и частные дома',ar:'القطاع السكني|والخاص'}},
  {id:'government', t:{en:'Government|Buildings',it:'Edifici|Governativi',zh:'政府|建筑',ru:'Государственные|учреждения',ar:'المباني|الحكومية'}},
  {id:'retail',     t:{en:'Retail',it:'Retail',zh:'零售',ru:'Ритейл',ar:'تجزئة'}},
- {id:'prime',      t:{en:'Prime Property|Sourcing',it:'Prime Property|Sourcing',zh:'优质房产|寻源',ru:'Подбор элитной|недвижимости',ar:'البحث عن العقارات|المتميزة'}},
+ {id:'prime',      t:{en:'Prime Property|Sourcing',it:'Prime Property|Sourcing',zh:'优质物业|甄选',ru:'Подбор элитной|недвижимости',ar:'البحث عن العقارات|المتميزة'}},
  {id:'yachting',   t:{en:'Yachting|& Marine',it:'Yachting|& Marina',zh:'游艇|与海洋',ru:'Яхтинг|и морской сектор',ar:'يخوت|وبحري'}},
  {id:'office',     t:{en:'Office|& Corporate',it:'Uffici|& Corporate',zh:'办公|与企业',ru:'Офисы|и корпорации',ar:'المكاتب|والشركات'}}
 ];
