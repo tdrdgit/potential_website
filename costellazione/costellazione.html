@@ -421,6 +421,7 @@ canvas#capc.dragging{cursor:grabbing}
 .cap-key i{display:block;width:7px;height:7px;border-radius:50%}
 .cap-key i.k-top{background:var(--pt-red)}
 .cap-key i.k-mid{background:#767676}
+.cap-key i.k-sup{background:#9E9E9E}
 .cap-key i.k-dot{background:#CFCFCF}
 .cap-key-r{text-transform:none;letter-spacing:.02em;color:#9A9A9A;font-size:.6rem}
 .cap-hint{margin-left:auto;font-size:.6rem;font-weight:300;letter-spacing:.14em;
@@ -804,6 +805,10 @@ window.PTScorrimento = (function () {
   <div class="cap-foot">
     <span class="cap-key"><i class="k-top"></i>Top rated</span>
     <span class="cap-key"><i class="k-mid"></i>Referred or already used</span>
+    <!-- ⚠️ Questa pagina e' PUBBLICA: la voce dice cosa si vede, non come lo
+         sappiamo. «Supplies companies we track» direbbe a chiunque che teniamo
+         dei dossier, e non e' un'informazione che deve stare su un sito. -->
+    <span class="cap-key"><i class="k-sup"></i>Supplies known brands</span>
     <span class="cap-key"><i class="k-dot"></i>Mapped</span>
     <span class="cap-key cap-key-r">Rating grows outward — the rim is the proven end of the network</span>
     <span class="cap-hint" id="cap-hint">Pinch to zoom · drag to pan · hover a dot</span>
@@ -2155,7 +2160,17 @@ function capDraw() {
      finirebbero sotto i millecinquecento grigi. L'ordine di disegno E' la
      gerarchia, come per le etichette. */
   const rDot = Math.max(1.6, 2.3 * Math.sqrt(k));
-  const TIER_FILL = ["#CFCFCF", "#767676", "#C71617"];
+  /* ⚠️ L'indice 3 e' la classe «fornitore di ...» — un fornitore che un
+     committente estraneo ha scelto, che noi non abbiamo mai provato. Chiesta da
+     Carlo il 10.09.2026. Il grigio e' un terzo, distinto sia dal `#CFCFCF` dei
+     mappati sia dal `#B4B4B4` di chi si raggiunge solo tramite un ex: tre grigi
+     che si somigliano non sono tre classi, sono una macchia. */
+  const TIER_FILL = ["#CFCFCF", "#767676", "#C71617", "#9E9E9E"];
+  /* 🔴 L'ordine di disegno E' la gerarchia, e non coincide col numero: il 3 e'
+     nato dopo ma sta in mezzo alla scala, sopra i mappati e sotto i segnalati.
+     Scritto qui e non dedotto dall'indice, o il prossimo gradino finirebbe in
+     cima solo perche' ha il numero piu' alto. */
+  const TIER_ORDER = [0, 3, 1, 2];
   /* ⚠️ Filtrando, quello che resta fuori si SPEGNE e non si toglie. Togliendolo
      la tavola perderebbe la forma — e la forma e' l'informazione: si vede a
      colpo d'occhio quanta parte della rete risponde a quel settore. E' la stessa
@@ -2194,7 +2209,7 @@ function capDraw() {
       ctx.beginPath(); ctx.arc(x, y, rDot, 0, 7); ctx.fill();
     }
   }
-  for (let tier = 0; tier <= 2; tier++) {
+  for (const tier of TIER_ORDER) {
     ctx.fillStyle = TIER_FILL[tier];
     for (const d of cap.dots) {
       if (d.q !== tier) continue;
@@ -2359,7 +2374,8 @@ function capDraw() {
       // Il nome prende il colore del suo punto: chi legge non deve tornare al
       // pallino per sapere di che fornitore si tratta.
       ctx.fillStyle = ex ? "#9A9A9A"
-                    : d.q === 2 ? "#C71617" : d.q === 1 ? "#454545" : "#8A8A8A";
+                    : d.q === 2 ? "#C71617" : d.q === 1 ? "#454545"
+                    : d.q === 3 ? "#757575" : "#8A8A8A";
       ctx.fillText(testo, x, yy);
       cap.hitNomi.push({ x0: x - w / 2 - 4, x1: x + w / 2 + 4,
                          y0: yy - 8, y1: yy + 8, nome: d.name });
@@ -2392,7 +2408,11 @@ function capPick(px, py) {
     const [x, y] = capToScreen(d.x, d.y);
     const dist = Math.hypot(x - px, y - py);
     // I "top" vincono a pari distanza: sono i piu' grandi e i piu' cercati.
-    const reach = d.q ? 9 : 6;
+    /* ⚠️ Scritto per esteso e non come `d.q ? 9 : 6`: con quella forma la
+       classe 3, nata dopo, avrebbe preso 9 per il solo fatto di essere un
+       numero diverso da zero — un comportamento deciso dal caso. Qui ha 9
+       perche' un fornitore con una referenza si cerca, e i mappati no. */
+    const reach = d.q === 0 ? 6 : 9;
     if (dist < Math.min(bestD, reach)) { best = i; bestD = dist; }
   }
   return best;
@@ -2403,7 +2423,8 @@ function capTip(index, px, py) {
   if (index < 0) { tip.hidden = true; return; }
   const d = cap.dots[index];
   const axis = cap.axes[d.a], sub = axis.subs[d.s];
-  const TIER_WORD = ["Mapped", "Referred or already used", "Top rated"];
+  const TIER_WORD = ["Mapped", "Referred or already used", "Top rated",
+                     "Supplies known brands"];
   tip.innerHTML = (cap.names && !NAMES_HIDDEN ? `<b>${esc(d.name)}</b>` : "")
     + `<span>${esc(sub.label)}</span>`
     + `<em>${esc(axis.label)}</em>`
