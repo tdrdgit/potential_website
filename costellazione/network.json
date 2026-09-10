@@ -2186,7 +2186,7 @@
      {
       "id": "mat-ceramic",
       "label": "Ceramic & porcelain",
-      "n": 24
+      "n": 25
      },
      {
       "id": "mat-solid",
@@ -2244,7 +2244,7 @@
       "n": 18
      }
     ],
-    "n": 676,
+    "n": 677,
     "top": 84
    },
    {
@@ -2349,10 +2349,10 @@
      {
       "id": "con-hardware",
       "label": "Hardware & technical components",
-      "n": 146
+      "n": 147
      }
     ],
-    "n": 325,
+    "n": 326,
     "top": 34
    },
    {
@@ -2461,7 +2461,7 @@
      {
       "id": "cns-contractors",
       "label": "General contracting & building works",
-      "n": 66
+      "n": 67
      },
      {
       "id": "con-install",
@@ -2471,7 +2471,7 @@
      {
       "id": "con-logistics",
       "label": "Packing, shipping & site logistics",
-      "n": 43
+      "n": 44
      },
      {
       "id": "con-marine",
@@ -2479,7 +2479,7 @@
       "n": 3
      }
     ],
-    "n": 118,
+    "n": 120,
     "top": 11
    },
    {
@@ -6574,6 +6574,12 @@
     357
    ],
    [
+    2,
+    6,
+    0,
+    351
+   ],
+   [
     8,
     1,
     0,
@@ -6588,6 +6594,12 @@
    [
     2,
     0,
+    0,
+    336
+   ],
+   [
+    0,
+    7,
     0,
     336
    ],
@@ -7582,6 +7594,12 @@
     200
    ],
    [
+    5,
+    0,
+    1,
+    200
+   ],
+   [
     8,
     2,
     1,
@@ -8346,6 +8364,12 @@
    [
     2,
     0,
+    0,
+    30
+   ],
+   [
+    5,
+    2,
     0,
     30
    ],

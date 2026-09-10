@@ -145,7 +145,10 @@ header > *{pointer-events:auto}
 /* Il pulsante «schermo intero» della costellazione. Sta accanto alle lingue e
    non in un angolo del grafo: e' comando di cornice, non di contenuto, e li' lo
    si trova insieme all'altro comando di cornice che c'e' gia'. */
+/* Pulsanti e filtri ovali — regola 47, rules/interfacce.md §7. TAG,
+   tabelle, riquadri e tab restano a spigolo vivo. */
 .tool-btn{
+  border-radius:999px;padding-left:11px;padding-right:11px;
   background:none;border:1px solid var(--pt-hairline);color:var(--ink-dim);
   font-family:var(--font);font-size:.6rem;font-weight:500;letter-spacing:.1em;
   text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:.2s;
@@ -154,6 +157,7 @@ header > *{pointer-events:auto}
 .tool-btn:hover{color:var(--pt-white);border-color:var(--ink-dim)}
 .tool-btn[aria-pressed="true"]{color:var(--pt-white);border-color:var(--pt-red)}
 .langs button{
+  border-radius:999px;padding-left:10px;padding-right:10px;
   background:none;border:1px solid transparent;color:var(--ink-faint);
   font-family:var(--font);font-size:.66rem;letter-spacing:.12em;font-weight:400;
   text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:.2s;
@@ -197,6 +201,7 @@ body.full-cap #panel{padding-top:9px}
 .panel-label{font-size:.62rem;letter-spacing:var(--tracking);text-transform:uppercase;color:var(--ink-faint)}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{
+  border-radius:999px;
   background:none;border:1px solid var(--pt-hairline);color:var(--ink-dim);
   font-family:var(--font);font-size:var(--txt);font-weight:300;letter-spacing:.02em;
   padding:5px 9px;cursor:pointer;transition:.22s;border-radius:1px;text-align:left;
@@ -228,10 +233,7 @@ body.full-cap #panel{padding-top:9px}
 #tree{
   overflow-y:auto;overscroll-behavior:contain;
   border-top:1px solid var(--pt-hairline);padding-top:10px;margin-top:2px;
-  scrollbar-width:thin;scrollbar-color:var(--pt-hairline) transparent;
 }
-#tree::-webkit-scrollbar{width:3px}
-#tree::-webkit-scrollbar-thumb{background:var(--pt-hairline)}
 .tw-macro,.tw-leaf{
   display:block;width:100%;text-align:left;background:none;border:0;
   font-family:var(--font);cursor:pointer;transition:color .18s;
@@ -402,6 +404,7 @@ canvas#capc.dragging{cursor:grabbing}
 
 .cap-zoom{position:absolute;right:0;top:0;display:flex;gap:6px;z-index:3}
 .cap-zoom button{
+  border-radius:999px;
   font-family:var(--font);font-size:.62rem;font-weight:500;letter-spacing:.08em;
   text-transform:uppercase;color:#8A8A8A;background:none;cursor:pointer;
   border:1px solid #E2E2E2;border-radius:2px;padding:5px 9px;transition:.18s;
@@ -424,6 +427,297 @@ canvas#capc.dragging{cursor:grabbing}
   text-transform:uppercase;color:#A8A8A8}
 @media (max-width:760px){.cap-hint{margin-left:0}}
 </style>
+<!-- pt:componente scorrimento -->
+<!-- ⚠️ riscritto da sync_componenti.py — non modificare a mano -->
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   Potential · componente di scorrimento
+   ──────────────────────────────────────────────────────────────────────
+   ⚠️ QUESTO FILE È LA FONTE UNICA. Non si copia dentro un progetto: si
+   include. Se cambia qui, cambia in tutti i progetti al primo rigenerare.
+   Chi ne fa una variante locale ha creato un secondo componente, e i due
+   divergono al primo ritocco.
+
+   Nasce dal pannello filtri del catalogo fornitori (POTENTIAL BRAIN),
+   promosso ad asset comune il 22.08.2026 su richiesta di Carlo.
+
+   Come si usa:
+
+       <div class="pt-finestra">
+         <div class="pt-rotolo"> …contenuto che scorre… </div>
+         <div class="pt-filo"><span></span></div>
+       </div>
+
+   e una volta sola, dopo aver disegnato:  PTScorrimento.attiva()
+
+   Verso orizzontale:  <div class="pt-finestra" data-verso="orizzontale">
+   Filo a destra:      <div class="pt-finestra" data-lato="destra">
+
+   ⚠️ La barra del sistema NON si ridipinge, si **nasconde**. Ridipingerla
+   lascia comunque una pista, uno spessore e un comportamento che non sono
+   nostri, e su Firefox non si può portare sotto i 6 px.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --pt-filo-colore:#C71617;          /* il pollice: rosso Potential */
+  --pt-filo-pista:rgba(0,0,0,.07);   /* la pista: appena percettibile */
+  --pt-filo-spessore:2px;
+  --pt-filo-stacco:11px;             /* quanto il contenuto sta lontano dal filo */
+}
+
+.pt-finestra{position:relative}
+
+.pt-rotolo{
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-left:var(--pt-filo-stacco);
+  scrollbar-width:none;              /* Firefox */
+  -ms-overflow-style:none;
+}
+.pt-rotolo::-webkit-scrollbar{width:0;height:0;display:none}   /* Chrome, Safari */
+
+.pt-filo{
+  position:absolute;left:0;top:0;bottom:0;
+  width:var(--pt-filo-spessore);border-radius:1px;
+  background:var(--pt-filo-pista);
+  display:none;                      /* si vede solo se c'è da scorrere */
+  pointer-events:none;
+}
+.pt-finestra.scorre > .pt-filo{display:block}
+
+.pt-filo > span{
+  position:absolute;left:0;
+  width:var(--pt-filo-spessore);border-radius:1px;
+  background:var(--pt-filo-colore);
+  min-height:16px;
+}
+
+/* ── filo a destra ── */
+.pt-finestra[data-lato="destra"] > .pt-rotolo{
+  padding-left:0;padding-right:var(--pt-filo-stacco)}
+.pt-finestra[data-lato="destra"] > .pt-filo{left:auto;right:0}
+
+/* ── verso orizzontale ── */
+.pt-finestra[data-verso="orizzontale"] > .pt-rotolo{
+  overflow-x:auto;overflow-y:hidden;padding-left:0;padding-bottom:var(--pt-filo-stacco)}
+.pt-finestra[data-verso="orizzontale"] > .pt-filo{
+  left:0;right:0;top:auto;bottom:0;width:auto;height:var(--pt-filo-spessore)}
+.pt-finestra[data-verso="orizzontale"] > .pt-filo > span{
+  top:0;height:var(--pt-filo-spessore);min-height:0;min-width:24px}
+
+/* ── la pagina intera ── */
+/* ⚠️ Si toglie lo scorrimento alla finestra e lo si dà al riquadro dentro al
+   body. `height:100%` su html e body, non `100vh`: su iPhone la barra degli
+   indirizzi che compare e sparisce fa cambiare `vh` a metà gesto, e la pagina
+   sussulta. */
+html.pt-pagina-attiva,
+html.pt-pagina-attiva > body{height:100%;overflow:hidden;margin:0}
+.pt-finestra.pt-pagina{height:100%}
+.pt-finestra.pt-pagina > .pt-rotolo{height:100%}
+
+/* ⚠️ Rete di sicurezza, non alternativa: se un riquadro scorre senza essere
+   avvolto nel componente, almeno non mostra la barra grassa del sistema. Chi
+   vede questo filo al posto del pollice rosso ha dimenticato di avvolgerlo. */
+*{scrollbar-width:thin;scrollbar-color:var(--pt-filo-colore) transparent}
+*::-webkit-scrollbar{width:var(--pt-filo-spessore);height:var(--pt-filo-spessore)}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:var(--pt-filo-colore);border-radius:1px}
+*::-webkit-scrollbar-corner{background:transparent}
+</style>
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   Potential · componente di scorrimento — la parte che si muove
+   ⚠️ FONTE UNICA, come il CSS accanto. Non si copia, si include.
+   ══════════════════════════════════════════════════════════════════════ */
+window.PTScorrimento = (function () {
+
+  function vesti(finestra) {
+    const rotolo = finestra.querySelector(":scope > .pt-rotolo");
+    const filo = finestra.querySelector(":scope > .pt-filo");
+    if (!rotolo || !filo) return;
+    const pollice = filo.querySelector("span");
+    const orizzontale = finestra.dataset.verso === "orizzontale";
+
+    function aggiorna() {
+      const luce = orizzontale ? rotolo.clientWidth : rotolo.clientHeight;
+      const tutto = orizzontale ? rotolo.scrollWidth : rotolo.scrollHeight;
+      /* Due pixel di tolleranza: gli arrotondamenti del browser fanno
+         risultare «scorrevole» un riquadro che non lo è, e il filo comparirebbe
+         e sparirebbe da solo a ogni ridisegno. */
+      const scorre = tutto > luce + 2;
+      finestra.classList.toggle("scorre", scorre);
+      if (!scorre || !luce) return;
+
+      const quanto = Math.max(orizzontale ? 24 : 16, Math.round(luce * luce / tutto));
+      const dove = Math.round((luce - quanto) *
+        ((orizzontale ? rotolo.scrollLeft : rotolo.scrollTop) / (tutto - luce)));
+      if (orizzontale) { pollice.style.width = quanto + "px"; pollice.style.left = dove + "px"; }
+      else { pollice.style.height = quanto + "px"; pollice.style.top = dove + "px"; }
+    }
+
+    finestra._aggiorna = aggiorna;
+    rotolo.addEventListener("scroll", aggiorna, { passive: true });
+
+    /* ⚠️ Il ricalcolo su ridimensionamento non è un lusso: dentro una sezione
+       chiusa l'altezza è zero, e senza questo il filo resterebbe della misura
+       sbagliata per sempre dopo l'apertura. */
+    if (window.ResizeObserver) {
+      const occhio = new ResizeObserver(aggiorna);
+      occhio.observe(rotolo);
+      if (rotolo.firstElementChild) occhio.observe(rotolo.firstElementChild);
+    }
+    aggiorna();
+  }
+
+  function attiva(radice) {
+    (radice || document).querySelectorAll(".pt-finestra").forEach(f => {
+      if (!f._aggiorna) vesti(f);
+      else f._aggiorna();
+    });
+  }
+
+  /* Da chiamare quando il contenuto cambia senza che cambi la misura del
+     riquadro — per esempio dopo aver filtrato un elenco. */
+  function ricalcola(radice) {
+    (radice || document).querySelectorAll(".pt-finestra").forEach(f => {
+      if (f._aggiorna) f._aggiorna();
+    });
+  }
+
+  /* ── vestire un riquadro che scorre già ──────────────────────────────
+     Serve per le pagine esistenti: invece di riscriverne l'HTML, si prende il
+     contenitore che scorre, gli si mette addosso `.pt-rotolo` e gli si affianca
+     il filo dentro un involucro.
+
+     ⚠️ L'involucro eredita le proprietà di posizionamento del riquadro —
+     `flex`, `grid-area`, `width`, `height` — altrimenti l'impaginazione si
+     scompone: quelle proprietà le leggeva il genitore, che ora vede
+     l'involucro. È il passo che si dimentica, e il sintomo è una colonna che
+     collassa senza che niente dia errore.
+
+         PTScorrimento.avvolgi(".col-s");
+         PTScorrimento.avvolgi(".gg-scroll", {verso:"orizzontale"});
+  */
+  const EREDITA = ["flex", "flexGrow", "flexShrink", "flexBasis", "alignSelf",
+                   "gridArea", "gridColumn", "gridRow", "width", "height",
+                   "maxHeight", "maxWidth", "minHeight", "order"];
+
+  function avvolgi(selettore, opz) {
+    opz = opz || {};
+    document.querySelectorAll(selettore).forEach(el => {
+      if (el.closest(".pt-finestra")) return;            /* già vestito */
+      /* 🔴 body e html non si avvolgono, e il modo in cui si rompono non si
+         vede: `insertBefore` sposta <body> dentro un <div> figlio di <html>,
+         `document.scrollingElement` diventa **null**, e la pagina smette di
+         rispondere alla rotella pur continuando a rispondere al trascinamento
+         — perché quella che si trascina è la barra di sistema ridipinta dalla
+         rete di sicurezza in fondo al CSS, non il nostro filo. Nessun errore in
+         console, nessun avviso. Trovato il 22.08.2026 sulla pagina di revisione
+         della ricerca fornitori, dove il filo non era mai comparso.
+         Per la pagina intera c'è `pagina()` qui sotto. */
+      if (el === document.body || el === document.documentElement) {
+        console.warn("PTScorrimento: per la pagina intera si usa " +
+                     "PTScorrimento.pagina(), non avvolgi('body')");
+        return;
+      }
+      const stile = getComputedStyle(el);
+
+      const finestra = document.createElement("div");
+      finestra.className = "pt-finestra";
+      if (opz.verso) finestra.dataset.verso = opz.verso;
+      if (opz.lato) finestra.dataset.lato = opz.lato;
+      EREDITA.forEach(p => { if (stile[p] && stile[p] !== "auto") finestra.style[p] = stile[p]; });
+      if (stile.position === "sticky" || stile.position === "absolute") {
+        finestra.style.position = stile.position;
+        ["top", "right", "bottom", "left", "zIndex"].forEach(p => finestra.style[p] = stile[p]);
+        el.style.position = "static";
+      }
+
+      el.parentNode.insertBefore(finestra, el);
+      finestra.appendChild(el);
+      el.classList.add("pt-rotolo");
+      /* 🔴 `height:100%` sul riquadro NON basta e rompe il caso più comune:
+         se il genitore era un contenitore flessibile, l'involucro ne eredita il
+         `flex` ma non ha un'altezza definita, e il 100% di un'altezza
+         indefinita vale zero — il riquadro collassa a pochi pixel. Trovato il
+         22.08.2026 sul pannello della costellazione, che è passato da 337 px a
+         10 senza che niente desse errore.
+         La cura è rendere l'involucro esso stesso flessibile e lasciare che il
+         riquadro lo riempia. `min-height:0` è obbligatorio: senza, un figlio
+         flessibile non scende mai sotto il proprio contenuto e non scorre. */
+      const verso = opz.verso === "orizzontale";
+      finestra.style.display = "flex";
+      finestra.style.flexDirection = verso ? "row" : "column";
+      finestra.style.minHeight = finestra.style.minHeight || "0";
+      el.style.flex = "1 1 auto";
+      el.style.minHeight = "0";
+      el.style.minWidth = "0";
+
+      const filo = document.createElement("div");
+      filo.className = "pt-filo";
+      filo.appendChild(document.createElement("span"));
+      finestra.appendChild(filo);
+
+      vesti(finestra);
+    });
+  }
+
+  /* ── la pagina intera ────────────────────────────────────────────────
+     Regola 39, §4: «Vale anche per la pagina intera — non voglio mai vedere
+     quelle grigie». Fino al 22.08.2026 il componente non aveva un modo giusto
+     di farlo, e chi ci provava avvolgeva `body` rompendo il documento.
+
+     Qui il documento resta intero: si smette di far scorrere la finestra
+     (`html,body{overflow:hidden}`) e si costruisce **dentro** al body un
+     riquadro alto quanto lo schermo che scorre al suo posto.
+
+         PTScorrimento.pagina();
+         PTScorrimento.pagina({fermi: "header, footer"});   // restano fuori
+
+     ⚠️ **Cosa lasciare fuori.** Gli elementi in `position:fixed` si posizionano
+     rispetto alla finestra e vanno lasciati nel body, o si mettono a scorrere
+     col contenuto. Gli `sticky` invece **vanno dentro**: dentro un riquadro che
+     scorre continuano a incollarsi in cima, ed è quello che si vuole. Il
+     riconoscimento è automatico; `opz.fermi` serve per i casi che il browser
+     non ha ancora calcolato quando si chiama.                              */
+  function pagina(opz) {
+    opz = opz || {};
+    if (document.body.querySelector(":scope > .pt-finestra.pt-pagina")) return;
+
+    const finestra = document.createElement("div");
+    finestra.className = "pt-finestra pt-pagina";
+    if (opz.lato) finestra.dataset.lato = opz.lato;
+    const rotolo = document.createElement("div");
+    rotolo.className = "pt-rotolo";
+
+    const fermi = opz.fermi ? [...document.querySelectorAll(opz.fermi)] : [];
+    [...document.body.childNodes].forEach(n => {
+      if (n.nodeType === 1) {
+        const st = getComputedStyle(n);
+        /* fixed e assoluti rispetto alla finestra restano dove sono */
+        if (st.position === "fixed" || fermi.includes(n)) return;
+        if (n.tagName === "SCRIPT" || n.tagName === "STYLE" ||
+            n.tagName === "LINK") return;
+      }
+      rotolo.appendChild(n);
+    });
+
+    const filo = document.createElement("div");
+    filo.className = "pt-filo";
+    filo.appendChild(document.createElement("span"));
+    finestra.appendChild(rotolo);
+    finestra.appendChild(filo);
+    document.body.appendChild(finestra);
+    document.documentElement.classList.add("pt-pagina-attiva");
+    vesti(finestra);
+    return finestra;
+  }
+
+  addEventListener("resize", () => ricalcola());
+  return { attiva, ricalcola, avvolgi, pagina };
+})();
+</script>
+<!-- /pt:componente -->
 </head>
 <body>
 
@@ -2610,6 +2904,15 @@ loadData()
     // porta chiusa l'errore resterebbe invisibile sotto il pannello nero.
     openGate();
   });
+</script>
+<script>
+/* I due elenchi che scorrono prendono il componente comune di Potential.
+   Prima avevano un filo da 3 px scritto qui dentro: quasi uguale, ma un
+   secondo componente. Vedi cc-potential-brand/componenti/LEGGIMI.md. */
+addEventListener('load', function(){
+  PTScorrimento.avvolgi('#tree');
+  PTScorrimento.avvolgi('#df-out');
+});
 </script>
 </body>
 </html>

@@ -307,17 +307,17 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.le
 const LANGS=['en','it','zh','ru','ar'];
 const LANG_LABELS={en:'ENG',it:'ITA',zh:'中文',ru:'РУС',ar:'عربي'};
 const T={
-"stag-coverage":{"en":"Coverage Areas","it":"Aree di Copertura","zh":"业务领域","ru":"Направления работы","ar":"مجالات العمل"},
-"pm-title":{"en":"Portfolio Map","it":"Mappa del Portfolio","zh":"业务版图","ru":"Карта портфолио","ar":"خريطة المحفظة"},
-"pm-lead":{"en":"Each dot is a client. Each axis is a coverage area.","it":"Ogni punto è un cliente. Ogni asse è un ambito di copertura.","zh":"每个红点代表一位客户，每条轴线代表一个业务领域。","ru":"Каждая точка — клиент. Каждая ось — направление работы.","ar":"كل نقطة تمثل عميلاً، وكل محور يمثل مجال عمل."},
-"pm-note":{"en":"Distance from the centre is the client's own positioning: the more luxury the brand, the further out the dot sits. Potential's assessment, not a market ranking.","it":"La distanza dal centro è il posizionamento del cliente: più il marchio è luxury, più il punto va verso l'esterno. È una valutazione di Potential, non una classifica di mercato.","zh":"与中心的距离代表客户品牌的定位：品牌越奢侈，红点越靠外。此为 Potential 的评估，并非市场排名。","ru":"Расстояние от центра — позиционирование самого клиента: чем выше класс бренда, тем дальше точка. Это оценка Potential, а не рыночный рейтинг.","ar":"المسافة من المركز تعبّر عن مكانة العميل نفسه: كلما كانت العلامة أكثر فخامة، ابتعدت النقطة عن المركز. هذا تقييم من Potential وليس تصنيفًا سوقيًا."},
+"stag-coverage":{"en":"Coverage Areas","it":"Aree di Copertura","zh":"覆盖领域","ru":"Области охвата","ar":"مجالات التغطية"},
+"pm-title":{"en":"Portfolio Map","it":"Mappa del Portfolio","zh":"业务版图","ru":"Карта портфеля","ar":"خريطة المحفظة"},
+"pm-lead":{"en":"Each dot is a client. Each axis is a coverage area.","it":"Ogni punto è un cliente. Ogni asse è un ambito di copertura.","zh":"每个红点代表一位客户，每条轴线代表一个业务领域。","ru":"Каждая точка — клиент. Каждая ось — область охвата.","ar":"كل نقطة تمثل عميلاً، وكل محور يمثل مجال تغطية."},
+"pm-note":{"en":"Distance from the centre is the client's own positioning: the more luxury the brand, the further out the dot sits. Potential's assessment, not a market ranking.","it":"La distanza dal centro è il posizionamento del cliente: più il marchio è luxury, più il punto va verso l'esterno. È una valutazione di Potential, non una classifica di mercato.","zh":"与中心的距离代表客户品牌的定位：品牌越奢侈，红点越靠外。此为 Potential 的评估，并非市场排名。","ru":"Расстояние от центра — позиционирование самого клиента: чем более люксовый бренд, тем дальше точка. Это оценка Potential, а не рыночный рейтинг.","ar":"المسافة من المركز تعبّر عن مكانة العميل نفسه: كلما كانت العلامة أكثر فخامة، ابتعدت النقطة عن المركز. هذا تقييم من Potential وليس تصنيفًا سوقيًا."},
 "pm-hint":{"en":"Hover a dot for the project detail · tap on mobile","it":"Passa sul punto per il dettaglio del progetto · tocca da mobile","zh":"将鼠标移至红点查看项目详情 · 手机端请点击","ru":"Наведите на точку, чтобы увидеть детали проекта · на мобильном — нажмите","ar":"مرّر المؤشر فوق النقطة لعرض تفاصيل المشروع · اضغط على الهاتف"},
-"pm-all":{"en":"All areas","it":"Tutti gli ambiti","zh":"全部领域","ru":"Все направления","ar":"كل المجالات"},
+"pm-all":{"en":"All areas","it":"Tutti gli ambiti","zh":"全部领域","ru":"Все области","ar":"كل المجالات"},
 "pm-all-sup":{"en":"All suppliers","it":"Tutti i fornitori","zh":"全部供应商","ru":"Все поставщики","ar":"كل المورّدين"},
 "pm-supplier":{"en":"Supplier","it":"Fornitore","zh":"供应商","ru":"Поставщик","ar":"المورّد"},
 "pm-sup-note":{"en":"Suppliers appear as letters — the names stay with us.","it":"I fornitori compaiono come lettere: i nomi restano riservati.","zh":"供应商以字母显示，名称不予公开。","ru":"Поставщики обозначены буквами — названия не раскрываются.","ar":"يظهر المورّدون بأحرف — الأسماء تبقى محفوظة لدينا."},
-"pm-list":{"en":"Clients by coverage area","it":"Clienti per ambito di copertura","zh":"按业务领域划分的客户","ru":"Клиенты по направлениям работы","ar":"العملاء حسب مجال العمل"},
-"pm-empty":{"en":"Coverage area — no client listed yet","it":"Ambito di copertura — nessun cliente in elenco","zh":"业务领域 — 暂无客户列示","ru":"Направление работы — клиентов пока нет","ar":"مجال عمل — لا يوجد عميل مُدرج بعد"},
+"pm-list":{"en":"Clients by coverage area","it":"Clienti per ambito di copertura","zh":"按业务领域划分的客户","ru":"Клиенты по областям охвата","ar":"العملاء حسب مجال التغطية"},
+"pm-empty":{"en":"Coverage area — no client listed yet","it":"Ambito di copertura — nessun cliente in elenco","zh":"业务领域 — 暂无客户列示","ru":"Область охвата — клиенты пока не указаны","ar":"مجال تغطية — لا يوجد عميل مُدرج بعد"},
 "back-home":{"en":"← Back to Home","it":"← Torna alla Home","zh":"← 返回首页","ru":"← На главную","ar":"← العودة إلى الرئيسية"},
 "cta-hl-1":{"en":"Every space.","it":"Every space.","zh":"每一个空间。","ru":"Каждое пространство.","ar":"كلّ فضاء،"},
 "cta-hl-2":{"en":"Delivered.","it":"Delivered.","zh":"完美交付。","ru":"Реализовано.","ar":"مُنجَز."},
@@ -329,12 +329,12 @@ const T={
 /* "Office & Corporate" is not a homepage sector but is the largest  */
 /* group in the portfolio, so it gets its own axis.                  */
 const AX=[
- {id:'hospitality',t:{en:'Hospitality|& Spa',it:'Hotel|& Spa',zh:'酒店|与水疗',ru:'Отели|и спа',ar:'الضيافة|والسبا'}},
- {id:'residential',t:{en:'Residential|& Private',it:'Residenziale',zh:'住宅|与私人物业',ru:'Жильё|и частные дома',ar:'القطاع السكني|والخاص'}},
- {id:'government', t:{en:'Government|Buildings',it:'Edifici|Governativi',zh:'政府|建筑',ru:'Государственные|учреждения',ar:'المباني|الحكومية'}},
+ {id:'hospitality',t:{en:'Hospitality|& Spa',it:'Hotel|& Spa',zh:'酒店|与水疗',ru:'Гостиницы|и спа',ar:'الضيافة|والسبا'}},
+ {id:'residential',t:{en:'Residential|& Private',it:'Residenziale',zh:'住宅|与私宅',ru:'Жилой|и частный',ar:'سكني|وخاص'}},
+ {id:'government', t:{en:'Government|Buildings',it:'Edifici|Governativi',zh:'政府|建筑',ru:'Государственные|здания',ar:'المباني|الحكومية'}},
  {id:'retail',     t:{en:'Retail',it:'Retail',zh:'零售',ru:'Ритейл',ar:'تجزئة'}},
- {id:'prime',      t:{en:'Prime Property|Sourcing',it:'Prime Property|Sourcing',zh:'优质物业|甄选',ru:'Подбор элитной|недвижимости',ar:'البحث عن العقارات|المتميزة'}},
- {id:'yachting',   t:{en:'Yachting|& Marine',it:'Yachting|& Marina',zh:'游艇|与海洋',ru:'Яхтинг|и морской сектор',ar:'يخوت|وبحري'}},
+ {id:'prime',      t:{en:'Prime Property|Sourcing',it:'Prime Property|Sourcing',zh:'优质房产|寻源',ru:'Поиск элитной|недвижимости',ar:'توريد العقارات|المتميزة'}},
+ {id:'yachting',   t:{en:'Yachting|& Marine',it:'Yachting|& Marina',zh:'游艇|与海洋',ru:'Яхтинг|и морской',ar:'يخوت|وبحري'}},
  {id:'office',     t:{en:'Office|& Corporate',it:'Uffici|& Corporate',zh:'办公|与企业',ru:'Офисы|и корпорации',ar:'المكاتب|والشركات'}}
 ];
 
