@@ -40,7 +40,7 @@ nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home
 ## Sorgenti (`assets/`)
 
 - `assets/logos/` — loghi ufficiali Potential (SVG, non modificare).
-- `assets/hero/` — il video della testata (dal 06.10.2026, al posto del loop di 16 SVG): `hero-16x9-2160p-hevc.mp4` (4K HEVC), `hero-16x9-1080p.mp4` (H.264, per chi non legge HEVC), `hero-9x16-1080p.mp4` (verticale), due poster. Muti, in loop.
+- `assets/hero/` — il video della testata (dal 06.10.2026, al posto del loop di 16 SVG): `hero-16x9-2160p-hevc.mp4` (4K HEVC), `hero-16x9-1080p.mp4` (H.264, per chi non legge HEVC), `hero-9x16-1080p.mp4` (verticale), due poster. Muti, in loop. L'italiano usa questi stessi file, con le scritte in inglese (Carlo, 06.10.2026); cinese, russo e arabo in `assets/hero/zh/`, `ru/`, `ar/`, con gli stessi tre nomi: stesso montaggio, scritte tradotte; i poster sono comuni.
 - `assets/fonts/` — font **Plain (Optimo)**, pesi Thin/Light/Medium. Le pagine lo **caricano da qui** via `@font-face` (`.woff2`, con l'`.otf` come ripiego): non è incorporato in nessun HTML, quindi questa cartella serve al sito in esercizio, non è solo un archivio di sorgenti.
 
 > **Nota licenza font:** Plain (Optimo) è un font commerciale su licenza. I `.otf` sono inclusi nel repo
@@ -51,7 +51,11 @@ nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home
 I file di `assets/hero/` sono copie, con un nome fisso, dei file `(sito …)` di un giro del reel di lancio
 (`potential communication/campaign - origami/Higgssield ads/NN/`, dove li produce `deriva_sito.py`). Si
 sostituiscono con lo stesso nome, e si pubblica. Quale sorgente usare la sceglie lo script `HERO VIDEO`
-in fondo a `index.html`, secondo la forma della finestra.
+in fondo a `index.html`, secondo la forma della finestra e la lingua (inglese e italiano in `assets/hero/`,
+le altre nella sottocartella della lingua; `applyLang` la avvisa quando si cambia lingua). ⚠️ **Un giro
+nuovo del reel va rifatto in inglese, cinese, russo e arabo**: se si sostituisce solo l'inglese, le altre versioni
+del sito restano al montaggio vecchio senza dare errore. Su iPhone il video parte da solo; in risparmio
+energetico iOS blocca ogni autoplay, e allora si vede il poster e il video parte al primo tocco.
 
 ## L'elenco clienti si rigenera, non si scrive a mano
 
