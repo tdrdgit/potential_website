@@ -6,7 +6,7 @@
 <title>Potential | FF&amp;E Procurement Partner — Every Space. Delivered.</title>
 <meta name="description" content="Potential manages FF&amp;E procurement end to end: one single point of contact between owner, designer, contractor and a vetted supplier network. Hospitality to yachting.">
 <link rel="canonical" href="https://potential.contractors/">
-<link rel="preload" as="image" href="assets/header/CAMP_00.svg">
+<link rel="preload" as="image" href="assets/hero/hero-poster-16x9.jpg">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Thin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Light.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Plain-Medium.woff2" crossorigin>
@@ -167,28 +167,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px clamp(16px,4vw,
 .lang-btn:hover{color:var(--w);}
 .lang-btn.active{color:var(--r);font-weight:500;}
 
-/* ══ HERO — header loop (push up) ══ */
+/* ══ HERO — video a tutto schermo ══
+   Orizzontale: il 16:9 riempie e ritaglia (cover). Scritte e logo stanno nella striscia centrale
+   larga 1080/1920, che resta visibile anche con la finestra quadrata, e nella fascia 140–940/1080,
+   che resta visibile fino al 21:9. Oltre il 21:9 (finestre basse) il video si mostra intero.
+   Verticale: il 9:16 (lo sceglie lo script anche quando la finestra cambia forma). Ritagliato fino a
+   0,84 di proporzione, intero sui telefoni più stretti del 9:16 e sulle finestre quasi quadrate. */
 .hero{
-  min-height:100vh;min-height:100svh;background:#fff;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:40px var(--px);position:relative;overflow:hidden;
+  height:100vh;height:100svh;min-height:420px;background:#000;
+  position:relative;overflow:hidden;
 }
-.hgrid{
-  position:absolute;inset:-20% 0;
-  background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
-  background-size:64px 64px;will-change:transform;pointer-events:none;
-  transition:opacity 1.2s ease .2s;
-}
-.hero-loop{
-  position:relative;z-index:2;
-  width:min(940px,92vw);aspect-ratio:850/551;overflow:hidden;
-}
-.hl-layer{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  will-change:transform,opacity;
-}
-.hl-layer img{width:100%;height:100%;object-fit:contain;display:block;-webkit-user-drag:none;user-select:none;pointer-events:none;}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;}
+@media (max-aspect-ratio:9/16){ .hero-video{object-fit:contain;} }
+@media (min-aspect-ratio:12/5){ .hero-video{object-fit:contain;} }
+@media (orientation:portrait) and (min-aspect-ratio:84/100){ .hero-video{object-fit:contain;} }
 .hero-scroll{
   position:absolute;bottom:clamp(18px,4vh,36px);left:50%;transform:translateX(-50%);
   z-index:3;display:flex;flex-direction:column;align-items:center;gap:13px;
@@ -731,7 +723,6 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   .pr-items2{display:none;}
 }
 @media(max-width:768px){
-  .hero-loop{width:min(760px,92vw);}
   .sec-grid{grid-template-columns:1fr 1fr;}
   .sec-card{padding:34px 20px;}
   .impact-grid{grid-template-columns:1fr;}
@@ -760,7 +751,6 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   .num-grid{grid-template-columns:1fr;}
   .nc{padding:42px 26px 38px;}
   .nc::after{left:26px;right:26px;bottom:22px;}
-  .hero-loop{width:94vw;}
 }
 
 /* ── REDUCED MOTION ── */
@@ -771,9 +761,14 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   .mtrack{animation:none !important;}
   .cta-glow{animation:none !important;}
   .scue{display:none;}
+  .hero-video{display:none;}
+  .hero{background:#000 center/cover no-repeat url("assets/hero/hero-poster-16x9.jpg");}
   .rcol{transition:none !important;}
   .osuf{opacity:1 !important;transform:none !important;transition:none !important;}
   .nc::after{transform:scaleX(1) !important;transition:none !important;}
+}
+@media (prefers-reduced-motion:reduce) and (orientation:portrait){
+  .hero{background-image:url("assets/hero/hero-poster-9x16.jpg");background-size:contain;}
 }
 
 /* ── TOUCH TARGET (WCAG 2.5.8) ──
@@ -809,11 +804,12 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 
 <!-- ══ HERO — header loop (push up) ══ -->
 <section class="hero">
-  <div class="hgrid" id="hgrid"></div>
-  <div class="hero-loop" id="heroLoop" role="img" aria-label="Potential — Every space. Delivered.">
-    <div class="hl-layer" id="hlA"></div>
-    <div class="hl-layer" id="hlB"></div>
-  </div>
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto"
+         poster="assets/hero/hero-poster-16x9.jpg" aria-label="Potential — Every space. Delivered.">
+    <source media="(orientation: portrait)" src="assets/hero/hero-9x16-1080p.mp4" type="video/mp4">
+    <source src="assets/hero/hero-16x9-2160p-hevc.mp4" type='video/mp4; codecs="hvc1"'>
+    <source src="assets/hero/hero-16x9-1080p.mp4" type="video/mp4">
+  </video>
   <div class="hero-scroll">
     <span class="hsd-label" data-i18n="scroll-down">Scroll Down</span>
     <div class="scue" aria-hidden="true"></div>
@@ -1258,60 +1254,22 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 </div>
 
 <script>
-/* ── HEADER LOOP (push up, perpetual) ── */
+/* ── HERO VIDEO: la sorgente segue la forma della finestra, anche quando cambia ──
+   Il browser legge <source media> solo al caricamento: ridimensionando resterebbe il formato
+   sbagliato. In orizzontale l'HEVC 4K se il browser lo legge, altrimenti l'H.264 1080p. */
 (function(){
-  var FRAMES=[
-"assets/header/CAMP_00.svg",
-"assets/header/CAMP_01.svg",
-"assets/header/CAMP_02.svg",
-"assets/header/CAMP_03.svg",
-"assets/header/CAMP_04.svg",
-"assets/header/CAMP_05.svg",
-"assets/header/CAMP_06.svg",
-"assets/header/CAMP_07.svg",
-"assets/header/CAMP_08.svg",
-"assets/header/CAMP_09.svg",
-"assets/header/CAMP_10.svg",
-"assets/header/CAMP_11.svg",
-"assets/header/CAMP_12.svg",
-"assets/header/CAMP_13.svg",
-"assets/header/CAMP_14.svg",
-"assets/header/CAMP_15.svg"
-];
-  var stage=document.getElementById('heroLoop');
-  if(!stage||!FRAMES.length) return;
-  var A=document.getElementById('hlA'), B=document.getElementById('hlB'), layers=[A,B];
-  var front=0, idx=0, FRAME_MS=3000, TRANS_MS=900, EASE='cubic-bezier(.7,0,.2,1)';
-  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function img(u){return '<img alt="" src="'+u+'">';}
-  // resting states live in inline styles = FINAL position, so if an animation is
-  // ever throttled/skipped the frame still lands correctly (never blank/stuck).
-  layers[0].innerHTML=img(FRAMES[0]);
-  layers[0].style.cssText+=';transform:translateY(0);opacity:1;z-index:2;';
-  layers[1].style.cssText+=';transform:'+(RM?'none':'translateY(-100%)')+';opacity:'+(RM?'0':'1')+';z-index:1;';
-  FRAMES.forEach(function(u){var im=new Image();im.src=u;});
-  function step(){
-    var next=(idx+1)%FRAMES.length, inc=layers[1-front], out=layers[front];
-    inc.innerHTML=img(FRAMES[next]);
-    inc.style.zIndex='2'; out.style.zIndex='1';
-    if(RM){
-      inc.style.transform='none'; inc.style.opacity='1';          // resting = end
-      inc.animate([{opacity:0},{opacity:1}],{duration:600,easing:'ease'});
-      out.style.opacity='0';                                      // resting = end
-      out.animate([{opacity:1},{opacity:0}],{duration:600,easing:'ease'});
-    }else{
-      inc.style.opacity='1'; inc.style.transform='translateY(0)'; // resting = end (bottom->0)
-      inc.animate([{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:TRANS_MS,easing:EASE});
-      out.style.transform='translateY(-100%)';                    // resting = end (0->off top)
-      out.animate([{transform:'translateY(0)'},{transform:'translateY(-100%)'}],{duration:TRANS_MS,easing:EASE});
-    }
-    front=1-front; idx=next;
+  var v=document.getElementById('heroVideo'); if(!v) return;
+  var P='assets/hero/', cur='';
+  var hevc=!!v.canPlayType('video/mp4; codecs="hvc1"');
+  function scegli(){
+    var vert=innerHeight>innerWidth;
+    var src=P+(vert?'hero-9x16-1080p.mp4':(hevc?'hero-16x9-2160p-hevc.mp4':'hero-16x9-1080p.mp4'));
+    if(src===cur) return;
+    cur=src; v.poster=P+(vert?'hero-poster-9x16.jpg':'hero-poster-16x9.jpg');
+    v.src=src; var p=v.play(); if(p&&p.catch) p.catch(function(){});
   }
-  var timer=setInterval(step,FRAME_MS);
-  document.addEventListener('visibilitychange',function(){
-    clearInterval(timer);
-    if(!document.hidden) timer=setInterval(step,FRAME_MS);
-  });
+  scegli();
+  var tm; addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(scegli,200);});
 })();
 
 /* ── CURSOR ── */
