@@ -802,7 +802,7 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
 
 <nav><div id="lang-switcher" class="lang-switcher"></div></nav>
 
-<!-- ══ HERO — header loop (push up) ══ -->
+<!-- ══ HERO — video ══ -->
 <section class="hero">
   <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto"
          poster="assets/hero/hero-poster-16x9.jpg" aria-label="Potential — Every space. Delivered.">
@@ -1291,12 +1291,10 @@ footer svg{width:150px;height:auto;display:block;opacity:.9;}
   });
 })();
 
-/* ── PROGRESS + PARALLAX ── */
+/* ── PROGRESS ── */
 const prog=document.getElementById('prog');
 window.addEventListener('scroll',()=>{
   prog.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
-  const g=document.getElementById('hgrid');
-  if(g)g.style.transform='translateY('+(window.scrollY*.18)+'px)';
 },{passive:true});
 
 /* ── SCROLL REVEALS ── */

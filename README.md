@@ -2,7 +2,7 @@
 
 Sito Potential (*Every space. Delivered.*). Pagine HTML senza build e senza framework: nessuna
 libreria, nessun bundler. **Autonome però non lo sono:** i loghi sì, sono SVG inline, ma il font
-Plain e i frame dell'header vengono caricati da `assets/`, e una pagina separata da quella cartella
+Plain e il video della testata vengono caricati da `assets/`, e una pagina separata da quella cartella
 — o con il path scritto male — perde il font.
 
 ⚠️ **E dal 17.08.2026 non è più vero che non ci sono servizi esterni**, come diceva questa riga
@@ -40,22 +40,18 @@ nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home
 ## Sorgenti (`assets/`)
 
 - `assets/logos/` — loghi ufficiali Potential (SVG, non modificare).
-- `assets/header/` — i 16 frame dell'header `CAMP_00..15.svg` (850×551). Sequenza: **logo · claim · claim** che si ripete; i frame 00/03/06/09/12/15 sono il logo.
+- `assets/hero/` — il video della testata (dal 06.10.2026, al posto del loop di 16 SVG): `hero-16x9-2160p-hevc.mp4` (4K HEVC), `hero-16x9-1080p.mp4` (H.264, per chi non legge HEVC), `hero-9x16-1080p.mp4` (verticale), due poster. Muti, in loop.
 - `assets/fonts/` — font **Plain (Optimo)**, pesi Thin/Light/Medium. Le pagine lo **caricano da qui** via `@font-face` (`.woff2`, con l'`.otf` come ripiego): non è incorporato in nessun HTML, quindi questa cartella serve al sito in esercizio, non è solo un archivio di sorgenti.
 
 > **Nota licenza font:** Plain (Optimo) è un font commerciale su licenza. I `.otf` sono inclusi nel repo
 > su scelta esplicita del titolare del progetto, che si assume la responsabilità della distribuzione.
 
-## Rigenerare i frame dell'header
+## Cambiare il video della testata
 
-Se aggiorni gli SVG in `assets/header/` (stessi nomi `CAMP_XX.svg`):
-
-```bash
-python3 tools/build-header-frames.py
-```
-
-Lo script re-incorpora i frame (base64) dentro `index.html`. Le slide restano identiche: cambia solo
-cosa mostra il loop. Timing (5s) e transizione (push-up) sono nel motore `HEADER LOOP` in fondo a `index.html`.
+I file di `assets/hero/` sono copie, con un nome fisso, dei file `(sito …)` di un giro del reel di lancio
+(`potential communication/campaign - origami/Higgssield ads/NN/`, dove li produce `deriva_sito.py`). Si
+sostituiscono con lo stesso nome, e si pubblica. Quale sorgente usare la sceglie lo script `HERO VIDEO`
+in fondo a `index.html`, secondo la forma della finestra.
 
 ## L'elenco clienti si rigenera, non si scrive a mano
 
@@ -269,7 +265,7 @@ scritto lì così chi lo riapre non li rimette.
 | `tools/revisore_traduzioni/` | segnalino del Google Sheet delle traduzioni, regole, `sync_traduzioni.py`, `archivio_xlsx/` con l'Excel di prima |
 | `projects/suppliers-costellazione/editor/` | editor visuale della costellazione |
 | `tools/seo_optimization/` | audit SEO |
-| `tools/build-header-frames.py` | build dei frame dell'header |
+| `tools/build-header-frames.py` | build dei frame del vecchio header a SVG — superato dal 06.10.2026, la testata è un video |
 | `portfolio/…_ISTRUZIONI.md` | procedura dell'area riservata |
 
 ⚠️ **`portfolio/` non si può difendere con `robots.txt`**: la pagina dell'area riservata deve
