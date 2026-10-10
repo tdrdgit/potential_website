@@ -49,7 +49,7 @@ nome deve cambiarlo in tre punti — `publish.sh` nel Brain, l'iframe della home
 ## Cambiare il video della testata
 
 I file di `assets/hero/` sono copie, con un nome fisso, dei file `(sito …)` di un giro del reel di lancio
-(`potential communication/campaign - origami/Higgssield ads/NN/`, dove li produce `deriva_sito.py`). Si
+(`communication/campaign - origami/Higgssield ads/NN/`, dove li produce `deriva_sito.py`). Si
 sostituiscono con lo stesso nome, e si pubblica. Quale sorgente usare la sceglie lo script `HERO VIDEO`
 in fondo a `index.html`, secondo la forma della finestra e la lingua (inglese e italiano in `assets/hero/`,
 le altre nella sottocartella della lingua; `applyLang` la avvisa quando si cambia lingua). ⚠️ **Un giro
